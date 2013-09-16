@@ -9,10 +9,6 @@ public class StaffManager : MonoBehaviour {
 	public GameObject cthuluburse;
 	public GameObject yetitor;
 	
-	public List<Octodoctor> octodoctorList = new List<Octodoctor>(); //make 6 of each 
-	public List<Cthuluburse> ctuluburseList = new List<Cthuluburse>();
-	public List<Yetitor> yetitorList = new List<Yetitor>();
-	
 	public StaffType temp;
 	public GameObject staffTempRef;
 	public MeshRenderer staffTempRefRend;
@@ -33,72 +29,34 @@ public class StaffManager : MonoBehaviour {
 	
 	void Start()
 	{
-		MakeStaffOcto(6);
-		MakeStaffYet(6);
-		MakeStaffct(6);
-		
-		ShowYetitorList();
+		ShowOctodoctorList();
 	}
 	
 	void ShowOctodoctorList ( )
 	{
-		for (int a= 0; a < octodoctorList.Count; a++)
+		for (int a= 0; a < 6; a++)
 		{
-			staffButtons[a].UpdateGlitter(octodoctorList[a].cost);
-			staffButtons[a].UpdateLevel(octodoctorList[a].level);
-			staffButtons[a].UpdateName(octodoctorList[a].name);
-			staffButtons[a].UpdateWage(octodoctorList[a].monthWage);
+			staffButtons[a].staff = GetComponent<StaffList>().GetOctodoctor();
 		}
 	}
 	
 	void ShowYetitorList ( )
 	{
-		for (int a= 0; a < yetitorList.Count; a++)
+		for (int a= 0; a < 6; a++)
 		{
-			staffButtons[a].UpdateGlitter(yetitorList[a].cost);
-			staffButtons[a].UpdateLevel(yetitorList[a].level);
-			staffButtons[a].UpdateName(yetitorList[a].name);
-			staffButtons[a].UpdateWage(yetitorList[a].monthWage);
+			staffButtons[a].staff = GetComponent<StaffList>().GetYetitor();
 		}
 	}
 	
 	void ShowcthuluburseList ( )
 	{
-		for (int a= 0; a < ctuluburseList.Count; a++)
+		for (int a= 0; a < 6; a++)
 		{
-			staffButtons[a].UpdateGlitter(ctuluburseList[a].cost);
-			staffButtons[a].UpdateLevel(ctuluburseList[a].level);
-			staffButtons[a].UpdateName(ctuluburseList[a].name);
-			staffButtons[a].UpdateWage(ctuluburseList[a].monthWage);
+			staffButtons[a].staff = GetComponent<StaffList>().GetCtuluburse();
 		}
 	}
 	
-	void MakeStaffOcto(int amount)
-	{
-		for(int a= 0; a < amount; a++)
-		{
-			Octodoctor o = new Octodoctor();
-			octodoctorList.Add (o);
-		}
-	}
 	
-	void MakeStaffYet(int amount)
-	{
-		for(int a= 0; a < amount; a++)
-		{
-			Yetitor y = new Yetitor();
-			yetitorList.Add (y);
-		}
-	}
-	
-	void MakeStaffct(int amount)
-	{
-		for(int a= 0; a < amount; a++)
-		{
-			Cthuluburse c = new Cthuluburse();
-			ctuluburseList.Add (c);
-		}
-	}
 	
 	
 //	void OnGUI()

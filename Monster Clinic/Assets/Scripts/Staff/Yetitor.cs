@@ -17,7 +17,9 @@ public class Yetitor : Staff {
 	public Yetitor()
 	{
 		base.staffType = StaffType.Yetitor;	
-		base.description = "I am a engineer";
+		base.name = NamesList.GetRandomName();
+		base.monthWage = 10;
+		base.description = "Yetitor";
 		level = YetitorLevel.Brown;
 	}
 	

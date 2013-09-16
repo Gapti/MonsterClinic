@@ -5,28 +5,59 @@ using System.Collections.Generic;
 public class StaffLabelUpdate : MonoBehaviour {
 	
 	public UILabel glitter;
-	public UILabel name;
+	public UILabel nameLabel;
 	public UILabel wage;
 	public UILabel level;
 	
-	public void UpdateGlitter(int g)
+	public Staff _staff;
+	
+	public Staff staff
 	{
-		glitter.text = g.ToString();
+		get
+		{
+			return _staff;
+		}
+		set
+		{
+			_staff = value;
+			
+			UpdateGlitter();
+			UpdateName();
+			UpdateWage();
+			UpdateLevel();
+		}
 	}
 	
-	public void UpdateName(string n)
+	public void UpdateGlitter()
 	{
-		name.text = n;
+		glitter.text = _staff.cost.ToString();
 	}
 	
-	public void UpdateWage(int w)
+	public void UpdateName()
 	{
-		wage.text = w.ToString();
+		nameLabel.text = _staff.name;
 	}
 	
-	public void UpdateLevel <T> (T Level)
+	public void UpdateWage()
 	{
-		level.text = Level.ToString(); 	
+		wage.text = _staff.monthWage.ToString();
+	}
+	
+	public void UpdateLevel()
+	{
+		switch(_staff.staffType)
+		{
+		case StaffType.Cthuluburse:
+			level.text = (((Cthuluburse)_staff).level).ToString(); 
+			break;
+		case StaffType.Octodoctor:
+			level.text = (((Octodoctor)_staff).level).ToString();
+			break;
+		case StaffType.Yetitor:
+			level.text = (((Yetitor)_staff).level).ToString();
+			break;
+		}
+			
 	}
 	
 }

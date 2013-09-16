@@ -16,8 +16,10 @@ public class Octodoctor : Staff {
 	
 	public Octodoctor()
 	{
-		base.staffType = StaffType.Octodoctor;	
-		base.description = "I am a doctor";
+		base.name = NamesList.GetRandomName();
+		base.staffType = StaffType.Octodoctor;
+		base.monthWage = 30;
+		base.description = "Octodoctor";
 		level = OctoLevel.Attending;
 	}
 	

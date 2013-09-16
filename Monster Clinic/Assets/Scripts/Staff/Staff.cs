@@ -25,11 +25,4 @@ public class Staff  {
 	public string name;
 	public int cost;
 	
-	public Staff()
-	{
-		name = NamesList.GetRandomName();
-		monthWage = 30;
-		cost = 40;
-		description = "hey hey";
-	}
 }

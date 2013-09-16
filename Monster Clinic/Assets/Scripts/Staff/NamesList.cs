@@ -23,6 +23,7 @@ public class NamesList : MonoBehaviour {
 		int n = Random.Range(0, nameList.Count - 1);
 		string name = nameList[n];
 		RemoveName(name);
+		print (name);
 		return (name);
 	}
 	

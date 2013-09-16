@@ -18,7 +18,9 @@ public class Cthuluburse : Staff {
 	public Cthuluburse()
 	{
 		base.staffType = StaffType.Cthuluburse;
-		base.description = "I am a nurse";
+		base.name = NamesList.GetRandomName();
+		base.monthWage = 20;
+		base.description = "Cthuluburse";
 		level = CthulLevel.one;
 	}
 }
