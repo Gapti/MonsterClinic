@@ -4,33 +4,12 @@ using System.Collections.Generic;
 
 public class StaffList : MonoBehaviour{
 	
-	public List<Octodoctor> _octodoctorList = new List<Octodoctor>(); //make 6 of each 
-	public List<Cthuluburse> _ctuluburseList = new List<Cthuluburse>();
-	public List<Yetitor> _yetitorList = new List<Yetitor>();
-	
-	public Octodoctor GetOctodoctor()
-	{
-		Octodoctor temp = _octodoctorList[0];
-		_octodoctorList.RemoveAt(0);
-		return temp;
-	}
-	
-	public Cthuluburse GetCtuluburse()
-	{
-		Cthuluburse temp = _ctuluburseList[0];
-		_ctuluburseList.RemoveAt(0);
-		return temp;
-	}
-	
-	public Yetitor GetYetitor()
-	{
-		Yetitor temp = _yetitorList[0];
-		_yetitorList.RemoveAt(0);
-		return temp;	
-	}
+	public static List<Octodoctor> _octodoctorList = new List<Octodoctor>();
+	public static List<Cthuluburse> _ctuluburseList = new List<Cthuluburse>();
+	public static List<Yetitor> _yetitorList = new List<Yetitor>();
 	
 	
-	void Start()
+	void Awake()
 	{
 		MakeStaffct(6);
 		MakeStaffOcto(6);

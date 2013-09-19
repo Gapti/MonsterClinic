@@ -17,7 +17,22 @@ public class StaffManager : MonoBehaviour {
 	
 	public List<Staff> staffList= new List<Staff>();
 	
-
+	public GameObject staffPanel;
+	public GameObject staffInfoPanel;
+	
+	
+	void OnEnable()
+	{
+		StaffLabelUpdate.staffPick += BringInStaffInfoPanel;
+	}
+	
+	void BringInStaffInfoPanel(Staff staff)
+	{
+		staffPanel.SetActive(false);
+		staffInfoPanel.SetActive( true );
+		
+		
+	}
 	
 	// Use this for initialization
 	void Awake () {
@@ -29,30 +44,30 @@ public class StaffManager : MonoBehaviour {
 	
 	void Start()
 	{
-		ShowOctodoctorList();
+		ShowYetitorList();
 	}
 	
 	void ShowOctodoctorList ( )
 	{
-		for (int a= 0; a < 6; a++)
+		for(int a = 0;  a < 6; a++ )
 		{
-			staffButtons[a].staff = GetComponent<StaffList>().GetOctodoctor();
+			staffButtons[a].staff = StaffList._octodoctorList[a];
 		}
 	}
 	
 	void ShowYetitorList ( )
 	{
-		for (int a= 0; a < 6; a++)
-		{
-			staffButtons[a].staff = GetComponent<StaffList>().GetYetitor();
+		for (int i = 0; i < 6; i++) 
+		{	
+			staffButtons[i].staff = StaffList._yetitorList[i];
 		}
 	}
 	
 	void ShowcthuluburseList ( )
 	{
-		for (int a= 0; a < 6; a++)
+		for (int i = 0; i < 6; i++) 
 		{
-			staffButtons[a].staff = GetComponent<StaffList>().GetCtuluburse();
+			staffButtons[i].staff = StaffList._ctuluburseList[i];
 		}
 	}
 	

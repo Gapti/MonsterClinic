@@ -9,6 +9,9 @@ public class StaffLabelUpdate : MonoBehaviour {
 	public UILabel wage;
 	public UILabel level;
 	
+	public delegate void eventHandler(Staff staff);
+	public static event eventHandler staffPick;
+	
 	public Staff _staff;
 	
 	public Staff staff
@@ -58,6 +61,12 @@ public class StaffLabelUpdate : MonoBehaviour {
 			break;
 		}
 			
+	}
+	
+	void OnClick()
+	{
+		if(staffPick != null)
+			staffPick(_staff);
 	}
 	
 }
