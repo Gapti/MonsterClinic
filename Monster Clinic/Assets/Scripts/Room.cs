@@ -2,6 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 
+// Enum test
+public enum Test
+{
+    None,
+	Box
+}
+
 // Enum mode
 public enum Mode
 {
@@ -33,8 +40,7 @@ public enum RoomType
 	SlimeTreatment,
 	ShockTreatment,
 	MagicPotion,
-	PhysicalActivity,
-	Type1
+	PhysicalActivity
 }
 
 // Enum room type

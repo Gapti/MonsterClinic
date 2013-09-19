@@ -1,6 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Staff/StaffLabelUpdate.cs">
+=======
+<<<<<<< HEAD
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\TestBox.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Room.cs" Line="9" Column="5" />
+      <File FileName="Assets\Scripts\TestBox.cs" Line="48" Column="112" />
+      <File FileName="Assets\Scripts\LevelManager.cs" Line="159" Column="3" />
+      <File FileName="Assets\Scripts\AGUI.cs" Line="8" Column="2" />
+      <File FileName="Assets\Scripts\Maps.cs" Line="1" Column="1" />
+=======
+<<<<<<< HEAD
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Staff/NamesList.cs">
+>>>>>>> ef2e57ba7593521f325949c7c75ce584825a1971
     <Files>
       <File FileName="Assets/Scripts/Staff/StaffManager.cs" Line="26" Column="2" />
       <File FileName="Assets/Scripts/Staff/StaffLabelUpdate.cs" Line="20" Column="4" />
@@ -9,8 +23,24 @@
       <File FileName="Assets/Scripts/Staff/NamesList.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Staff/Octodoctor.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Staff/Cthuluburse.cs" Line="1" Column="1" />
+<<<<<<< HEAD
       <File FileName="Assets/Scripts/Staff/Yetitor.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Staff/StaffList.cs" Line="1" Column="1" />
+=======
+      <File FileName="Assets/Scripts/LevelManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Staff/StaffLabelUpdate.cs" Line="27" Column="9" />
+      <File FileName="Assets/Scripts/Staff/NamesList.cs" Line="14" Column="48" />
+      <File FileName="Assets/Scripts/Staff/names.txt" Line="50" Column="16" />
+=======
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LevelManager.cs">
+    <Files>
+      <File FileName="Assets\Scripts\LevelManager.cs" Line="11" Column="32" />
+      <File FileName="Assets\Scripts\Room.cs" Line="154" Column="35" />
+      <File FileName="Assets\Scripts\Maps.cs" Line="30" Column="23" />
+      <File FileName="Assets\Scripts\AGUI.cs" Line="38" Column="99" />
+>>>>>>> 89399dd6afbb35aefada3e5e6e34ec274d4e5d54
+>>>>>>> c9785809043514501a7795a00880acb602e3b85d
+>>>>>>> ef2e57ba7593521f325949c7c75ce584825a1971
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
