@@ -44,7 +44,7 @@ public class StaffManager : MonoBehaviour {
 	
 	void Start()
 	{
-		ShowYetitorList();
+		ShowOctodoctorList();
 	}
 	
 	void ShowOctodoctorList ( )

@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 [ExecuteInEditMode]
 [AddComponentMenu("NGUI/Interaction/Grid")]
-public class UIGrid : MonoBehaviour
+public class UIGrid : UIWidgetContainer
 {
 	public enum Arrangement
 	{
@@ -34,6 +34,9 @@ public class UIGrid : MonoBehaviour
 	void Start ()
 	{
 		mStarted = true;
+#if UNITY_EDITOR
+		if (Application.isPlaying)
+#endif
 		Reposition();
 	}
 

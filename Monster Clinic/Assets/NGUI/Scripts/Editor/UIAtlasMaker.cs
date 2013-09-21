@@ -59,7 +59,8 @@ public class UIAtlasMaker : EditorWindow
 			foreach (Object o in objects)
 			{
 				Texture tex = o as Texture;
-				if (tex != null && (NGUISettings.atlas == null || NGUISettings.atlas.texture != tex)) textures.Add(tex);
+				if (tex == null || tex.name == "Font Texture") continue;
+				if (NGUISettings.atlas == null || NGUISettings.atlas.texture != tex) textures.Add(tex);
 			}
 		}
 		return textures;
@@ -75,7 +76,7 @@ public class UIAtlasMaker : EditorWindow
 
 		foreach (Texture tex in textures)
 		{
-			Texture2D t2 = NGUIEditorTools.ImportTexture(tex, true, false);
+			Texture2D t2 = NGUIEditorTools.ImportTexture(tex, true, false, true);
 			if (t2 != null) list.Add(t2);
 		}
 		return list;
@@ -250,7 +251,7 @@ public class UIAtlasMaker : EditorWindow
 
 		foreach (Texture tex in textures)
 		{
-			Texture2D oldTex = NGUIEditorTools.ImportTexture(tex, true, false);
+			Texture2D oldTex = NGUIEditorTools.ImportTexture(tex, true, false, true);
 			if (oldTex == null) continue;
 
 			// If we aren't doing trimming, just use the texture as-is
@@ -396,6 +397,9 @@ public class UIAtlasMaker : EditorWindow
 			UIAtlas.Sprite sp = spriteList[--i];
 			if (!kept.Contains(sp)) spriteList.RemoveAt(i);
 		}
+
+		// Sort the sprites so that they are alphabetical within the atlas
+		atlas.SortAlphabetically();
 		atlas.MarkAsDirty();
 	}
 
@@ -406,7 +410,7 @@ public class UIAtlasMaker : EditorWindow
 	static void ExtractSprites (UIAtlas atlas, List<SpriteEntry> sprites)
 	{
 		// Make the atlas texture readable
-		Texture2D atlasTex = NGUIEditorTools.ImportTexture(atlas.texture, true, false);
+		Texture2D atlasTex = NGUIEditorTools.ImportTexture(atlas.texture, true, false, !atlas.premultipliedAlpha);
 
 		if (atlasTex != null)
 		{
@@ -480,7 +484,7 @@ public class UIAtlasMaker : EditorWindow
 		}
 
 		// The atlas no longer needs to be readable
-		NGUIEditorTools.ImportTexture(atlas.texture, false, false);
+		NGUIEditorTools.ImportTexture(atlas.texture, false, false, !atlas.premultipliedAlpha);
 	}
 
 	/// <summary>
@@ -519,7 +523,7 @@ public class UIAtlasMaker : EditorWindow
 		else
 		{
 			// Make the atlas readable so we can save it
-			tex = NGUIEditorTools.ImportTexture(oldPath, true, false);
+			tex = NGUIEditorTools.ImportTexture(oldPath, true, false, !atlas.premultipliedAlpha);
 		}
 
 		// Pack the sprites into this texture
@@ -532,7 +536,7 @@ public class UIAtlasMaker : EditorWindow
 			// Load the texture we just saved as a Texture2D
 			AssetDatabase.SaveAssets();
 			AssetDatabase.Refresh();
-			tex = NGUIEditorTools.ImportTexture(newPath, false, true);
+			tex = NGUIEditorTools.ImportTexture(newPath, false, true, !atlas.premultipliedAlpha);
 
 			// Update the atlas texture
 			if (newTexture)
@@ -548,7 +552,7 @@ public class UIAtlasMaker : EditorWindow
 		}
 		else
 		{
-			if (!newTexture) NGUIEditorTools.ImportTexture(oldPath, false, true);
+			if (!newTexture) NGUIEditorTools.ImportTexture(oldPath, false, true, !atlas.premultipliedAlpha);
 			
 			//Debug.LogError("Operation canceled: The selected sprites can't fit into the atlas.\n" +
 			//	"Keep large sprites outside the atlas (use UITexture), and/or use multiple atlases instead.");
@@ -631,9 +635,8 @@ public class UIAtlasMaker : EditorWindow
 			atlas.spriteMaterial.mainTexture = null;
 			if (!string.IsNullOrEmpty(path)) AssetDatabase.DeleteAsset(path);
 		}
-		atlas.MarkAsDirty();
 
-		Debug.Log("The atlas has been updated. Don't forget to save the scene to write the changes!");
+		atlas.MarkAsDirty();
 		Selection.activeGameObject = (NGUISettings.atlas != null) ? NGUISettings.atlas.gameObject : null;
 	}
 
@@ -666,7 +669,7 @@ public class UIAtlasMaker : EditorWindow
 		GameObject go = AssetDatabase.LoadAssetAtPath(prefabPath, typeof(GameObject)) as GameObject;
 		if (NGUISettings.atlas == null && go != null) NGUISettings.atlas = go.GetComponent<UIAtlas>();
 
-		EditorGUIUtility.LookLikeControls(80f);
+		NGUIEditorTools.SetLabelWidth(80f);
 
 		GUILayout.Space(6f);
 		GUILayout.BeginHorizontal();
@@ -929,7 +932,14 @@ public class UIAtlasMaker : EditorWindow
 					if (UIAtlasInspector.instance != null)
 						UIAtlasInspector.instance.Repaint();
 				}
+				else if (update || replace)
+				{
+					NGUIEditorTools.UpgradeTexturesToSprites(NGUISettings.atlas);
+				}
 			}
 		}
+
+		// Uncomment this line if you want to be able to force-sort the atlas
+		//if (NGUISettings.atlas != null && GUILayout.Button("Sort Alphabetically")) NGUISettings.atlas.SortAlphabetically();
 	}
 }

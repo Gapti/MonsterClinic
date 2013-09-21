@@ -37,7 +37,7 @@ public class UIPanelTool : EditorWindow
 
 	static List<UIPanel> GetListOfPanels ()
 	{
-		List<UIPanel> panels = NGUIEditorTools.FindInScene<UIPanel>();
+		List<UIPanel> panels = NGUIEditorTools.FindAll<UIPanel>();
 
 		for (int i = panels.Count; i > 0; )
 		{
@@ -163,7 +163,7 @@ public class UIPanelTool : EditorWindow
 			// Sort the list alphabetically
 			entries.Sort(Compare);
 
-			EditorGUIUtility.LookLikeControls(80f);
+			NGUIEditorTools.SetLabelWidth(80f);
 			bool showAll = DrawRow(null, null, allEnabled);
 			NGUIEditorTools.DrawSeparator();
 
@@ -210,7 +210,7 @@ public class UIPanelTool : EditorWindow
 			panelName = ent.panel.name;
 			layer = LayerMask.LayerToName(ent.panel.gameObject.layer);
 			widgetCount = ent.widgets.Count.ToString();
-			drawCalls = ent.panel.drawCalls.size.ToString();
+			drawCalls = ent.panel.drawCallCount.ToString();
 			clipping = (ent.panel.clipping != UIDrawCall.Clipping.None) ? "Yes" : "";
 		}
 		else
@@ -255,7 +255,6 @@ public class UIPanelTool : EditorWindow
 		if (ent == null)
 		{
 			GUILayout.Label("Stc", GUILayout.Width(24f));
-			GUILayout.Label("Giz", GUILayout.Width(24f));
 		}
 		else
 		{
@@ -269,14 +268,6 @@ public class UIPanelTool : EditorWindow
 				if (NGUITransformInspector.instance != null)
 					NGUITransformInspector.instance.Repaint();
 #endif
-			}
-
-			val = (ent.panel.debugInfo == UIPanel.DebugInfo.Gizmos);
-
-			if (val != EditorGUILayout.Toggle(val, GUILayout.Width(20f)))
-			{
-				ent.panel.debugInfo = val ? UIPanel.DebugInfo.None : UIPanel.DebugInfo.Gizmos;
-				EditorUtility.SetDirty(ent.panel.gameObject);
 			}
 		}
 		GUI.contentColor = Color.white;

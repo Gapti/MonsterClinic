@@ -163,9 +163,9 @@ static public class NGUITools
 		while (obj.transform.parent != null)
 		{
 			obj = obj.transform.parent.gameObject;
-			path = obj.name + "/" + path;
+			path = obj.name + "\\" + path;
 		}
-		return "\"" + path + "\"";
+		return path;
 	}
 
 	/// <summary>
@@ -303,7 +303,13 @@ static public class NGUITools
 	/// Add a collider to the game object containing one or more widgets.
 	/// </summary>
 
-	static public BoxCollider AddWidgetCollider (GameObject go)
+	static public BoxCollider AddWidgetCollider (GameObject go) { return AddWidgetCollider(go, false); }
+
+	/// <summary>
+	/// Add a collider to the game object containing one or more widgets.
+	/// </summary>
+
+	static public BoxCollider AddWidgetCollider (GameObject go, bool considerInactive)
 	{
 		if (go != null)
 		{
@@ -320,9 +326,9 @@ static public class NGUITools
 				box = go.AddComponent<BoxCollider>();
 			}
 
-			int depth = NGUITools.CalculateNextDepth(go);
+			int depth = NGUITools.CalculateNextDepth(go, true);
 
-			Bounds b = NGUIMath.CalculateRelativeWidgetBounds(go.transform);
+			Bounds b = NGUIMath.CalculateRelativeWidgetBounds(go.transform, considerInactive);
 			box.isTrigger = true;
 			box.center = b.center + Vector3.back * (depth * 0.25f);
 			box.size = new Vector3(b.size.x, b.size.y, 0f);
@@ -351,6 +357,9 @@ static public class NGUITools
 	{
 		GameObject go = new GameObject();
 
+#if UNITY_EDITOR && !UNITY_3_5 && !UNITY_4_0 && !UNITY_4_1 && !UNITY_4_2
+		UnityEditor.Undo.RegisterCreatedObjectUndo(go, "Create Object");
+#endif
 		if (parent != null)
 		{
 			Transform t = go.transform;
@@ -370,6 +379,10 @@ static public class NGUITools
 	static public GameObject AddChild (GameObject parent, GameObject prefab)
 	{
 		GameObject go = GameObject.Instantiate(prefab) as GameObject;
+
+#if UNITY_EDITOR && !UNITY_3_5 && !UNITY_4_0 && !UNITY_4_1 && !UNITY_4_2
+		UnityEditor.Undo.RegisterCreatedObjectUndo(go, "Create Object");
+#endif
 
 		if (go != null && parent != null)
 		{
@@ -396,6 +409,49 @@ static public class NGUITools
 	}
 
 	/// <summary>
+	/// Gathers all widgets and calculates the depth for the next widget.
+	/// </summary>
+
+	static public int CalculateNextDepth (GameObject go, bool ignoreChildrenWithColliders)
+	{
+		if (ignoreChildrenWithColliders)
+		{
+			int depth = -1;
+			UIWidget[] widgets = go.GetComponentsInChildren<UIWidget>();
+
+			for (int i = 0, imax = widgets.Length; i < imax; ++i)
+			{
+				UIWidget w = widgets[i];
+				if (w.cachedGameObject != go && w.collider != null) continue;
+				depth = Mathf.Max(depth, w.depth);
+			}
+			return depth + 1;
+		}
+		return CalculateNextDepth(go);
+	}
+
+	/// <summary>
+	/// Adjust the widgets' depth by the specified value.
+	/// </summary>
+
+	static public void AdjustDepth (GameObject go, int adjustment)
+	{
+		if (go != null)
+		{
+			UIWidget[] widgets = go.GetComponentsInChildren<UIWidget>(true);
+
+			for (int i = 0, imax = widgets.Length; i < imax; ++i)
+			{
+				UIWidget w = widgets[i];
+				w.depth = w.depth + adjustment;
+#if UNITY_EDITOR
+				UnityEditor.EditorUtility.SetDirty(w);
+#endif
+			}
+		}
+	}
+
+	/// <summary>
 	/// Add a child object to the specified parent and attaches the specified script to it.
 	/// </summary>
 
@@ -416,13 +472,9 @@ static public class NGUITools
 
 		// Create the widget and place it above other widgets
 		T widget = AddChild<T>(go);
+		widget.width = 100;
+		widget.height = 100;
 		widget.depth = depth;
-
-		// Clear the local transform
-		Transform t = widget.transform;
-		t.localPosition = Vector3.zero;
-		t.localRotation = Quaternion.identity;
-		t.localScale = new Vector3(100f, 100f, 1f);
 		widget.gameObject.layer = go.layer;
 		return widget;
 	}
@@ -713,13 +765,26 @@ static public class NGUITools
 		}
 		else
 		{
-			t.localPosition = Round(t.localPosition);
-			t.localScale = Round(t.localScale);
-
-			for (int i = 0, imax = t.childCount; i < imax; ++i)
+			if (t.GetComponent<UIAnchor>() == null && t.GetComponent<UIRoot>() == null)
 			{
-				MakePixelPerfect(t.GetChild(i));
+#if UNITY_EDITOR
+#if UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2
+				UnityEditor.Undo.RegisterUndo(t, "Make Pixel-Perfect");
+#else
+				UnityEditor.Undo.RecordObjects(t, "Make Pixel-Perfect");
+#endif
+				t.localPosition = Round(t.localPosition);
+				t.localScale = Round(t.localScale);
+				UnityEditor.EditorUtility.SetDirty(t);
+#else
+				t.localPosition = Round(t.localPosition);
+				t.localScale = Round(t.localScale);
+#endif
 			}
+
+			// Recurse into children
+			for (int i = 0, imax = t.childCount; i < imax; ++i)
+				MakePixelPerfect(t.GetChild(i));
 		}
 	}
 
@@ -729,7 +794,7 @@ static public class NGUITools
 
 	static public bool Save (string fileName, byte[] bytes)
 	{
-#if UNITY_WEBPLAYER || UNITY_FLASH || UNITY_METRO
+#if UNITY_WEBPLAYER || UNITY_FLASH || UNITY_METRO || UNITY_WP8
 		return false;
 #else
 		if (!NGUITools.fileAccess) return false;
@@ -766,7 +831,7 @@ static public class NGUITools
 
 	static public byte[] Load (string fileName)
 	{
-#if UNITY_WEBPLAYER || UNITY_FLASH || UNITY_METRO
+#if UNITY_WEBPLAYER || UNITY_FLASH || UNITY_METRO || UNITY_WP8
 		return null;
 #else
 		if (!NGUITools.fileAccess) return null;

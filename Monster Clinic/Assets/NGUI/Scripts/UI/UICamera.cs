@@ -72,6 +72,18 @@ public class UICamera : MonoBehaviour
 	}
 
 	/// <summary>
+	/// List of all active cameras in the scene.
+	/// </summary>
+ 
+	static public List<UICamera> list = new List<UICamera>();
+
+	/// <summary>
+	/// Which layers will receive events.
+	/// </summary>
+
+	public LayerMask eventReceiverMask = -1;
+
+	/// <summary>
 	/// If 'true', currently hovered object will be shown in the top left corner.
 	/// </summary>
 
@@ -117,12 +129,6 @@ public class UICamera : MonoBehaviour
 	public bool stickyPress = true;
 
 	/// <summary>
-	/// Which layers will receive events.
-	/// </summary>
-
-	public LayerMask eventReceiverMask = -1;
-
-	/// <summary>
 	/// Whether raycast events will be clipped just like widgets. This essentially means that clicking on a collider that
 	/// happens to have been clipped will not produce a hit. Note that having this enabled will slightly reduce performance.
 	/// </summary>
@@ -130,16 +136,16 @@ public class UICamera : MonoBehaviour
 	public bool clipRaycasts = true;
 
 	/// <summary>
-	/// How long of a delay to expect before showing the tooltip.
-	/// </summary>
-
-	public float tooltipDelay = 1f;
-
-	/// <summary>
 	/// Whether the tooltip will disappear as soon as the mouse moves (false) or only if the mouse moves outside of the widget's area (true).
 	/// </summary>
 
 	public bool stickyTooltip = true;
+
+	/// <summary>
+	/// How long of a delay to expect before showing the tooltip.
+	/// </summary>
+
+	public float tooltipDelay = 1f;
 
 	/// <summary>
 	/// How much the mouse has to be moved after pressing a button before it starts to send out drag events.
@@ -267,9 +273,6 @@ public class UICamera : MonoBehaviour
 	/// </summary>
 
 	static public GameObject fallThrough;
-
-	// List of all active cameras in the scene
-	static List<UICamera> mList = new List<UICamera>();
 
 	// List of currently highlighted items
 	static List<Highlighted> mHighlighted = new List<Highlighted>();
@@ -449,10 +452,10 @@ public class UICamera : MonoBehaviour
 	{
 		get
 		{
-			for (int i = 0; i < mList.Count; ++i)
+			for (int i = 0; i < list.Count; ++i)
 			{
 				// Invalid or inactive entry -- keep going
-				UICamera cam = mList[i];
+				UICamera cam = list[i];
 				if (cam == null || !cam.enabled || !NGUITools.GetActive(cam.gameObject)) continue;
 				return cam;
 			}
@@ -479,9 +482,9 @@ public class UICamera : MonoBehaviour
 
 	static public bool Raycast (Vector3 inPos, out RaycastHit hit)
 	{
-		for (int i = 0; i < mList.Count; ++i)
+		for (int i = 0; i < list.Count; ++i)
 		{
-			UICamera cam = mList[i];
+			UICamera cam = list[i];
 			
 			// Skip inactive scripts
 			if (!cam.enabled || !NGUITools.GetActive(cam.gameObject)) continue;
@@ -555,9 +558,9 @@ public class UICamera : MonoBehaviour
 	{
 		int layerMask = 1 << layer;
 
-		for (int i = 0; i < mList.Count; ++i)
+		for (int i = 0; i < list.Count; ++i)
 		{
-			UICamera cam = mList[i];
+			UICamera cam = list[i];
 			Camera uc = cam.cachedCamera;
 			if ((uc != null) && (uc.cullingMask & layerMask) != 0) return cam;
 		}
@@ -715,8 +718,6 @@ public class UICamera : MonoBehaviour
 
 	void Awake ()
 	{
-		mList.Add(this);
-
 #if !UNITY_3_5 && !UNITY_4_0
 		// We don't want the camera to send out any kind of mouse events
 		cachedCamera.eventMask = 0;
@@ -763,16 +764,16 @@ public class UICamera : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Remove this camera from the list.
-	/// </summary>
-
-	void OnDestroy () { mList.Remove(this); }
-
-	/// <summary>
 	/// Sort the list when enabled.
 	/// </summary>
 
-	void OnEnable () { mList.Sort(CompareFunc); }
+	void OnEnable () { list.Add(this); list.Sort(CompareFunc); }
+
+	/// <summary>
+	/// Remove this camera from the list.
+	/// </summary>
+
+	void OnDisable () { list.Remove(this); }
 
 	/// <summary>
 	/// Update the object under the mouse if we're not using touch-based input.

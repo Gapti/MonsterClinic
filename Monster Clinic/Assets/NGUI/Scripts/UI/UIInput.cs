@@ -4,13 +4,15 @@
 //----------------------------------------------
 
 using UnityEngine;
+using System.Collections.Generic;
 
 /// <summary>
 /// Editable text input field.
 /// </summary>
 
-[AddComponentMenu("NGUI/UI/Input (Basic)")]
-public class UIInput : MonoBehaviour
+[ExecuteInEditMode]
+[AddComponentMenu("NGUI/UI/Input Field")]
+public class UIInput : UIWidgetContainer
 {
 	public delegate char Validator (string currentText, char nextChar);
 
@@ -25,8 +27,6 @@ public class UIInput : MonoBehaviour
 		NamePhonePad = 6,
 		EmailAddress = 7,
 	}
-
-	public delegate void OnSubmit (string inputString);
 
 	/// <summary>
 	/// Current input, available inside OnSubmit callbacks.
@@ -51,6 +51,12 @@ public class UIInput : MonoBehaviour
 	/// </summary>
 
 	public string caratChar = "|";
+
+	/// <summary>
+	/// Field in player prefs used to automatically save the value.
+	/// </summary>
+
+	public string playerPrefsField;
 
 	/// <summary>
 	/// Delegate used for validation.
@@ -98,22 +104,14 @@ public class UIInput : MonoBehaviour
 	public GameObject selectOnTab;
 
 	/// <summary>
-	/// Event receiver that will be notified when the input field submits its data (enter gets pressed).
+	/// Callbacks triggered when the input field submits the text.
 	/// </summary>
 
-	public GameObject eventReceiver;
+	public List<EventDelegate> onSubmit = new List<EventDelegate>();
 
-	/// <summary>
-	/// Function that will be called on the event receiver when the input field submits its data.
-	/// </summary>
-
-	public string functionName = "OnSubmit";
-
-	/// <summary>
-	/// Delegate that will be notified when the input field submits its data (by default that's when Enter gets pressed).
-	/// </summary>
-
-	public OnSubmit onSubmit;
+	// Deprecated functionality, kept for backwards compatibility
+	[HideInInspector][SerializeField] GameObject eventReceiver;
+	[HideInInspector][SerializeField] string functionName = "OnSubmit";
 
 	string mText = "";
 	string mDefaultText = "";
@@ -128,20 +126,38 @@ public class UIInput : MonoBehaviour
 #endif
 
 	/// <summary>
+	/// Convenience function, for consistency with everything else.
+	/// </summary>
+
+	[System.Obsolete("Use UIInput.value instead")]
+	public string text { get { return this.value; } set { this.value = value; } }
+
+	/// <summary>
 	/// Input field's current text value.
 	/// </summary>
 
-	public virtual string text
+	public string value
 	{
 		get
 		{
+#if UNITY_EDITOR
+			if (!Application.isPlaying) return "";
+#endif
 			if (mDoInit) Init();
 			return mText;
 		}
 		set
 		{
+#if UNITY_EDITOR
+			if (!Application.isPlaying) return;
+#endif
 			if (mDoInit) Init();
-			mText = value;
+
+			if (mText != value)
+			{
+				mText = value;
+				SaveToPlayerPrefs(mText);
+			}
 
 #if UNITY_IPHONE || UNITY_ANDROID || UNITY_WP8 || UNITY_BLACKBERRY
 			if (mKeyboard != null) mKeyboard.text = text;
@@ -210,6 +226,7 @@ public class UIInput : MonoBehaviour
 				mDefaultColor = label.color;
 				label.supportEncoding = false;
 				label.password = isPassword;
+				label.maxLineCount = 1;
 				mPivot = label.pivot;
 				mPosition = label.cachedTransform.localPosition.x;
 			}
@@ -217,19 +234,86 @@ public class UIInput : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Save the specified value to player prefs.
+	/// </summary>
+
+	void SaveToPlayerPrefs (string val)
+	{
+		if (!string.IsNullOrEmpty(playerPrefsField))
+		{
+			if (string.IsNullOrEmpty(val))
+			{
+				PlayerPrefs.DeleteKey(playerPrefsField);
+			}
+			else
+			{
+				PlayerPrefs.SetString(playerPrefsField, val);
+			}
+		}
+	}
+
 	bool mDoInit = true;
+
+	void Awake ()
+	{
+		if (label == null) label = GetComponentInChildren<UILabel>();
+		
+		if (!string.IsNullOrEmpty(playerPrefsField) && PlayerPrefs.HasKey(playerPrefsField))
+		{
+			value = PlayerPrefs.GetString(playerPrefsField);
+		}
+	}
+
+	/// <summary>
+	/// Remove legacy functionality.
+	/// </summary>
+
+	void Start ()
+	{
+		if (EventDelegate.IsValid(onSubmit))
+		{
+			if (eventReceiver != null || !string.IsNullOrEmpty(functionName))
+			{
+				eventReceiver = null;
+				functionName = null;
+#if UNITY_EDITOR
+				if (!Application.isPlaying) UnityEditor.EditorUtility.SetDirty(this);
+#endif
+			}
+		}
+		else if (eventReceiver == null && !EventDelegate.IsValid(onSubmit))
+		{
+			// Kept for backwards compatibility
+			eventReceiver = gameObject;
+		}
+	}
 
 	/// <summary>
 	/// If the object is currently highlighted, it should also be selected.
 	/// </summary>
 
-	void OnEnable () { if (UICamera.IsHighlighted(gameObject)) OnSelect(true); }
+	void OnEnable ()
+	{
+#if UNITY_EDITOR
+		if (!Application.isPlaying) return;
+#endif
+		if (UICamera.IsHighlighted(gameObject))
+			OnSelect(true);
+	}
 
 	/// <summary>
 	/// Remove the selection.
 	/// </summary>
 
-	void OnDisable () { if (UICamera.IsHighlighted(gameObject)) OnSelect(false); }
+	void OnDisable ()
+	{
+#if UNITY_EDITOR
+		if (!Application.isPlaying) return;
+#endif
+		if (UICamera.IsHighlighted(gameObject))
+			OnSelect(false);
+	}
 
 	/// <summary>
 	/// Selection event, sent by UICamera.
@@ -271,11 +355,7 @@ public class UIInput : MonoBehaviour
 #endif
 				{
 					Input.imeCompositionMode = IMECompositionMode.On;
-					Transform t = label.cachedTransform;
-					Vector3 offset = label.pivotOffset;
-					offset.y += label.relativeSize.y;
-					offset = t.TransformPoint(offset);
-					Input.compositionCursorPos = UICamera.currentCamera.WorldToScreenPoint(offset);
+					Input.compositionCursorPos = UICamera.currentCamera.WorldToScreenPoint(label.worldCorners[0]);
 				}
 				UpdateLabel();
 			}
@@ -309,6 +389,9 @@ public class UIInput : MonoBehaviour
 
 	void Update()
 	{
+#if UNITY_EDITOR
+		if (!Application.isPlaying) return;
+#endif
 		if (mKeyboard != null)
 		{
 			string text = mKeyboard.text;
@@ -333,11 +416,7 @@ public class UIInput : MonoBehaviour
 			if (mKeyboard.done)
 			{
 				mKeyboard = null;
-				current = this;
-				if (onSubmit != null) onSubmit(mText);
-				if (eventReceiver == null) eventReceiver = gameObject;
-				eventReceiver.SendMessage(functionName, mText, SendMessageOptions.DontRequireReceiver);
-				current = null;
+				Submit();
 				selected = false;
 			}
 		}
@@ -345,6 +424,9 @@ public class UIInput : MonoBehaviour
 #else
 	void Update ()
 	{
+#if UNITY_EDITOR
+		if (!Application.isPlaying) return;
+#endif
 		if (selected)
 		{
 			if (selectOnTab != null && Input.GetKeyDown(KeyCode.Tab))
@@ -390,6 +472,28 @@ public class UIInput : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Submit the input field's text.
+	/// </summary>
+
+	void Submit ()
+	{
+		current = this;
+
+		if (EventDelegate.IsValid(onSubmit))
+		{
+			EventDelegate.Execute(onSubmit);
+		}
+		else if (eventReceiver != null && !string.IsNullOrEmpty(functionName))
+		{
+			// Legacy functionality support (for backwards compatibility)
+			eventReceiver.SendMessage(functionName, mText, SendMessageOptions.DontRequireReceiver);
+		}
+
+		SaveToPlayerPrefs(mText);
+		current = null;
+	}
+
+	/// <summary>
 	/// Append the specified text to the end of the current.
 	/// </summary>
 
@@ -415,12 +519,7 @@ public class UIInput : MonoBehaviour
 					// Not multi-line input, or control isn't held
 					if (!label.multiLine || (!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl)))
 					{
-						// Enter
-						current = this;
-						if (onSubmit != null) onSubmit(mText);
-						if (eventReceiver == null) eventReceiver = gameObject;
-						eventReceiver.SendMessage(functionName, mText, SendMessageOptions.DontRequireReceiver);
-						current = null;
+						Submit();
 						selected = false;
 						return;
 					}
@@ -485,23 +584,21 @@ public class UIInput : MonoBehaviour
 			// Now wrap this text using the specified line width
 			label.supportEncoding = false;
 
-			if (!label.shrinkToFit)
+			if (label.overflowMethod == UILabel.Overflow.ClampContent)
 			{
-				Vector3 scale = label.cachedTransform.localScale;
-
 				if (label.multiLine)
 				{
-					label.font.WrapText(processed, out processed, label.lineWidth / scale.x, label.lineHeight / scale.y, 0, false, UIFont.SymbolStyle.None);
+					label.font.WrapText(processed, out processed, label.width, label.height, 0, false, UIFont.SymbolStyle.None);
 				}
 				else
 				{
-					string fit = label.font.GetEndOfLineThatFits(processed, label.lineWidth / scale.x, false, UIFont.SymbolStyle.None);
+					string fit = label.font.GetEndOfLineThatFits(processed, label.width, false, UIFont.SymbolStyle.None);
 
 					if (fit != processed)
 					{
 						processed = fit;
 						Vector3 pos = label.cachedTransform.localPosition;
-						pos.x = mPosition + label.lineWidth;
+						pos.x = mPosition + label.width;
 
 						if (mPivot == UIWidget.Pivot.Left) label.pivot = UIWidget.Pivot.Right;
 						else if (mPivot == UIWidget.Pivot.TopLeft) label.pivot = UIWidget.Pivot.TopRight;

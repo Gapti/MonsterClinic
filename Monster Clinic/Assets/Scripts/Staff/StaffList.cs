@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System;
 
 public class StaffList : MonoBehaviour{
 	
@@ -8,39 +10,70 @@ public class StaffList : MonoBehaviour{
 	public static List<Cthuluburse> _ctuluburseList = new List<Cthuluburse>();
 	public static List<Yetitor> _yetitorList = new List<Yetitor>();
 	
+	public TextAsset OctodoctorText;
+	public TextAsset CthuluburseText;
+	public TextAsset YetitorText;
 	
 	void Awake()
 	{
-		MakeStaffct(6);
-		MakeStaffOcto(6);
-		MakeStaffYet(6);
+		LoadOctodoctor ();
+		LoadYetitor();
+		LoadCthuluburse();
 	}
 	
-	void MakeStaffOcto(int amount)
-	{
-		for(int a= 0; a < amount; a++)
-		{
-			Octodoctor o = new Octodoctor();
-			_octodoctorList.Add (o);
-		}
-	}
+	void LoadOctodoctor()
+    {
+       string[] lines = OctodoctorText.text.Split(new char[]{'\n','\r'},System.StringSplitOptions.RemoveEmptyEntries);
+       for (int i = 1; i < lines.Length; i++)
+       {
+           string[] splitLine = lines[i].Split(',');
+
+			Octodoctor octodoctor = new Octodoctor()
+           {
+               name = splitLine[0],
+               sexType = (SexType)Enum.Parse(typeof(SexType), splitLine[1]),
+               staffType = StaffType.Octodoctor,
+				description = splitLine[2],
+           };
+
+           _octodoctorList.Add(octodoctor);
+     	}
+    }
 	
-	void MakeStaffYet(int amount)
-	{
-		for(int a= 0; a < amount; a++)
-		{
-			Yetitor y = new Yetitor();
-			_yetitorList.Add (y);
-		}
-	}
+	void LoadCthuluburse()
+    {
+       string[] lines = CthuluburseText.text.Split(new char[]{'\n','\r'},System.StringSplitOptions.RemoveEmptyEntries);
+       for (int i = 1; i < lines.Length; i++)
+       {
+           string[] splitLine = lines[i].Split(',');
+			
+			Cthuluburse cthuluburse = new Cthuluburse()
+           {
+               name = splitLine[0],
+               sexType = (SexType)Enum.Parse(typeof(SexType), splitLine[1]),
+               staffType = StaffType.Cthuluburse,
+           };
+
+          _ctuluburseList.Add(cthuluburse);
+     	}
+    }
 	
-	void MakeStaffct(int amount)
-	{
-		for(int a= 0; a < amount; a++)
-		{
-			Cthuluburse c = new Cthuluburse();
-			_ctuluburseList.Add (c);
-		}
-	}
+	void LoadYetitor()
+    {
+       string[] lines = YetitorText.text.Split(new char[]{'\n','\r'},System.StringSplitOptions.RemoveEmptyEntries);
+       for (int i = 1; i < lines.Length; i++)
+       {
+           string[] splitLine = lines[i].Split(',');
+
+			Yetitor yetitor = new Yetitor()
+           {
+               name = splitLine[0],
+               sexType = (SexType)Enum.Parse(typeof(SexType), splitLine[1]),
+               staffType = StaffType.Yetitor,
+           };
+
+          _yetitorList.Add(yetitor);
+     	}
+    }
 
 }

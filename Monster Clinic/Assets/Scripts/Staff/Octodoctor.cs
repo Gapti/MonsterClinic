@@ -14,14 +14,4 @@ public class Octodoctor : Staff {
 	
 	public OctoLevel level;
 	
-	public Octodoctor()
-	{
-		base.name = NamesList.GetRandomName();
-		base.staffType = StaffType.Octodoctor;
-		base.monthWage = 30;
-		base.description = "Octodoctor";
-		level = OctoLevel.Attending;
-	}
-	
-	
 }

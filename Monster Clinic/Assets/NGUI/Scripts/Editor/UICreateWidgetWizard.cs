@@ -20,7 +20,7 @@ public class UICreateWidgetWizard : EditorWindow
 		Texture,
 		Button,
 		ImageButton,
-		Checkbox,
+		Toggle,
 		ProgressBar,
 		Slider,
 		Input,
@@ -281,7 +281,8 @@ public class UICreateWidgetWizard : EditorWindow
 			bg.depth = depth;
 			bg.atlas = NGUISettings.atlas;
 			bg.spriteName = mButton;
-			bg.transform.localScale = new Vector3(150f, 40f, 1f);
+			bg.width = 200;
+			bg.height = 50;
 			bg.MakePixelPerfect();
 
 			if (NGUISettings.font != null)
@@ -289,7 +290,6 @@ public class UICreateWidgetWizard : EditorWindow
 				UILabel lbl = NGUITools.AddWidget<UILabel>(go);
 				lbl.font = NGUISettings.font;
 				lbl.text = go.name;
-				if (lbl.font.dynamicFont) lbl.transform.localPosition = new Vector3(0f, 0f, -1f);
 				lbl.MakePixelPerfect();
 			}
 
@@ -298,9 +298,7 @@ public class UICreateWidgetWizard : EditorWindow
 
 			// Add the scripts
 			go.AddComponent<UIButton>().tweenTarget = bg.gameObject;
-			go.AddComponent<UIButtonScale>();
-			go.AddComponent<UIButtonOffset>();
-			go.AddComponent<UIButtonSound>();
+			go.AddComponent<UIPlaySound>();
 
 			Selection.activeGameObject = go;
 		}
@@ -335,7 +333,8 @@ public class UICreateWidgetWizard : EditorWindow
 			sprite.depth = depth;
 			sprite.atlas = NGUISettings.atlas;
 			sprite.spriteName = mImage0;
-			sprite.transform.localScale = new Vector3(150f, 40f, 1f);
+			sprite.width = 150;
+			sprite.height = 40;
 			sprite.MakePixelPerfect();
 
 			if (NGUISettings.font != null)
@@ -343,7 +342,6 @@ public class UICreateWidgetWizard : EditorWindow
 				UILabel lbl = NGUITools.AddWidget<UILabel>(go);
 				lbl.font = NGUISettings.font;
 				lbl.text = go.name;
-				if (lbl.font.dynamicFont) lbl.transform.localPosition = new Vector3(0f, 0f, -1f);
 				lbl.MakePixelPerfect();
 			}
 
@@ -357,7 +355,7 @@ public class UICreateWidgetWizard : EditorWindow
 			ib.hoverSprite		= mImage1;
 			ib.pressedSprite	= mImage2;
 			ib.disabledSprite	= mImage3;
-			go.AddComponent<UIButtonSound>();
+			go.AddComponent<UIPlaySound>();
 
 			Selection.activeGameObject = go;
 		}
@@ -369,10 +367,10 @@ public class UICreateWidgetWizard : EditorWindow
 	void OnImage3 (string val) { mImage3 = val; Save(); Repaint(); }
 
 	/// <summary>
-	/// Checkbox creation function.
+	/// Toggle creation function.
 	/// </summary>
 
-	void CreateCheckbox (GameObject go)
+	void CreateToggle (GameObject go)
 	{
 		if (NGUISettings.atlas != null)
 		{
@@ -384,7 +382,7 @@ public class UICreateWidgetWizard : EditorWindow
 		{
 			int depth = NGUITools.CalculateNextDepth(go);
 			go = NGUITools.AddChild(go);
-			go.name = "Checkbox";
+			go.name = "Toggle";
 
 			UISprite bg = NGUITools.AddWidget<UISprite>(go);
 			bg.type = UISprite.Type.Sliced;
@@ -392,7 +390,8 @@ public class UICreateWidgetWizard : EditorWindow
 			bg.depth = depth;
 			bg.atlas = NGUISettings.atlas;
 			bg.spriteName = mCheckBG;
-			bg.transform.localScale = new Vector3(26f, 26f, 1f);
+			bg.width = 26;
+			bg.height = 26;
 			bg.MakePixelPerfect();
 
 			UISprite fg = NGUITools.AddWidget<UISprite>(go);
@@ -415,10 +414,10 @@ public class UICreateWidgetWizard : EditorWindow
 			NGUITools.AddWidgetCollider(go);
 
 			// Add the scripts
-			go.AddComponent<UICheckbox>().checkSprite = fg;
+			go.AddComponent<UIToggle>().activeSprite = fg;
 			go.AddComponent<UIButton>().tweenTarget = bg.gameObject;
 			go.AddComponent<UIButtonScale>().tweenTarget = bg.transform;
-			go.AddComponent<UIButtonSound>();
+			go.AddComponent<UIPlaySound>();
 
 			Selection.activeGameObject = go;
 		}
@@ -465,7 +464,10 @@ public class UICreateWidgetWizard : EditorWindow
 			bg.depth = depth;
 			bg.atlas = NGUISettings.atlas;
 			bg.spriteName = mScrollBG;
-			bg.transform.localScale = new Vector3(400f + bg.border.x + bg.border.z, 14f + bg.border.y + bg.border.w, 1f);
+
+			Vector4 border = bg.border;
+			bg.width = Mathf.RoundToInt(400f + border.x + border.z);
+			bg.height = Mathf.RoundToInt(14f + border.y + border.w);
 			bg.MakePixelPerfect();
 
 			UISprite fg = NGUITools.AddWidget<UISprite>(go);
@@ -479,7 +481,7 @@ public class UICreateWidgetWizard : EditorWindow
 			sb.foreground = fg;
 			sb.direction = mScrollDir;
 			sb.barSize = 0.3f;
-			sb.scrollValue = 0.3f;
+			sb.value = 0.3f;
 			sb.ForceUpdate();
 
 			if (mScrollCL)
@@ -527,7 +529,8 @@ public class UICreateWidgetWizard : EditorWindow
 			back.pivot = UIWidget.Pivot.Left;
 			back.atlas = NGUISettings.atlas;
 			back.spriteName = mSliderBG;
-			back.transform.localScale = new Vector3(200f, 30f, 1f);
+			back.width = 200;
+			back.height = 30;
 			back.transform.localPosition = Vector3.zero;
 			back.MakePixelPerfect();
 
@@ -539,7 +542,8 @@ public class UICreateWidgetWizard : EditorWindow
 			front.pivot = UIWidget.Pivot.Left;
 			front.atlas = NGUISettings.atlas;
 			front.spriteName = mSliderFG;
-			front.transform.localScale = new Vector3(200f, 30f, 1f);
+			front.width = 200;
+			front.height = 30;
 			front.transform.localPosition = Vector3.zero;
 			front.MakePixelPerfect();
 
@@ -560,8 +564,9 @@ public class UICreateWidgetWizard : EditorWindow
 				thb.name = "Thumb";
 				thb.atlas = NGUISettings.atlas;
 				thb.spriteName = mSliderTB;
+				thb.width = 20;
+				thb.height = 40;
 				thb.transform.localPosition = new Vector3(200f, 0f, 0f);
-				thb.transform.localScale = new Vector3(20f, 40f, 1f);
 				thb.MakePixelPerfect();
 
 				NGUITools.AddWidgetCollider(thb.gameObject);
@@ -570,7 +575,7 @@ public class UICreateWidgetWizard : EditorWindow
 
 				uiSlider.thumb = thb.transform;
 			}
-			uiSlider.sliderValue = 1f;
+			uiSlider.value = 1f;
 
 			// Select the slider
 			Selection.activeGameObject = go;
@@ -597,8 +602,7 @@ public class UICreateWidgetWizard : EditorWindow
 			int depth = NGUITools.CalculateNextDepth(go);
 			go = NGUITools.AddChild(go);
 			go.name = "Input";
-
-			float padding = 3f;
+			int padding = 3;
 
 			UISprite bg = NGUITools.AddWidget<UISprite>(go);
 			bg.type = UISprite.Type.Sliced;
@@ -607,7 +611,8 @@ public class UICreateWidgetWizard : EditorWindow
 			bg.atlas = NGUISettings.atlas;
 			bg.spriteName = mInputBG;
 			bg.pivot = UIWidget.Pivot.Left;
-			bg.transform.localScale = new Vector3(400f, NGUISettings.font.size + padding * 2f, 1f);
+			bg.width = 400;
+			bg.height = NGUISettings.font.size + padding * 2;
 			bg.transform.localPosition = Vector3.zero;
 			bg.MakePixelPerfect();
 
@@ -617,7 +622,7 @@ public class UICreateWidgetWizard : EditorWindow
 			lbl.transform.localPosition = new Vector3(padding, 0f, 0f);
 			lbl.multiLine = false;
 			lbl.supportEncoding = false;
-			lbl.lineWidth = Mathf.RoundToInt(400f - padding * 2f);
+			lbl.width = Mathf.RoundToInt(400f - padding * 2f);
 			lbl.text = "You can type here";
 			lbl.MakePixelPerfect();
 
@@ -670,7 +675,8 @@ public class UICreateWidgetWizard : EditorWindow
 			sprite.depth = depth;
 			sprite.atlas = NGUISettings.atlas;
 			sprite.pivot = UIWidget.Pivot.Left;
-			sprite.transform.localScale = new Vector3(150f + fgPadding.x * 2f, NGUISettings.font.size + fgPadding.y * 2f, 1f);
+			sprite.width = Mathf.RoundToInt(150f + fgPadding.x * 2f);
+			sprite.height = Mathf.RoundToInt(NGUISettings.font.size + fgPadding.y * 2f);
 			sprite.transform.localPosition = Vector3.zero;
 			sprite.MakePixelPerfect();
 
@@ -697,7 +703,7 @@ public class UICreateWidgetWizard : EditorWindow
 
 			// Add the scripts
 			go.AddComponent<UIButton>().tweenTarget = sprite.gameObject;
-			go.AddComponent<UIButtonSound>();
+			go.AddComponent<UIPlaySound>();
 
 			Selection.activeGameObject = go;
 		}
@@ -722,7 +728,7 @@ public class UICreateWidgetWizard : EditorWindow
 		// Load the saved preferences
 		if (!mLoaded) { mLoaded = true; Load(); }
 
-		EditorGUIUtility.LookLikeControls(80f);
+		NGUIEditorTools.SetLabelWidth(80f);
 		GameObject go = NGUIEditorTools.SelectedRoot();
 
 		if (go == null)
@@ -766,7 +772,7 @@ public class UICreateWidgetWizard : EditorWindow
 				case WidgetType.Texture:		CreateSimpleTexture(go); break;
 				case WidgetType.Button:			CreateButton(go); break;
 				case WidgetType.ImageButton:	CreateImageButton(go); break;
-				case WidgetType.Checkbox:		CreateCheckbox(go); break;
+				case WidgetType.Toggle:			CreateToggle(go); break;
 				case WidgetType.ProgressBar:	CreateSlider(go, false); break;
 				case WidgetType.Slider:			CreateSlider(go, true); break;
 				case WidgetType.Input:			CreateInput(go); break;

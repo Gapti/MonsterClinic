@@ -12,6 +12,12 @@ public enum StaffType
 	Yetitor
 }
 
+public enum SexType
+{
+	M,
+	F
+}
+
 [Serializable]
 public class Staff  {
 	
@@ -24,5 +30,6 @@ public class Staff  {
 	public Texture2D photo;
 	public string name;
 	public int cost;
+	public SexType sexType;
 	
 }
