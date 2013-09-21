@@ -1,4 +1,5 @@
 ﻿<Properties>
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Staff/StaffInfoPanel.cs">
     <Files>
@@ -14,6 +15,10 @@
       <File FileName="Assets/Scripts/Staff/StaffInfoPanel.cs" Line="32" Column="12" />
     </Files>
   </MonoDevelop.Ide.Workbench>
+=======
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench />
+>>>>>>> Commit
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
