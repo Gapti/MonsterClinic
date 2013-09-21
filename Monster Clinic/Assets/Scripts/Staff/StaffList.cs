@@ -14,6 +14,7 @@ public class StaffList : MonoBehaviour{
 	public TextAsset CthuluburseText;
 	public TextAsset YetitorText;
 	
+	
 	void Awake()
 	{
 		LoadOctodoctor ();
@@ -34,6 +35,7 @@ public class StaffList : MonoBehaviour{
                sexType = (SexType)Enum.Parse(typeof(SexType), splitLine[1]),
                staffType = StaffType.Octodoctor,
 				description = splitLine[2],
+				photoName = splitLine[3],
            };
 
            _octodoctorList.Add(octodoctor);
@@ -52,6 +54,8 @@ public class StaffList : MonoBehaviour{
                name = splitLine[0],
                sexType = (SexType)Enum.Parse(typeof(SexType), splitLine[1]),
                staffType = StaffType.Cthuluburse,
+				description = splitLine[2],
+				photoName = splitLine[3],
            };
 
           _ctuluburseList.Add(cthuluburse);
@@ -70,6 +74,8 @@ public class StaffList : MonoBehaviour{
                name = splitLine[0],
                sexType = (SexType)Enum.Parse(typeof(SexType), splitLine[1]),
                staffType = StaffType.Yetitor,
+				description = splitLine[2],
+				photoName = splitLine[3],
            };
 
           _yetitorList.Add(yetitor);
