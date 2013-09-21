@@ -175,6 +175,7 @@
      <Compile Include="Assets\Scripts\Staff\NamesList.cs" />
      <Compile Include="Assets\Scripts\Staff\Octodoctor.cs" />
      <Compile Include="Assets\Scripts\Staff\Staff.cs" />
+     <Compile Include="Assets\Scripts\Staff\StaffInfoPanel.cs" />
      <Compile Include="Assets\Scripts\Staff\StaffLabelUpdate.cs" />
      <Compile Include="Assets\Scripts\Staff\StaffList.cs" />
      <Compile Include="Assets\Scripts\Staff\StaffManager.cs" />

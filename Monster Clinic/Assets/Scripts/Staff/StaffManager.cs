@@ -31,7 +31,7 @@ public class StaffManager : MonoBehaviour {
 		staffPanel.SetActive(false);
 		staffInfoPanel.SetActive( true );
 		
-		
+		staffInfoPanel.GetComponent<StaffInfoPanel>().staff = staff;
 	}
 	
 	// Use this for initialization
