@@ -9,7 +9,7 @@ public class StaffManager : MonoBehaviour {
 	public GameObject cthuluburse;
 	public GameObject yetitor;
 	
-	public StaffType temp;
+	public Staff staffMember;
 	public GameObject staffTempRef;
 	public MeshRenderer staffTempRefRend;
 	
@@ -24,6 +24,33 @@ public class StaffManager : MonoBehaviour {
 	void OnEnable()
 	{
 		StaffLabelUpdate.staffPick += BringInStaffInfoPanel;
+		Hire.hire += HandleHirehire;
+	}
+
+	void HandleHirehire (Staff staff)
+	{
+		NoPanels();
+		
+		staffMember = staff;
+		LevelManager.gameState = State.Placement;
+		switch(staff.staffType)
+		{
+			case StaffType.Cthuluburse:
+			SpawnTempStaff(HospitalPrefabs.Cthuluburse);
+			break;
+			case StaffType.Octodoctor:
+			SpawnTempStaff(HospitalPrefabs.Octodoctor);
+			break;
+			case StaffType.Yetitor:
+			SpawnTempStaff(HospitalPrefabs.Yetitor);
+			break;
+		}
+	}
+	
+	void OnDisable()
+	{
+		StaffLabelUpdate.staffPick -= BringInStaffInfoPanel;
+		Hire.hire -= HandleHirehire;
 	}
 	
 	void BringInStaffInfoPanel(Staff staff)
@@ -32,6 +59,18 @@ public class StaffManager : MonoBehaviour {
 		staffInfoPanel.SetActive( true );
 		
 		staffInfoPanel.GetComponent<StaffInfoPanel>().staff = staff;
+	}
+	
+	void BringInStaffPanel()
+	{
+		staffInfoPanel.SetActive(false);
+		staffPanel.SetActive(true);
+	}
+	
+	void NoPanels()
+	{
+		staffInfoPanel.SetActive(false);
+		staffPanel.SetActive(false);
 	}
 	
 	// Use this for initialization
@@ -71,49 +110,6 @@ public class StaffManager : MonoBehaviour {
 		}
 	}
 	
-	
-	
-	
-//	void OnGUI()
-//	{
-//		int oy = 50;
-//		for(int a= 0; a<octodoctorList.Count; a++)
-//		{
-//			//just for a test buttons
-//			GUI.Box(new Rect(0,40,100,100),"");
-//			if(GUI.Button(new Rect(0,oy,100,20),"Octodoctor" + a))
-//			{
-//				if(LevelManager.gameState == State.Placement)
-//				return;
-//				
-//				/// make the temp the staff i want
-//				temp = StaffType.Octodoctor;
-//				LevelManager.gameState = State.Placement;
-//				SpawnTempStaff(HospitalPrefabs.Octodoctor);
-//			}
-//			oy = oy + 20;
-//		}
-//		if(GUI.Button(new Rect(150,50,100,20),"Cthuluburse"))
-//		{
-//			if(LevelManager.gameState == State.Placement)
-//				return;///if we are in the placement mode you cant purchase another staff
-//			
-//			///same again
-//			temp = StaffType.Cthuluburse;
-//			LevelManager.gameState = State.Placement;
-//			SpawnTempStaff(HospitalPrefabs.Cthuluburse);
-//		}
-//		if(GUI.Button(new Rect(300,50,100,20),"Yetitor"))
-//		{
-//			if(LevelManager.gameState == State.Placement)
-//				return;
-//			
-//			temp = StaffType.Yetitor;
-//			LevelManager.gameState = State.Placement;
-//			SpawnTempStaff(HospitalPrefabs.Yetitor);
-//		}
-//	}
-//	
 	void SpawnTempStaff(GameObject staffPrefab)
 	{
 		// Instantiate staff temp
@@ -131,9 +127,9 @@ public class StaffManager : MonoBehaviour {
 			if(Input.GetKeyUp(KeyCode.Escape))
 			{
 				LevelManager.gameState = State.None;
-				temp = StaffType.None;
 				Destroy(staffTempRef);
 				staffTempRefRend = null;
+				BringInStaffPanel();
 				
 				return;
 			}
@@ -185,32 +181,25 @@ public class StaffManager : MonoBehaviour {
 		AddStaff();
 		staffTempRef = null;
 		LevelManager.gameState = State.None;
-		temp = StaffType.None;
-		
+		BringInStaffPanel();
 	}
 	
 	void AddStaff()
 	{
-		switch(temp)
+		staffList.Add (staffMember);
+		
+		switch(staffMember.staffType)
 		{
 		case StaffType.Cthuluburse:
-			Cthuluburse c = new Cthuluburse();
-			c.staffModel = staffTempRef;
-			staffList.Add (c);
+			StaffList._ctuluburseList.Remove((Cthuluburse)staffMember);
 			break;
 		case StaffType.Octodoctor:
-			Octodoctor o = new Octodoctor();
-			o.staffModel = staffTempRef;
-			staffList.Add (o);
+			StaffList._octodoctorList.Remove((Octodoctor)staffMember);
 			break;
 		case StaffType.Yetitor:
-			Yetitor y = new Yetitor();
-			y.staffModel = staffTempRef;
-			staffList.Add (y);
-			print (((Yetitor)(staffList[0])).level);
+			StaffList._yetitorList.Remove((Yetitor)staffMember);
 			break;
 		}
-		
 	}
 	
 	// Convert world space floor points to tile points

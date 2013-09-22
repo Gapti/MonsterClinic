@@ -36,6 +36,7 @@ public class StaffList : MonoBehaviour{
                staffType = StaffType.Octodoctor,
 				description = splitLine[2],
 				photoName = splitLine[3],
+				level = OctoLevel.Attending,
            };
 
            _octodoctorList.Add(octodoctor);
@@ -56,6 +57,7 @@ public class StaffList : MonoBehaviour{
                staffType = StaffType.Cthuluburse,
 				description = splitLine[2],
 				photoName = splitLine[3],
+				level = CthulLevel.one,
            };
 
           _ctuluburseList.Add(cthuluburse);
@@ -76,6 +78,7 @@ public class StaffList : MonoBehaviour{
                staffType = StaffType.Yetitor,
 				description = splitLine[2],
 				photoName = splitLine[3],
+				level = YetitorLevel.Brown,
            };
 
           _yetitorList.Add(yetitor);

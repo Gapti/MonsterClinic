@@ -6,7 +6,7 @@ public class StaffInfoPanel : MonoBehaviour {
 	public Staff _staff;
 	
 	public UILabel glitter;
-	public UILabel name;
+	public UILabel nameLabel;
 	public UILabel desc;
 	public UISprite photo;
 	
@@ -29,7 +29,7 @@ public class StaffInfoPanel : MonoBehaviour {
 	void UpdateFields()
 	{
 		glitter.text = _staff.cost.ToString();
-		name.text = _staff.name;
+		nameLabel.text = _staff.name;
 		desc.text = _staff.description;
 		photo.spriteName = _staff.photoName;
 	}
