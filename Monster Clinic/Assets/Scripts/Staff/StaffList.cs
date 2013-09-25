@@ -14,12 +14,20 @@ public class StaffList : MonoBehaviour{
 	public TextAsset CthuluburseText;
 	public TextAsset YetitorText;
 	
+	public GameObject octodoctor;
+	public GameObject cthuluburse;
+	public GameObject yetitor;
+	
 	
 	void Awake()
 	{
 		LoadOctodoctor ();
 		LoadYetitor();
 		LoadCthuluburse();
+		
+		HospitalPrefabs.Octodoctor = octodoctor;
+		HospitalPrefabs.Cthuluburse = cthuluburse;
+		HospitalPrefabs.Yetitor = yetitor;
 	}
 	
 	void LoadOctodoctor()

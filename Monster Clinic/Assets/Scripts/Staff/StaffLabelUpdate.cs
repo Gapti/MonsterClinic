@@ -12,7 +12,7 @@ public class StaffLabelUpdate : MonoBehaviour {
 	public delegate void eventHandler(Staff staff);
 	public static event eventHandler staffPick;
 	
-	public Staff _staff;
+	private Staff _staff;
 	
 	public Staff staff
 	{

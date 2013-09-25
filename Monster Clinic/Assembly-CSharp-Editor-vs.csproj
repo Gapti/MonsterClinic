@@ -108,6 +108,7 @@
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo20.txt" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo14.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\GUI - Text Shader (SoftClip).shader" />
+     <None Include="Assets\UI\Textures\UI\BritannicBold.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Dynamic Font (AlphaClip).shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Masked Colored.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo18.txt" />
@@ -120,6 +121,7 @@
      <None Include="Assets\NGUI\Resources\Shaders\GUI - Text Shader (AlphaClip).shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
      <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
+     <None Include="Assets\UI\Fonts\ArialBold.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Dynamic Font (SoftClip).shader" />
      <None Include="Assets\GUI Elements Pack\Sprites\Fonts\times_new_roman_32.txt" />
      <None Include="Assets\Scripts\Staff\Octodoctor.txt" />
@@ -131,6 +133,7 @@
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored.shader" />
      <None Include="Assets\GUI Elements Pack\_Readme 1.3.txt" />
      <None Include="Assets\NGUI\Examples\Other\English.txt" />
+     <None Include="Assets\UI\Textures\UI\Fonts\Arial_14pt_Bold.txt" />
      <None Include="Assets\NGUI\Examples\Other\French.txt" />
      <None Include="Assets\Scripts\Staff\Cthuluburse.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed).shader" />
@@ -139,8 +142,10 @@
      <None Include="Assets\GUI Elements Pack\Sprites\Fonts\arial_32.txt" />
      <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
      <None Include="Assets\NGUI\Examples\Shaders\Refractive.shader" />
+     <None Include="Assets\UI\Fonts\BritannicBold.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Depth.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
+     <None Include="Assets\UI\Textures\UI\ArialBold.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (SoftClip).shader" />
      <None Include="Assets\GUI Elements Pack\Sprites\Fonts\stencilSTD_32.txt" />
      <None Include="Assets\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />

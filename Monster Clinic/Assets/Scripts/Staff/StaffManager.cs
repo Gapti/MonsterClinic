@@ -5,10 +5,6 @@ using System;
 
 public class StaffManager : MonoBehaviour {
 	
-	public GameObject octodoctor;
-	public GameObject cthuluburse;
-	public GameObject yetitor;
-	
 	public Staff staffMember;
 	public GameObject staffTempRef;
 	public MeshRenderer staffTempRefRend;
@@ -73,13 +69,7 @@ public class StaffManager : MonoBehaviour {
 		staffPanel.SetActive(false);
 	}
 	
-	// Use this for initialization
-	void Awake () {
-		///ref the gameobjects to the prefab class
-		HospitalPrefabs.Octodoctor = octodoctor;
-		HospitalPrefabs.Cthuluburse = cthuluburse;
-		HospitalPrefabs.Yetitor = yetitor;
-	}
+	
 	
 	void Start()
 	{
@@ -88,7 +78,11 @@ public class StaffManager : MonoBehaviour {
 	
 	void ShowOctodoctorList ( )
 	{
-		for(int a = 0;  a < 6; a++ )
+		int amount = 6;
+		if(StaffList._octodoctorList.Count < 6)
+			amount = StaffList._octodoctorList.Count;
+			
+		for(int a = 0;  a < amount; a++ )
 		{
 			staffButtons[a].staff = StaffList._octodoctorList[a];
 		}
@@ -96,7 +90,11 @@ public class StaffManager : MonoBehaviour {
 	
 	void ShowYetitorList ( )
 	{
-		for (int i = 0; i < 6; i++) 
+		int amount = 6;
+		if(StaffList._yetitorList.Count < 6)
+			amount = StaffList._yetitorList.Count;
+		
+		for (int i = 0; i < amount; i++) 
 		{	
 			staffButtons[i].staff = StaffList._yetitorList[i];
 		}
@@ -104,7 +102,12 @@ public class StaffManager : MonoBehaviour {
 	
 	void ShowcthuluburseList ( )
 	{
-		for (int i = 0; i < 6; i++) 
+		int amount = 6;
+		
+		if(StaffList._ctuluburseList.Count < 6)
+			amount = StaffList._ctuluburseList.Count;
+		
+		for (int i = 0; i < amount; i++) 
 		{
 			staffButtons[i].staff = StaffList._ctuluburseList[i];
 		}
