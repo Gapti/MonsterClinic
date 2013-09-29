@@ -6,9 +6,9 @@ using System;
 
 public class StaffList : MonoBehaviour{
 	
-	public static List<Octodoctor> _octodoctorList = new List<Octodoctor>();
-	public static List<Cthuluburse> _ctuluburseList = new List<Cthuluburse>();
-	public static List<Yetitor> _yetitorList = new List<Yetitor>();
+	private List<Octodoctor> _octodoctorList = new List<Octodoctor>();
+	private List<Cthuluburse> _ctuluburseList = new List<Cthuluburse>();
+	private List<Yetitor> _yetitorList = new List<Yetitor>();
 	
 	public TextAsset OctodoctorText;
 	public TextAsset CthuluburseText;
@@ -30,10 +30,38 @@ public class StaffList : MonoBehaviour{
 		HospitalPrefabs.Yetitor = yetitor;
 	}
 	
+	public Staff GrabOctodoctor(int index)
+	{
+		if(index <= _octodoctorList.Count)
+			return _octodoctorList[index];
+		
+		print ("no more staff");
+		return null;
+	}
+	
+	public Staff GrabCtuluburse(int index)
+	{
+		if(index <= _ctuluburseList.Count)
+			return _ctuluburseList[index];
+		
+		
+		print ("no more staff");
+		return null;
+	}
+	
+	public Staff GrabYetitor(int index)
+	{
+		if(index <= _yetitorList.Count)
+			return _yetitorList[index];
+		
+		print ("no more staff");
+		return null;
+	}
+	
 	void LoadOctodoctor()
     {
        string[] lines = OctodoctorText.text.Split(new char[]{'\n','\r'},System.StringSplitOptions.RemoveEmptyEntries);
-       for (int i = 1; i < lines.Length; i++)
+       for (int i = 0; i < lines.Length; i++)
        {
            string[] splitLine = lines[i].Split(',');
 
@@ -54,7 +82,7 @@ public class StaffList : MonoBehaviour{
 	void LoadCthuluburse()
     {
        string[] lines = CthuluburseText.text.Split(new char[]{'\n','\r'},System.StringSplitOptions.RemoveEmptyEntries);
-       for (int i = 1; i < lines.Length; i++)
+       for (int i = 0; i < lines.Length; i++)
        {
            string[] splitLine = lines[i].Split(',');
 			
@@ -75,7 +103,7 @@ public class StaffList : MonoBehaviour{
 	void LoadYetitor()
     {
        string[] lines = YetitorText.text.Split(new char[]{'\n','\r'},System.StringSplitOptions.RemoveEmptyEntries);
-       for (int i = 1; i < lines.Length; i++)
+       for (int i = 0; i < lines.Length; i++)
        {
            string[] splitLine = lines[i].Split(',');
 
