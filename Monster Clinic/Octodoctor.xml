@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfOctodoctor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Octodoctor>
+    <staffType>Octodoctor</staffType>
+    <description>octo This man reminds you of a sensitive artist. He has almond-shaped eyes the color of dark chocolate.</description>
+    <monthWage>0</monthWage>
+    <experience>0</experience>
+    <photoName>9</photoName>
+    <name>Nakesha Arnone</name>
+    <cost>4</cost>
+    <sexType>F</sexType>
+    <level>Attending</level>
+  </Octodoctor>
+  <Octodoctor>
+    <staffType>Octodoctor</staffType>
+    <description>This boorish gentleman has large purple eyes that are like two windows on the evening sky.</description>
+    <monthWage>0</monthWage>
+    <experience>0</experience>
+    <photoName>4</photoName>
+    <name>Ammar</name>
+    <cost>11</cost>
+    <sexType>M</sexType>
+    <level>Attending</level>
+  </Octodoctor>
+  <Octodoctor>
+    <staffType>Octodoctor</staffType>
+    <description>This guy puts you in mind of an unstoppable hunting dog.</description>
+    <monthWage>0</monthWage>
+    <experience>0</experience>
+    <photoName>7</photoName>
+    <name>Dacia Ronning</name>
+    <cost>10</cost>
+    <sexType>F</sexType>
+    <level>Attending</level>
+  </Octodoctor>
+  <Octodoctor>
+    <staffType>Octodoctor</staffType>
+    <description>This man reminds you of a noble eagle. He has wide blue eyes.</description>
+    <monthWage>0</monthWage>
+    <experience>0</experience>
+    <photoName>3</photoName>
+    <name>Lakeesha Lass</name>
+    <cost>20</cost>
+    <sexType>F</sexType>
+    <level>Attending</level>
+  </Octodoctor>
+  <Octodoctor>
+    <staffType>Octodoctor</staffType>
+    <description>This mistrustful girl has slanted magenta eyes.</description>
+    <monthWage>0</monthWage>
+    <experience>0</experience>
+    <photoName>8</photoName>
+    <name>Keshia Bolster</name>
+    <cost>7</cost>
+    <sexType>F</sexType>
+    <level>Attending</level>
+  </Octodoctor>
+  <Octodoctor>
+    <staffType>Octodoctor</staffType>
+    <description>This soulful guy has deep-set gray eyes that are like two pools of mercury.</description>
+    <monthWage>0</monthWage>
+    <experience>0</experience>
+    <photoName>17</photoName>
+    <name>Denver Courville</name>
+    <cost>5</cost>
+    <sexType>M</sexType>
+    <level>Attending</level>
+  </Octodoctor>
+  <Octodoctor>
+    <staffType>Octodoctor</staffType>
+    <description>This calm man has wide eyes the color of fine silver.</description>
+    <monthWage>0</monthWage>
+    <experience>0</experience>
+    <photoName>3</photoName>
+    <name>Jarvis Portis</name>
+    <cost>8</cost>
+    <sexType>M</sexType>
+    <level>Attending</level>
+  </Octodoctor>
+  <Octodoctor>
+    <staffType>Octodoctor</staffType>
+    <description>This gentle girl has hooded brown eyes.</description>
+    <monthWage>0</monthWage>
+    <experience>0</experience>
+    <photoName>5</photoName>
+    <name>Pattie Nez</name>
+    <cost>9</cost>
+    <sexType>F</sexType>
+    <level>Attending</level>
+  </Octodoctor>
+  <Octodoctor>
+    <staffType>Octodoctor</staffType>
+    <description>This lady reminds you of a playful dolphin.</description>
+    <monthWage>0</monthWage>
+    <experience>0</experience>
+    <photoName>6</photoName>
+    <name>Karine Mantyla</name>
+    <cost>1</cost>
+    <sexType>F</sexType>
+    <level>Attending</level>
+  </Octodoctor>
+  <Octodoctor>
+    <staffType>Octodoctor</staffType>
+    <description>This studious guy has hooded brown eyes that are like two patches of dried blood</description>
+    <monthWage>0</monthWage>
+    <experience>0</experience>
+    <photoName>3</photoName>
+    <name>Deandre Schubert</name>
+    <cost>7</cost>
+    <sexType>M</sexType>
+    <level>Attending</level>
+  </Octodoctor>
+</ArrayOfOctodoctor>

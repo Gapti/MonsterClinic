@@ -3,12 +3,13 @@ using System.Collections;
 
 public class StaffLabel : MonoBehaviour {
 	
-	public int index;
-	public StaffList staffList;
-	private StaffType currentStaffType;
+	public int index; // this buttons index
+	public StaffList staff; // ref to the StaffList
+	private StaffType currentStaffType;// this staff type 
 	
 	// Use this for initialization
 	void Start () {
+		///make the octodoctor the first staff type
 		currentStaffType = StaffType.Octodoctor;
 		ShowOctoDoctorName();
 		
@@ -17,9 +18,11 @@ public class StaffLabel : MonoBehaviour {
 	
 	void OnEnable()
 	{
+		/// delegate for button to choose staff type for list
 		ChooseStaffType.showStaffType += HandleChooseStaffTypeshowStaffType;	
 	}
-
+	
+	// handler for staff type delegate
 	void HandleChooseStaffTypeshowStaffType (StaffType st)
 	{
 		switch(st)
@@ -45,6 +48,7 @@ public class StaffLabel : MonoBehaviour {
 		}
 	}
 	
+	//we must show the first staff type details
 	void ShowFirstStaffDetails(StaffType st)
 	{
 		switch(st)
@@ -72,76 +76,93 @@ public class StaffLabel : MonoBehaviour {
 		ChooseStaffType.showStaffType -= HandleChooseStaffTypeshowStaffType;
 	}
 	
+	//show the ocotodoctors name in the button
 	public void ShowOctoDoctorName()
 	{
 		UILabel staffName = (UILabel)transform.GetComponentInChildren<UILabel>();
-		if(staffList.GrabOctodoctor(index) == null)
+		if(staff.GrabOctodoctor(index) == null)
 		{
-			staffName.text = "NONE LEFT";
+			staffName.text = "NONE LEFT";// no more to show from the stafflist
 		}
 		else
 		{
-			staffName.text = staffList.GrabOctodoctor(index).name;
+			staffName.text = staff.GrabOctodoctor(index).name;
 		
 		}
 	}
 	
+	//show the yetitor name in the buttons
 	public void ShowYetitorName()
 	{
 		UILabel staffName = (UILabel)transform.GetComponentInChildren<UILabel>();
-		if(staffList.GrabYetitor(index) == null)
+		if(staff.GrabYetitor(index) == null)
 		{
-			staffName.text = "NONE LEFT";
+			staffName.text = "NONE LEFT";//no more to show from the stafflist
 		}
 		else
 		{
-			staffName.text = staffList.GrabYetitor(index).name;	
+			staffName.text = staff.GrabYetitor(index).name;	
 	
 		}
 	}
 	
+	//show the cthuluburse name in the buttons
 	public void ShowCthuluburseName()
 	{
 		UILabel staffName = (UILabel)transform.GetComponentInChildren<UILabel>();
-		if(staffList.GrabCtuluburse(index) == null)
+		if(staff.GrabCtuluburse(index) == null)
 		{
-			staffName.text = "NONE LEFT";	
+			staffName.text = "NONE LEFT";	//no more to show from the stafflist
 		}
 		else
 		{
-			staffName.text = staffList.GrabCtuluburse(index).name;	
+			staffName.text = staff.GrabCtuluburse(index).name;	
 		}
 	}
 	
+	//staff info public to gui
 	public UILabel description;
 	public UILabel wage;
 	public UILabel cost;
 	public UISprite face;
+	public UILabel level;
 	
+	//show the ocotodoctor more info when you click his name
 	public void ShowOctoDoctorDetails()
 	{
-		description.text = staffList.GrabOctodoctor(index).description;
-		wage.text = staffList.GrabOctodoctor(index).monthWage.ToString();
-		cost.text = staffList.GrabOctodoctor(index).cost.ToString();
-		face.spriteName = staffList.GrabOctodoctor(index).photoName;
+		var myStaff = staff.GrabOctodoctor(index);
+		description.text = myStaff.description;
+		wage.text = myStaff.monthWage.ToString();
+		cost.text = myStaff.cost.ToString();
+		face.spriteName = myStaff.photoName;
+		level.text = (((Octodoctor)myStaff).level).ToString();
 	}
 	
+	// show the cthulburse more info when you click his name
 	public void ShowCthulburseDetails()
 	{
-		description.text = staffList.GrabCtuluburse(index).description;
-		wage.text = staffList.GrabCtuluburse(index).monthWage.ToString();
-		cost.text = staffList.GrabCtuluburse(index).cost.ToString();
-		face.spriteName = staffList.GrabCtuluburse(index).photoName;
+		var myStaff = staff.GrabCtuluburse(index);
+		description.text = myStaff.description;
+		wage.text = myStaff.monthWage.ToString();
+		cost.text = myStaff.cost.ToString();
+		face.spriteName = myStaff.photoName;
+		level.text = (((Cthuluburse)myStaff).level).ToString();
 	}
 	
+	//show the yetitor more into when you click his name
 	public void ShowYetitorDetails()
 	{
-		description.text = staffList.GrabYetitor(index).description;
-		wage.text = staffList.GrabYetitor(index).monthWage.ToString();
-		cost.text = staffList.GrabYetitor(index).cost.ToString();
-		face.spriteName = staffList.GrabYetitor(index).photoName;
+		var myStaff = staff.GrabYetitor(index);
+		description.text = myStaff.description;
+		wage.text = myStaff.monthWage.ToString();
+		cost.text = myStaff.cost.ToString();
+		face.spriteName = myStaff.photoName;
+		level.text = (((Yetitor)myStaff).level).ToString();
 	}
 		
+	/// <summary>
+	/// Raises the click event.
+	/// </summary>
 	void OnClick()
 	{
 		switch(currentStaffType)

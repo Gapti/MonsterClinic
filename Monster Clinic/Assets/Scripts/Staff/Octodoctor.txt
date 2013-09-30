@@ -1,10 +1,11 @@
-Nakesha Arnone,F,octo This man reminds you of a sensitive artist. He has almond-shaped eyes the color of dark chocolate.,9
-Ammar,M,This boorish gentleman has large purple eyes that are like two windows on the evening sky.,4
-Dacia Ronning,F,This guy puts you in mind of an unstoppable hunting dog.,7
-Lakeesha Lass,F,This man reminds you of a noble eagle. He has wide blue eyes.,3
-Keshia Bolster,F,This mistrustful girl has slanted magenta eyes.,8
-Denver Courville,M,This soulful guy has deep-set gray eyes that are like two pools of mercury.,17
-Jarvis Portis,M,This calm man has wide eyes the color of fine silver.,3
-Pattie Nez,F,This gentle girl has hooded brown eyes.,5
-Karine Mantyla,F,This lady reminds you of a playful dolphin.,6
-Deandre Schubert,M,This studious guy has hooded brown eyes that are like two patches of dried blood,3
+Name : Description : PhotoNumber : cost
+Nakesha Arnone,F,octo This man reminds you of a sensitive artist. He has almond-shaped eyes the color of dark chocolate.,9,4
+Ammar,M,This boorish gentleman has large purple eyes that are like two windows on the evening sky.,4,11
+Dacia Ronning,F,This guy puts you in mind of an unstoppable hunting dog.,7,10
+Lakeesha Lass,F,This man reminds you of a noble eagle. He has wide blue eyes.,3,20
+Keshia Bolster,F,This mistrustful girl has slanted magenta eyes.,8,7
+Denver Courville,M,This soulful guy has deep-set gray eyes that are like two pools of mercury.,17,5
+Jarvis Portis,M,This calm man has wide eyes the color of fine silver.,3,8
+Pattie Nez,F,This gentle girl has hooded brown eyes.,5,9
+Karine Mantyla,F,This lady reminds you of a playful dolphin.,6,1
+Deandre Schubert,M,This studious guy has hooded brown eyes that are like two patches of dried blood,3,7

@@ -26,7 +26,7 @@ public class Staff  {
 	public string description;
 	public int monthWage;
 	public int experience = 0;
-	public GameObject staffModel;
+	//public GameObject staffModel;
 	public string photoName;
 	public string name;
 	public int cost;
