@@ -27,6 +27,7 @@ public class StaffList : MonoBehaviour{
 	public TextAsset CthuluburseText;
 	public TextAsset YetitorText;
 	//game objects for the staff...(might need changing)
+	
 	public GameObject octodoctor;
 	public GameObject cthuluburse;
 	public GameObject yetitor;
@@ -54,7 +55,7 @@ public class StaffList : MonoBehaviour{
 	/// <param name='index'>
 	/// Index.
 	/// </param>
-	public Staff GrabOctodoctor(int index)
+	public Octodoctor GrabOctodoctor(int index)
 	{
 		if(index < _octodoctorList.Count)
 			return _octodoctorList[index];
@@ -71,9 +72,9 @@ public class StaffList : MonoBehaviour{
 	/// <param name='index'>
 	/// Index.
 	/// </param>
-	public Staff GrabCtuluburse(int index)
+	public Cthuluburse GrabCtuluburse(int index)
 	{
-		if(index <= _ctuluburseList.Count)
+		if(index < _ctuluburseList.Count)
 			return _ctuluburseList[index];
 		
 		
@@ -89,14 +90,30 @@ public class StaffList : MonoBehaviour{
 	/// <param name='index'>
 	/// Index.
 	/// </param>
-	public Staff GrabYetitor(int index)
+	public Yetitor GrabYetitor(int index)
 	{
-		if(index <= _yetitorList.Count)
+		if(index < _yetitorList.Count)
 			return _yetitorList[index];
 		
 		print ("no more staff");
 		return null;
 	}
+	
+	public void RemoveYetitor(int index)
+	{
+		_yetitorList.RemoveAt(index);	
+	}
+	
+	public void RemoveCthuluburse(int index)
+	{
+		_ctuluburseList.RemoveAt(index);	
+	}
+	
+	public void RemoveOctodoctor(int index)
+	{
+		_octodoctorList.RemoveAt(index);
+	}
+
 
 	void CreateOctodoctor()
     {
@@ -207,69 +224,5 @@ public class StaffList : MonoBehaviour{
 		FileStream fs = new FileStream("Cthuluburse.xml", FileMode.Open);
 		_ctuluburseList = xml.Deserialize(fs) as List<Cthuluburse>;	
 	}
-	
-	
-//		public List<Data> myData = new List<Data>();
-//	
-//	// Use this for initialization
-//	void Start () {
-//		ReadData();
-//	}
-//	
-//	// Update is called once per frame
-//	void Update () {
-//	
-//	}
-//	
-//	void CreateData()
-//	{
-//		XmlSerializer ser = new XmlSerializer(typeof(List<Data>));
-//		TextWriter writer = new StreamWriter("maptest.xml");
-//		
-//		Data d = new Data()
-//		{
-//			gname = "mark",
-//			gage = 39,
-//		};
-//		
-//		Data d1 = new Data()
-//		{
-//			gname = "Marius",
-//			gage = 40,
-//		};
-//		
-//		myData.Add (d);
-//		myData.Add (d1);
-//		
-//		ser.Serialize(writer, myData);
-//		writer.Close ();
-//	}
-//	
-//	void ReadData()
-//	{
-//		XmlSerializer s = new XmlSerializer(typeof(List<Data>));
-//		s.UnknownNode+= new XmlNodeEventHandler(s_UnknownNode);
-//		s.UnknownAttribute+= new XmlAttributeEventHandler(s_UnknownAttribute);
-//		
-//		FileStream fs = new FileStream("maptest.xml", FileMode.Open);
-//		
-//		 myData = s.Deserialize(fs) as List<Data>;
-//		
-//		print(myData[0].gname);
-//	}
-//	
-//	private void s_UnknownNode
-//   (object sender, XmlNodeEventArgs e)
-//   {
-//      print("Unknown Node:" +   e.Name + "\t" + e.Text);
-//   }
-//
-//   private void s_UnknownAttribute
-//   (object sender, XmlAttributeEventArgs e)
-//   {
-//      System.Xml.XmlAttribute attr = e.Attr;
-//     print("Unknown attribute " + 
-//      attr.Name + "='" + attr.Value + "'");
-//   }
 
 }

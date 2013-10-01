@@ -445,7 +445,7 @@ public class NGUIEditorTools
 		if (force || !settings.readable || settings.npotScale != TextureImporterNPOTScale.None)
 		{
 			settings.readable = true;
-			settings.textureFormat = TextureImporterFormat.RGBA32;
+			settings.textureFormat = TextureImporterFormat.ARGB32;
 			settings.npotScale = TextureImporterNPOTScale.None;
 
 			ti.SetTextureSettings(settings);
@@ -477,7 +477,7 @@ public class NGUIEditorTools
 			settings.maxTextureSize = 4096;
 			settings.wrapMode = TextureWrapMode.Clamp;
 			settings.npotScale = TextureImporterNPOTScale.ToNearest;
-			settings.textureFormat = TextureImporterFormat.RGBA32;
+			settings.textureFormat = TextureImporterFormat.ARGB32;
 			settings.filterMode = FilterMode.Trilinear;
 			settings.aniso = 4;
 #if !UNITY_3_5 && !UNITY_4_0 && !UNITY_4_1
@@ -1349,55 +1349,5 @@ public class NGUIEditorTools
 				Selection.activeGameObject = null;
 			}
 		}
-	}
-
-	/// <summary>
-	/// Normalize the depths of all the widgets in the scene, making them start from 0 and remain in order.
-	/// </summary>
-
-	static public void NormalizeDepths ()
-	{
-		List<UIWidget> widgets = new List<UIWidget>();
-
-		for (int i = 0; i < UIRoot.list.Count; ++i)
-		{
-			UIRoot root = UIRoot.list[i];
-			CollectWidgets(root.gameObject, widgets);
-		}
-
-		if (widgets.Count > 0)
-		{
-			widgets.Sort(delegate(UIWidget w1, UIWidget w2) { return w1.depth.CompareTo(w2.depth); });
-
-			int start = 0;
-			int current = widgets[0].depth;
-
-			for (int i = 0; i < widgets.Count; ++i)
-			{
-				UIWidget w = widgets[i];
-
-				if (w.depth == current)
-				{
-					w.depth = start;
-				}
-				else
-				{
-					current = w.depth;
-					w.depth = ++start;
-					UnityEditor.EditorUtility.SetDirty(w);
-				}
-			}
-		}
-	}
-
-	/// <summary>
-	/// Collect all of the widgets under the specified game object -- both active and inactive.
-	/// </summary>
-
-	static void CollectWidgets (GameObject go, List<UIWidget> list)
-	{
-		UIWidget[] widgets = go.GetComponentsInChildren<UIWidget>(true);
-		for (int i = 0; i < widgets.Length; ++i)
-			list.Add(widgets[i]);
 	}
 }

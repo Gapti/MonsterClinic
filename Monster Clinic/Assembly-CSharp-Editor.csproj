@@ -130,7 +130,6 @@
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored (SoftClip).shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Dynamic Font.shader" />
-     <None Include="Assets\NGUI\ReadMe - 2.6.4.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored.shader" />
      <None Include="Assets\GUI Elements Pack\_Readme 1.3.txt" />
      <None Include="Assets\NGUI\Examples\Other\English.txt" />
@@ -138,7 +137,6 @@
      <None Include="Assets\NGUI\Examples\Other\French.txt" />
      <None Include="Assets\Scripts\Staff\Cthuluburse.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed).shader" />
-     <None Include="Assets\NGUI\1. Which Version To Import.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Additive Colored.shader" />
      <None Include="Assets\GUI Elements Pack\Sprites\Fonts\arial_32.txt" />
      <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />

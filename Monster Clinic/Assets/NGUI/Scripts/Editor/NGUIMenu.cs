@@ -18,8 +18,8 @@ static public class NGUIMenu
 	static public void BringForward2 ()
 	{
 		for (int i = 0; i < Selection.gameObjects.Length; ++i)
-			NGUITools.AdjustDepth(Selection.gameObjects[i], 1);
-		NGUIEditorTools.NormalizeDepths();
+			NGUITools.AdjustDepth(Selection.gameObjects[i], 1000);
+		NGUITools.NormalizeDepths();
 	}
 
 	[MenuItem("NGUI/Selection/Bring To Front &#=", true)]
@@ -30,7 +30,7 @@ static public class NGUIMenu
 	{
 		for (int i = 0; i < Selection.gameObjects.Length; ++i)
 			NGUITools.AdjustDepth(Selection.gameObjects[i], -1000);
-		NGUIEditorTools.NormalizeDepths();
+		NGUITools.NormalizeDepths();
 	}
 
 	[MenuItem("NGUI/Selection/Push To Back &#-", true)]
@@ -40,7 +40,11 @@ static public class NGUIMenu
 	static public void BringForward ()
 	{
 		for (int i = 0; i < Selection.gameObjects.Length; ++i)
-			NGUITools.AdjustDepth(Selection.gameObjects[i], 1);
+		{
+			GameObject go = Selection.gameObjects[i];
+			NGUITools.AdjustDepth(go, 1);
+			NGUITools.UpdateWidgetColliderDepth(go);
+		}
 	}
 
 	[MenuItem("NGUI/Selection/Adjust Depth By +1 %=", true)]
@@ -281,22 +285,19 @@ static public class NGUIMenu
 	[MenuItem("NGUI/Handles/Set to Green")]
 	static public void SetToGreen () { NGUISettings.colorMode = NGUISettings.ColorMode.Green; }
 
-	[MenuItem("NGUI/Make Pixel Perfect &#p")]
+	[MenuItem("NGUI/Selection/Make Pixel Perfect &#p")]
 	static void PixelPerfectSelection ()
 	{
-		if (Selection.activeTransform == null)
-		{
-			Debug.Log("You must select an object in the scene hierarchy first");
-			return;
-		}
-		
 		foreach (Transform t in Selection.transforms)
 			NGUITools.MakePixelPerfect(t);
 	}
 
-	[MenuItem("NGUI/Normalize Depth Hierarchy &#0")]
-	static public void Normalize ()
+	[MenuItem("NGUI/Selection/Make Pixel Perfect &#p", true)]
+	static bool PixelPerfectSelectionValidation ()
 	{
-		NGUIEditorTools.NormalizeDepths();
+		return (Selection.activeTransform != null);
 	}
+
+	[MenuItem("NGUI/Normalize Depth Hierarchy &#0")]
+	static public void Normalize () { NGUITools.NormalizeDepths(); }
 }

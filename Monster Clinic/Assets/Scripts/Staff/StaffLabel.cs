@@ -5,7 +5,14 @@ public class StaffLabel : MonoBehaviour {
 	
 	public int index; // this buttons index
 	public StaffList staff; // ref to the StaffList
+	public CurrentStaffPick pick;
 	private StaffType currentStaffType;// this staff type 
+	
+	void Awake()
+	{
+		pick=(CurrentStaffPick) transform.parent.GetComponent<CurrentStaffPick>();
+	}
+	
 	
 	// Use this for initialization
 	void Start () {
@@ -20,6 +27,8 @@ public class StaffLabel : MonoBehaviour {
 	{
 		/// delegate for button to choose staff type for list
 		ChooseStaffType.showStaffType += HandleChooseStaffTypeshowStaffType;	
+		
+		Hire.refreshStaffButtons += HandleChooseStaffTypeshowStaffType;
 	}
 	
 	// handler for staff type delegate
@@ -28,19 +37,20 @@ public class StaffLabel : MonoBehaviour {
 		switch(st)
 		{
 		case StaffType.Cthuluburse:
+			currentStaffType = StaffType.Cthuluburse;
 			ShowCthuluburseName();
 			ShowFirstStaffDetails(StaffType.Cthuluburse);
-			currentStaffType = StaffType.Cthuluburse;
+			
 				break;
 		case StaffType.Octodoctor:
+			currentStaffType = StaffType.Octodoctor;
 			ShowOctoDoctorName();
 			ShowFirstStaffDetails(StaffType.Octodoctor);
-			currentStaffType = StaffType.Octodoctor;
 				break;
 		case StaffType.Yetitor:
+			currentStaffType = StaffType.Yetitor;
 			ShowYetitorName();
 			ShowFirstStaffDetails(StaffType.Yetitor);
-			currentStaffType = StaffType.Yetitor;
 			break;
 		case StaffType.None:
 			print ("ERROR NO STAFF TYPE");
@@ -74,6 +84,7 @@ public class StaffLabel : MonoBehaviour {
 	void OnDisable()
 	{
 		ChooseStaffType.showStaffType -= HandleChooseStaffTypeshowStaffType;
+		Hire.refreshStaffButtons -= HandleChooseStaffTypeshowStaffType;
 	}
 	
 	//show the ocotodoctors name in the button
@@ -89,6 +100,8 @@ public class StaffLabel : MonoBehaviour {
 			staffName.text = staff.GrabOctodoctor(index).name;
 		
 		}
+		
+		pick.staffType = currentStaffType;
 	}
 	
 	//show the yetitor name in the buttons
@@ -104,6 +117,8 @@ public class StaffLabel : MonoBehaviour {
 			staffName.text = staff.GrabYetitor(index).name;	
 	
 		}
+		
+		pick.staffType = currentStaffType;
 	}
 	
 	//show the cthuluburse name in the buttons
@@ -118,6 +133,8 @@ public class StaffLabel : MonoBehaviour {
 		{
 			staffName.text = staff.GrabCtuluburse(index).name;	
 		}
+		
+		pick.staffType = currentStaffType;
 	}
 	
 	//staff info public to gui
@@ -136,6 +153,10 @@ public class StaffLabel : MonoBehaviour {
 		cost.text = myStaff.cost.ToString();
 		face.spriteName = myStaff.photoName;
 		level.text = (((Octodoctor)myStaff).level).ToString();
+		
+		//make a ref of staff picked
+		pick.staffListPosition = index;
+		
 	}
 	
 	// show the cthulburse more info when you click his name
@@ -147,6 +168,10 @@ public class StaffLabel : MonoBehaviour {
 		cost.text = myStaff.cost.ToString();
 		face.spriteName = myStaff.photoName;
 		level.text = (((Cthuluburse)myStaff).level).ToString();
+		
+		//make a ref of staff picked
+		pick.staffListPosition = index;
+		
 	}
 	
 	//show the yetitor more into when you click his name
@@ -158,6 +183,9 @@ public class StaffLabel : MonoBehaviour {
 		cost.text = myStaff.cost.ToString();
 		face.spriteName = myStaff.photoName;
 		level.text = (((Yetitor)myStaff).level).ToString();
+		
+		//make a ref of staff picked
+		pick.staffListPosition = index;
 	}
 		
 	/// <summary>
@@ -168,7 +196,7 @@ public class StaffLabel : MonoBehaviour {
 		switch(currentStaffType)
 		{
 		case StaffType.Cthuluburse:
-			ShowCthulburseDetails();
+			ShowCthulburseDetails(); 
 			break;
 		case StaffType.Octodoctor:
 			ShowOctoDoctorDetails();

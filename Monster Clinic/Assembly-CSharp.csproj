@@ -173,12 +173,16 @@
      <Compile Include="Assets\Scripts\Staff\ChooseStaffType.cs" />
      <Compile Include="Assets\Scripts\Staff\CloseHire.cs" />
      <Compile Include="Assets\Scripts\Staff\Cthuluburse.cs" />
+     <Compile Include="Assets\Scripts\Staff\CurrentStaffPick.cs" />
+     <Compile Include="Assets\Scripts\Staff\Hire.cs" />
+     <Compile Include="Assets\Scripts\Staff\HiredStaffManager.cs" />
      <Compile Include="Assets\Scripts\Staff\HospitalPrefabs.cs" />
      <Compile Include="Assets\Scripts\Staff\Octodoctor.cs" />
      <Compile Include="Assets\Scripts\Staff\PanelManager.cs" />
      <Compile Include="Assets\Scripts\Staff\Staff.cs" />
      <Compile Include="Assets\Scripts\Staff\StaffLabel.cs" />
      <Compile Include="Assets\Scripts\Staff\StaffList.cs" />
+     <Compile Include="Assets\Scripts\Staff\StaffPersistantData.cs" />
      <Compile Include="Assets\Scripts\Staff\Yetitor.cs" />
      <Compile Include="Assets\Scripts\TestBox.cs" />
      <Compile Include="Assets\UI\ButtonBehaviour.cs" />
@@ -209,7 +213,6 @@
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored (SoftClip).shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Dynamic Font.shader" />
-     <None Include="Assets\NGUI\ReadMe - 2.6.4.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored.shader" />
      <None Include="Assets\GUI Elements Pack\_Readme 1.3.txt" />
      <None Include="Assets\NGUI\Examples\Other\English.txt" />
@@ -217,7 +220,6 @@
      <None Include="Assets\NGUI\Examples\Other\French.txt" />
      <None Include="Assets\Scripts\Staff\Cthuluburse.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed).shader" />
-     <None Include="Assets\NGUI\1. Which Version To Import.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Additive Colored.shader" />
      <None Include="Assets\GUI Elements Pack\Sprites\Fonts\arial_32.txt" />
      <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />

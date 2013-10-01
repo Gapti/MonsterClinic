@@ -324,17 +324,81 @@ static public class NGUITools
 					else GameObject.DestroyImmediate(col);
 				}
 				box = go.AddComponent<BoxCollider>();
+				box.isTrigger = true;
 			}
 
-			int depth = NGUITools.CalculateNextDepth(go, true);
-
-			Bounds b = NGUIMath.CalculateRelativeWidgetBounds(go.transform, considerInactive);
-			box.isTrigger = true;
-			box.center = b.center + Vector3.back * (depth * 0.25f);
-			box.size = new Vector3(b.size.x, b.size.y, 0f);
+			UpdateWidgetCollider(box, considerInactive, true);
 			return box;
 		}
 		return null;
+	}
+
+	/// <summary>
+	/// Adjust the widget's collider based on the depth of the widgets, as well as the widget's dimensions.
+	/// </summary>
+
+	static public void UpdateWidgetCollider (GameObject go)
+	{
+		UpdateWidgetCollider(go, false);
+	}
+
+	/// <summary>
+	/// Adjust the widget's collider based on the depth of the widgets, as well as the widget's dimensions.
+	/// </summary>
+
+	static public void UpdateWidgetCollider (GameObject go, bool considerInactive)
+	{
+		if (go != null)
+		{
+			UpdateWidgetCollider(go.GetComponent<BoxCollider>(), considerInactive, true);
+		}
+	}
+
+	/// <summary>
+	/// Adjust the widget's collider based on the depth of the widgets, as well as the widget's dimensions.
+	/// </summary>
+
+	static public void UpdateWidgetCollider (BoxCollider bc)
+	{
+		UpdateWidgetCollider(bc, false);
+	}
+
+	/// <summary>
+	/// Adjust the widget's collider based on the depth of the widgets, as well as the widget's dimensions.
+	/// </summary>
+
+	static public void UpdateWidgetCollider (BoxCollider collider, bool considerInactive)
+	{
+		UpdateWidgetCollider(collider, considerInactive, true);
+	}
+
+	/// <summary>
+	/// Adjust the widget's collider based on the depth of the widgets, as well as the widget's dimensions.
+	/// </summary>
+
+	static public void UpdateWidgetCollider (BoxCollider box, bool considerInactive, bool updateSize)
+	{
+		if (box != null)
+		{
+			GameObject go = box.gameObject;
+			int depth = NGUITools.CalculateNextDepth(go, true);
+			Bounds b = NGUIMath.CalculateRelativeWidgetBounds(go.transform, considerInactive);
+
+			if (updateSize)
+			{
+				box.center = b.center + Vector3.back * (depth * 0.25f);
+				box.size = new Vector3(b.size.x, b.size.y, 0f);
+			}
+			else
+			{
+				Vector3 c = box.center;
+				c.z = -depth * 0.25f;
+				box.center = c;
+			}
+#if UNITY_EDITOR
+			UnityEditor.EditorUtility.SetDirty(box);
+#endif
+		}
 	}
 
 	/// <summary>
@@ -459,6 +523,7 @@ static public class NGUITools
 	{
 		AdjustDepth(go, 1000);
 		NormalizeDepths();
+		UpdateWidgetColliderDepth();
 	}
 
 	/// <summary>
@@ -469,24 +534,35 @@ static public class NGUITools
 	{
 		AdjustDepth(go, -1000);
 		NormalizeDepths();
+		UpdateWidgetColliderDepth();
 	}
 
 	/// <summary>
-	/// Sort all visible widgets in order, adjusting the depths so that the first widget starts with the depth of '0'.
+	/// Normalize the depths of all the widgets in the scene, making them start from 0 and remain in order.
 	/// </summary>
 
 	static public void NormalizeDepths ()
 	{
-		if (UIWidget.list.size > 0)
+		List<UIWidget> widgets = new List<UIWidget>();
+
+		for (int i = 0; i < UIRoot.list.Count; ++i)
 		{
-			UIWidget.list.Sort(delegate(UIWidget w1, UIWidget w2) { return w1.depth.CompareTo(w2.depth); });
+			UIRoot root = UIRoot.list[i];
+			UIWidget[] list = root.gameObject.GetComponentsInChildren<UIWidget>(true);
+			for (int b = 0; b < list.Length; ++b)
+				widgets.Add(list[b]);
+		}
+
+		if (widgets.Count > 0)
+		{
+			widgets.Sort(delegate(UIWidget w1, UIWidget w2) { return w1.depth.CompareTo(w2.depth); });
 
 			int start = 0;
-			int current = UIWidget.list[0].depth;
+			int current = widgets[0].depth;
 
-			for (int i = 0; i < UIWidget.list.size; ++i)
+			for (int i = 0; i < widgets.Count; ++i)
 			{
-				UIWidget w = UIWidget.list[i];
+				UIWidget w = widgets[i];
 
 				if (w.depth == current)
 				{
@@ -496,12 +572,34 @@ static public class NGUITools
 				{
 					current = w.depth;
 					w.depth = ++start;
-				}
 #if UNITY_EDITOR
-				UnityEditor.EditorUtility.SetDirty(w);
+					UnityEditor.EditorUtility.SetDirty(w);
 #endif
+				}
 			}
+			NGUITools.UpdateWidgetColliderDepth();
 		}
+	}
+
+	/// <summary>
+	/// Adjust the Z of all the colliders in the scene based on the depth of their widgets.
+	/// </summary>
+
+	static public void UpdateWidgetColliderDepth ()
+	{
+		for (int i = 0; i < UIRoot.list.Count; ++i)
+			UpdateWidgetColliderDepth(UIRoot.list[i].gameObject);
+	}
+
+	/// <summary>
+	/// Adjust the Z of all the colliders under the specified object based on the depth of their widgets.
+	/// </summary>
+
+	static public void UpdateWidgetColliderDepth (GameObject go)
+	{
+		BoxCollider[] colliders = go.GetComponentsInChildren<BoxCollider>(true);
+		for (int b = 0; b < colliders.Length; ++b)
+			UpdateWidgetCollider(colliders[b], true, true);
 	}
 
 	/// <summary>
@@ -811,34 +909,28 @@ static public class NGUITools
 	static public void MakePixelPerfect (Transform t)
 	{
 		UIWidget w = t.GetComponent<UIWidget>();
+		if (w != null) w.MakePixelPerfect();
 
-		if (w != null)
+		if (t.GetComponent<UIAnchor>() == null && t.GetComponent<UIRoot>() == null)
 		{
-			w.MakePixelPerfect();
-		}
-		else
-		{
-			if (t.GetComponent<UIAnchor>() == null && t.GetComponent<UIRoot>() == null)
-			{
 #if UNITY_EDITOR
 #if UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2
-				UnityEditor.Undo.RegisterUndo(t, "Make Pixel-Perfect");
+			UnityEditor.Undo.RegisterUndo(t, "Make Pixel-Perfect");
 #else
-				UnityEditor.Undo.RecordObjects(t, "Make Pixel-Perfect");
+			UnityEditor.Undo.RecordObject(t, "Make Pixel-Perfect");
 #endif
-				t.localPosition = Round(t.localPosition);
-				t.localScale = Round(t.localScale);
-				UnityEditor.EditorUtility.SetDirty(t);
+			t.localPosition = Round(t.localPosition);
+			t.localScale = Round(t.localScale);
+			UnityEditor.EditorUtility.SetDirty(t);
 #else
-				t.localPosition = Round(t.localPosition);
-				t.localScale = Round(t.localScale);
+			t.localPosition = Round(t.localPosition);
+			t.localScale = Round(t.localScale);
 #endif
-			}
-
-			// Recurse into children
-			for (int i = 0, imax = t.childCount; i < imax; ++i)
-				MakePixelPerfect(t.GetChild(i));
 		}
+
+		// Recurse into children
+		for (int i = 0, imax = t.childCount; i < imax; ++i)
+			MakePixelPerfect(t.GetChild(i));
 	}
 
 	/// <summary>
