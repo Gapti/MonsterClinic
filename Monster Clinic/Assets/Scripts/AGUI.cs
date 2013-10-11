@@ -7,6 +7,7 @@ public class AGUI : MonoBehaviour
 	// Public variables
 	public GUISkin UISkin;
 	public Texture createRoomIcon;
+	public Texture furnishRoomIcon;
 	public Texture deleteRoomIcon;
 	public Texture receptionIcon;
 	public Texture staffBreakIcon;
@@ -16,6 +17,8 @@ public class AGUI : MonoBehaviour
 	public Texture shockTreatmentIcon;
 	public Texture magicPotionIcon;
 	public Texture physicalActivityIcon;
+	public Texture doorIcon;
+	public Texture benchIcon;
 	
 	// Private variables
 	private
@@ -35,7 +38,7 @@ public class AGUI : MonoBehaviour
 	void OnGUI()
 	{
 		GUI.skin = UISkin;
-		if(!(LevelManager.gameMode == Mode.RoomCreation && LevelManager.gameState == State.Placement) && !(LevelManager.gameMode == Mode.RoomDeletion) && (LevelManager.gameTest == Test.None))
+		if(!(LevelManager.gameMode == Mode.RoomCreation && LevelManager.gameState == State.Placement) && !(LevelManager.gameMode == Mode.RoomDeletion)&& !(LevelManager.gameMode == Mode.RoomFurnishing) && (LevelManager.gameTest == Test.None))
 		{
 			if(GUI.Button(new Rect(Screen.width*0.005f+(0*34f), Screen.height*0.005f, 32f, 30f), new GUIContent(createRoomIcon,"Create Room")))
 			{
@@ -43,7 +46,13 @@ public class AGUI : MonoBehaviour
 				LevelManager.gameState = State.Purchase;
 			}
 			
-			if(GUI.Button(new Rect(Screen.width*0.005f+(1*34f), Screen.height*0.005f, 32f, 30f), new GUIContent(deleteRoomIcon,"Delete Room")))
+			if(GUI.Button(new Rect(Screen.width*0.005f+(1*34f), Screen.height*0.005f, 32f, 30f), new GUIContent(furnishRoomIcon,"Furnish Room")))
+			{
+				LevelManager.gameMode = Mode.RoomFurnishing;
+				LevelManager.gameState = State.None;
+			}
+			
+			if(GUI.Button(new Rect(Screen.width*0.005f+(2*34f), Screen.height*0.005f, 32f, 30f), new GUIContent(deleteRoomIcon,"Delete Room")))
 			{
 				LevelManager.gameMode = Mode.RoomDeletion;
 				LevelManager.gameState = State.Choose;
@@ -95,6 +104,44 @@ public class AGUI : MonoBehaviour
 					LevelManager.gameState = State.Placement;
 				}
 			}
+			if(GUI.tooltip!="")
+			{
+				// Set the tool tip
+				GUI.Label(new Rect(Screen.width*0.5f-64f, Screen.height*0.003f, 128f, 20f), GUI.tooltip);
+			}
+			GUI.tooltip = null;
+		}
+		
+		if(LevelManager.gameMode == Mode.RoomFurnishing && LevelManager.gameState == State.Purchase)
+		{
+			if(GUI.Button(new Rect(Screen.width*0.005f+(0*34f), Screen.height*0.005f, 32f, 30f), new GUIContent(createRoomIcon,"Create Room")))
+			{
+				LevelManager.gameMode = Mode.RoomCreation;
+				LevelManager.gameState = State.Purchase;
+			}
+			
+			if(GUI.Button(new Rect(Screen.width*0.005f+(1*34f), Screen.height*0.005f, 32f, 30f), new GUIContent(furnishRoomIcon,"Furnish Room")))
+			{
+				LevelManager.gameMode = Mode.RoomFurnishing;
+				LevelManager.gameState = State.None;
+			}
+			
+			if(GUI.Button(new Rect(Screen.width*0.005f+(2*34f), Screen.height*0.005f, 32f, 30f), new GUIContent(deleteRoomIcon,"Delete Room")))
+			{
+				LevelManager.gameMode = Mode.RoomDeletion;
+				LevelManager.gameState = State.Choose;
+			}
+			
+			if(GUI.Button(new Rect(Screen.width*0.005f+(0*34f), Screen.height*0.005f+(34f), 32f, 30f), new GUIContent(doorIcon,"Door")))
+			{
+				LevelManager.selectedItemNo = 1;
+			}
+			
+			if(GUI.Button(new Rect(Screen.width*0.005f+(1*34f), Screen.height*0.005f+(34f), 32f, 30f), new GUIContent(benchIcon,"Bench")))
+			{
+				LevelManager.selectedItemNo = 2;
+			}
+			
 			if(GUI.tooltip!="")
 			{
 				// Set the tool tip

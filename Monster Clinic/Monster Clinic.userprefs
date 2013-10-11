@@ -1,28 +1,14 @@
 ﻿<Properties>
-<<<<<<< HEAD
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-<<<<<<< HEAD
-  <MonoDevelop.Ide.Workbench />
-=======
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Staff/StaffInfoPanel.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\AGUI.cs">
     <Files>
-      <File FileName="Assets/Scripts/Staff/StaffManager.cs" Line="34" Column="63" />
-      <File FileName="Assets/Scripts/Staff/StaffLabelUpdate.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Room.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Staff/Staff.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Staff/NamesList.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Staff/Octodoctor.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Staff/Cthuluburse.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Staff/Yetitor.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Staff/StaffList.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Staff/StaffInfoPanel.cs" Line="32" Column="12" />
+      <File FileName="Assets\Scripts\AGUI.cs" Line="4" Column="14" />
+      <File FileName="Assets\Scripts\Item.cs" Line="137" Column="26" />
+      <File FileName="Assets\Scripts\LevelManager.cs" Line="133" Column="4" />
+      <File FileName="Assets\Scripts\Room.cs" Line="311" Column="15" />
+      <File FileName="Assets\Scripts\Maps.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
-=======
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench />
->>>>>>> Commit
->>>>>>> 5fc60691652722c9767ef79f2d8ade9ba2699d71
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
