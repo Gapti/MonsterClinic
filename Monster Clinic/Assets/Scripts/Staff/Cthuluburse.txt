@@ -1,17 +1,11 @@
-Sunshine Griffieth,M
-Tish Dan,F  
-Marlen Flecha,F  
-Frederic Beran,M  
-Queen Sandoz,F  
-Dianna Mcclard,F   
-Fran Cushing,F
-Nanette Colella,F  
-Evon Bellantoni,F  
-Indira Heitzman,M  
-Donovan Montufar,F  
-Wilhemina Garvin,M
-Marquetta Ellerman,F  
-Nicole Plumley,F  
-Jennifer Grippo,F  
-Jacqueline Depuy,F   
-Lura Bodiford,F  
+Name : Description : PhotoNumber : cost
+Nakesha Arnone,F,This lady makes you think of a benevolent angel.,17,5
+Mark Pollard,M,This guy puts you in mind of a brilliant inventor.,5,10
+Dacia Ronning,F,This lady puts you in mind of a cobra waiting to strike.,9,3
+Lakeesha Lass,F,This man reminds you of a noble eagle. He has wide blue eyes.,11,5
+Keshia Bolster,F,This mistrustful girl has slanted magenta eyes.,3,9
+Denver Courville,M,This soulful guy has deep-set gray eyes that are like two pools of mercury.,4,9
+Jarvis Portis,M,This calm man has wide eyes the color of fine silver.,3,1
+Pattie Nez,F,This gentle girl has hooded brown eyes.,10,7
+Karine Mantyla,F,This lady reminds you of a playful dolphin.,1,10
+Deandre Schubert,M,This studious guy has hooded brown eyes that are like two patches of dried blood,3,11

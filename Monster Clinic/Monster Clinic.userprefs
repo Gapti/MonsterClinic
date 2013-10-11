@@ -1,5 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\AGUI.cs">
     <Files>
       <File FileName="Assets\Scripts\AGUI.cs" Line="4" Column="14" />
@@ -9,6 +10,9 @@
       <File FileName="Assets\Scripts\Maps.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
+=======
+  <MonoDevelop.Ide.Workbench />
+>>>>>>> 9e68ebfa010c15be85e0adb8535b8e05badb2d74
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

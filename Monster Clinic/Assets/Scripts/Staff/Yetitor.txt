@@ -1,16 +1,11 @@
-Magdalene Diamond,F 
-Oma Alger,M  
-Tresa Barroso,F  
-Melinda Lira,F  
-Leia Brite,F  
-Jona Oertel,F  
-Scarlett Klemm,F  
-Beverly Sons,M  
-Gordon Pegram,M   
-Duncan Baylon,M  
-Heidy Lebsock,F  
-Shaquana Dilday ,M
-Selina Quinton,F  
-Marylee Lathem,F  
-Milly Pabst,F  
-Chaya Mateo,M  
+Name : Description : PhotoNumber : cost
+Nakesha Arnone,F,yet This man reminds you of a sensitive artist. He has almond-shaped eyes the color of dark chocolate.,11,45
+Lavon Jovel,M,This boorish gentleman has large purple eyes that are like two windows on the evening sky.,1,45
+Dacia Ronning,F,This guy puts you in mind of an unstoppable hunting dog.,12,13
+Lakeesha Lass,F,This man reminds you of a noble eagle. He has wide blue eyes.,14,67
+Keshia Bolster,F,This mistrustful girl has slanted magenta eyes.,15,43
+Denver Courville,M,This soulful guy has deep-set gray eyes that are like two pools of mercury.,10,32
+Jarvis Portis,M,This calm man has wide eyes the color of fine silver.,13,67
+Pattie Nez,F,This gentle girl has hooded brown eyes.,16,1
+Karine Mantyla,F,This lady reminds you of a playful dolphin.,18,8
+Deandre Schubert,M,This studious guy has hooded brown eyes that are like two patches of dried blood,2,90

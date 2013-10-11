@@ -26,8 +26,7 @@ public class Staff  {
 	public string description;
 	public int monthWage;
 	public int experience = 0;
-	public GameObject staffModel;
-	public Texture2D photo;
+	public string photoName;
 	public string name;
 	public int cost;
 	public SexType sexType;
