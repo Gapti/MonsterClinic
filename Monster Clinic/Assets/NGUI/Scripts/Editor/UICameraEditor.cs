@@ -15,11 +15,12 @@ public class UICameraEditor : Editor
 		UICamera cam = target as UICamera;
 		GUILayout.Space(3f);
 
+		serializedObject.Update();
+
 		if (UICamera.eventHandler != cam)
 		{
-			serializedObject.Update();
+			EditorGUILayout.PropertyField(serializedObject.FindProperty("eventType"));
 			EditorGUILayout.PropertyField(serializedObject.FindProperty("eventReceiverMask"), new GUIContent("Event Mask"));
-			EditorGUILayout.PropertyField(serializedObject.FindProperty("clipRaycasts"));
 			serializedObject.ApplyModifiedProperties();
 
 			EditorGUILayout.HelpBox("All other settings are inherited from the First Camera.", MessageType.Info);
@@ -31,15 +32,13 @@ public class UICameraEditor : Editor
 		}
 		else
 		{
-			serializedObject.Update();
-
 			SerializedProperty mouse = serializedObject.FindProperty("useMouse");
 			SerializedProperty touch = serializedObject.FindProperty("useTouch");
 			SerializedProperty keyboard = serializedObject.FindProperty("useKeyboard");
 			SerializedProperty controller = serializedObject.FindProperty("useController");
 
+			EditorGUILayout.PropertyField(serializedObject.FindProperty("eventType"));
 			EditorGUILayout.PropertyField(serializedObject.FindProperty("eventReceiverMask"), new GUIContent("Event Mask"));
-			EditorGUILayout.PropertyField(serializedObject.FindProperty("clipRaycasts"));
 			EditorGUILayout.PropertyField(serializedObject.FindProperty("debug"));
 
 			EditorGUI.BeginDisabledGroup(!mouse.boolValue && !touch.boolValue);

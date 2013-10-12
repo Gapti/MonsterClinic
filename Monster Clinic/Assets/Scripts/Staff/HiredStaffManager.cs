@@ -11,6 +11,6 @@ public class HiredStaffManager : MonoBehaviour {
 		hiredStatffList.Add (staffObject);
 		
 		///just for a test
-		print (hiredStatffList[0].GetComponent<StaffPersistantData>().staffData.name);
+		//print (hiredStatffList[0].GetComponent<StaffPersistantData>().staffData.name);
 	}
 }

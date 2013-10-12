@@ -32,6 +32,7 @@ public class StaffList : MonoBehaviour{
 	public GameObject cthuluburse;
 	public GameObject yetitor;
 	
+	public WWW file;
 	
 	void Awake()
 	{
@@ -45,6 +46,7 @@ public class StaffList : MonoBehaviour{
 		HospitalPrefabs.Cthuluburse = cthuluburse;
 		HospitalPrefabs.Yetitor = yetitor;
 	}
+	
 	
 	/// <summary>
 	/// Grabs the octodoctor.
@@ -118,7 +120,7 @@ public class StaffList : MonoBehaviour{
 	void CreateOctodoctor()
     {
 		XmlSerializer xml = new XmlSerializer(typeof(List<Octodoctor>));
-		TextWriter writer = new StreamWriter("Octodoctor.xml");
+		TextWriter writer = new StreamWriter(Application.dataPath + "/Scripts/Staff/xml/Octodoctor.xml");
 		
        string[] lines = OctodoctorText.text.Split(new char[]{'\n','\r'},System.StringSplitOptions.RemoveEmptyEntries);
        for (int i = 1; i < lines.Length; i++)
@@ -149,7 +151,7 @@ public class StaffList : MonoBehaviour{
 	void CreateCthuluburse()
     {
 		XmlSerializer xml = new XmlSerializer(typeof(List<Cthuluburse>));
-		TextWriter writer = new StreamWriter("Cthuluburse.xml");
+		TextWriter writer = new StreamWriter(Application.dataPath + "/Scripts/Staff/xml/Cthuluburse.xml");
 		
        string[] lines = CthuluburseText.text.Split(new char[]{'\n','\r'},System.StringSplitOptions.RemoveEmptyEntries);
        for (int i = 1; i < lines.Length; i++)
@@ -179,7 +181,7 @@ public class StaffList : MonoBehaviour{
 	void CreateYetitor()
     {
 		XmlSerializer xml = new XmlSerializer(typeof(List<Yetitor>));
-		TextWriter writer = new StreamWriter("Yetitor.xml");
+		TextWriter writer = new StreamWriter(Application.dataPath +  "/Scripts/Staff/xml/Yetitor.xml");
 		
        string[] lines = YetitorText.text.Split(new char[]{'\n','\r'},System.StringSplitOptions.RemoveEmptyEntries);
        for (int i = 1; i < lines.Length; i++)
@@ -207,21 +209,21 @@ public class StaffList : MonoBehaviour{
 	void LoadOctodoctor()
 	{
 		XmlSerializer xml = new XmlSerializer(typeof(List<Octodoctor>));
-		FileStream fs = new FileStream("Octodoctor.xml", FileMode.Open);
+		FileStream fs = new FileStream(Application.streamingAssetsPath + "/Octodoctor.xml", FileMode.Open);
 		_octodoctorList = xml.Deserialize(fs) as List<Octodoctor>;
 	}
 	
 	void LoadYetitor()
 	{
 		XmlSerializer xml = new XmlSerializer(typeof(List<Yetitor>));
-		FileStream fs = new FileStream("Yetitor.xml", FileMode.Open);
+		FileStream fs = new FileStream(Application.streamingAssetsPath + "/Yetitor.xml", FileMode.Open);
 		_yetitorList = xml.Deserialize(fs) as List<Yetitor>;
 	}
 	
 	void LoadCthuluburse()
 	{
 		XmlSerializer xml = new XmlSerializer(typeof(List<Cthuluburse>));
-		FileStream fs = new FileStream("Cthuluburse.xml", FileMode.Open);
+		FileStream fs = new FileStream(Application.streamingAssetsPath + "/Cthuluburse.xml", FileMode.Open);
 		_ctuluburseList = xml.Deserialize(fs) as List<Cthuluburse>;	
 	}
 

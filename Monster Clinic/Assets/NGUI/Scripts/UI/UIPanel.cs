@@ -77,6 +77,7 @@ public class UIPanel : MonoBehaviour
 	[HideInInspector][SerializeField] UIDrawCall.Clipping mClipping = UIDrawCall.Clipping.None;
 	[HideInInspector][SerializeField] Vector4 mClipRange = Vector4.zero;
 	[HideInInspector][SerializeField] Vector2 mClipSoftness = new Vector2(40f, 40f);
+	[HideInInspector][SerializeField] int mDepth = 0;
 
 	// Whether a full rebuild of geometry buffers is required
 	static bool mFullRebuild = false;
@@ -148,6 +149,53 @@ public class UIPanel : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	/// <summary>
+	/// Panels can have their own depth value that will change the order with which everything they manage gets drawn.
+	/// </summary>
+
+	public int depth
+	{
+		get
+		{
+			return mDepth;
+		}
+		set
+		{
+			if (mDepth != value)
+			{
+				mDepth = value;
+				mFullRebuild = true;
+
+				for (int i = 0; i < UIDrawCall.list.size; ++i)
+				{
+					UIDrawCall dc = UIDrawCall.list[i];
+					if (dc != null) dc.isDirty = true;
+				}
+
+				for (int i = 0; i < UIWidget.list.size; ++i)
+					UIWidget.list[i].MarkAsChangedLite();
+#if UNITY_EDITOR
+				UnityEditor.EditorUtility.SetDirty(this);
+#endif
+				list.Sort(CompareFunc);
+			}
+		}
+	}
+
+	/// <summary>
+	/// Function that can be used to depth-sort panels.
+	/// </summary>
+
+	static public int CompareFunc (UIPanel a, UIPanel b)
+	{
+		if (a != null && b != null)
+		{
+			if (a.mDepth < b.mDepth) return -1;
+			if (a.mDepth > b.mDepth) return 1;
+		}
+		return 0;
 	}
 
 	/// <summary>
@@ -379,6 +427,7 @@ public class UIPanel : MonoBehaviour
 	{
 		mFullRebuild = true;
 		list.Add(this);
+		list.Sort(CompareFunc);
 	}
 
 	/// <summary>

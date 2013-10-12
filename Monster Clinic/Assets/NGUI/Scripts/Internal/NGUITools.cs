@@ -265,6 +265,25 @@ static public class NGUITools
 	}
 
 	/// <summary>
+	/// Find all scene components, active or inactive.
+	/// </summary>
+
+	static public List<T> FindAll<T> () where T : Component
+	{
+		T[] comps = Resources.FindObjectsOfTypeAll(typeof(T)) as T[];
+
+		List<T> list = new List<T>();
+
+		foreach (T comp in comps)
+		{
+			if (comp.gameObject.hideFlags == 0)
+				list.Add(comp);
+		}
+		return list;
+	}
+
+
+	/// <summary>
 	/// Find all active objects of specified type.
 	/// </summary>
 
@@ -327,7 +346,7 @@ static public class NGUITools
 				box.isTrigger = true;
 			}
 
-			UpdateWidgetCollider(box, considerInactive, true);
+			UpdateWidgetCollider(box, considerInactive);
 			return box;
 		}
 		return null;
@@ -350,7 +369,7 @@ static public class NGUITools
 	{
 		if (go != null)
 		{
-			UpdateWidgetCollider(go.GetComponent<BoxCollider>(), considerInactive, true);
+			UpdateWidgetCollider(go.GetComponent<BoxCollider>(), considerInactive);
 		}
 	}
 
@@ -367,34 +386,14 @@ static public class NGUITools
 	/// Adjust the widget's collider based on the depth of the widgets, as well as the widget's dimensions.
 	/// </summary>
 
-	static public void UpdateWidgetCollider (BoxCollider collider, bool considerInactive)
-	{
-		UpdateWidgetCollider(collider, considerInactive, true);
-	}
-
-	/// <summary>
-	/// Adjust the widget's collider based on the depth of the widgets, as well as the widget's dimensions.
-	/// </summary>
-
-	static public void UpdateWidgetCollider (BoxCollider box, bool considerInactive, bool updateSize)
+	static public void UpdateWidgetCollider (BoxCollider box, bool considerInactive)
 	{
 		if (box != null)
 		{
 			GameObject go = box.gameObject;
-			int depth = NGUITools.CalculateNextDepth(go, true);
 			Bounds b = NGUIMath.CalculateRelativeWidgetBounds(go.transform, considerInactive);
-
-			if (updateSize)
-			{
-				box.center = b.center + Vector3.back * (depth * 0.25f);
-				box.size = new Vector3(b.size.x, b.size.y, 0f);
-			}
-			else
-			{
-				Vector3 c = box.center;
-				c.z = -depth * 0.25f;
-				box.center = c;
-			}
+			box.center = b.center;
+			box.size = new Vector3(b.size.x, b.size.y, 0f);
 #if UNITY_EDITOR
 			UnityEditor.EditorUtility.SetDirty(box);
 #endif
@@ -461,6 +460,24 @@ static public class NGUITools
 	}
 
 	/// <summary>
+	/// Calculate the game object's depth based on the widgets within, and also taking panel depth into consideration.
+	/// </summary>
+
+	static public int CalculateRaycastDepth (GameObject go)
+	{
+		UIWidget w = go.GetComponent<UIWidget>();
+		if (w != null) return w.raycastDepth;
+
+		UIWidget[] widgets = go.GetComponentsInChildren<UIWidget>();
+		if (widgets.Length == 0) return 0;
+
+		int depth = widgets[0].raycastDepth;
+		for (int i = 1, imax = widgets.Length; i < imax; ++i)
+			depth = Mathf.Min(depth, widgets[i].raycastDepth);
+		return depth;
+	}
+
+	/// <summary>
 	/// Gathers all widgets and calculates the depth for the next widget.
 	/// </summary>
 
@@ -468,7 +485,8 @@ static public class NGUITools
 	{
 		int depth = -1;
 		UIWidget[] widgets = go.GetComponentsInChildren<UIWidget>();
-		for (int i = 0, imax = widgets.Length; i < imax; ++i) depth = Mathf.Max(depth, widgets[i].depth);
+		for (int i = 0, imax = widgets.Length; i < imax; ++i)
+			depth = Mathf.Max(depth, widgets[i].depth);
 		return depth + 1;
 	}
 
@@ -498,21 +516,30 @@ static public class NGUITools
 	/// Adjust the widgets' depth by the specified value.
 	/// </summary>
 
-	static public void AdjustDepth (GameObject go, int adjustment)
+	static public int AdjustDepth (GameObject go, int adjustment)
 	{
 		if (go != null)
 		{
-			UIWidget[] widgets = go.GetComponentsInChildren<UIWidget>(true);
+			UIPanel panel = go.GetComponent<UIPanel>();
 
-			for (int i = 0, imax = widgets.Length; i < imax; ++i)
+			if (panel != null)
 			{
-				UIWidget w = widgets[i];
-				w.depth = w.depth + adjustment;
-#if UNITY_EDITOR
-				UnityEditor.EditorUtility.SetDirty(w);
-#endif
+				panel.depth = panel.depth + adjustment;
+				return 1;
+			}
+			else
+			{
+				UIWidget[] widgets = go.GetComponentsInChildren<UIWidget>(true);
+
+				for (int i = 0, imax = widgets.Length; i < imax; ++i)
+				{
+					UIWidget w = widgets[i];
+					w.depth = w.depth + adjustment;
+				}
+				return 2;
 			}
 		}
+		return 0;
 	}
 
 	/// <summary>
@@ -521,9 +548,9 @@ static public class NGUITools
 
 	static public void BringForward (GameObject go)
 	{
-		AdjustDepth(go, 1000);
-		NormalizeDepths();
-		UpdateWidgetColliderDepth();
+		int val = AdjustDepth(go, 1000);
+		if (val == 1) NormalizePanelDepths();
+		else if (val == 2) NormalizeWidgetDepths();
 	}
 
 	/// <summary>
@@ -532,30 +559,32 @@ static public class NGUITools
 
 	static public void PushBack (GameObject go)
 	{
-		AdjustDepth(go, -1000);
-		NormalizeDepths();
-		UpdateWidgetColliderDepth();
+		int val = AdjustDepth(go, -1000);
+		if (val == 1) NormalizePanelDepths();
+		else if (val == 2) NormalizeWidgetDepths();
+	}
+
+	/// <summary>
+	/// Normalize the depths of all the widgets and panels in the scene, making them start from 0 and remain in order.
+	/// </summary>
+
+	static public void NormalizeDepths ()
+	{
+		NormalizeWidgetDepths();
+		NormalizePanelDepths();
 	}
 
 	/// <summary>
 	/// Normalize the depths of all the widgets in the scene, making them start from 0 and remain in order.
 	/// </summary>
 
-	static public void NormalizeDepths ()
+	static public void NormalizeWidgetDepths ()
 	{
-		List<UIWidget> widgets = new List<UIWidget>();
-
-		for (int i = 0; i < UIRoot.list.Count; ++i)
-		{
-			UIRoot root = UIRoot.list[i];
-			UIWidget[] list = root.gameObject.GetComponentsInChildren<UIWidget>(true);
-			for (int b = 0; b < list.Length; ++b)
-				widgets.Add(list[b]);
-		}
+		List<UIWidget> widgets = FindAll<UIWidget>();
 
 		if (widgets.Count > 0)
 		{
-			widgets.Sort(delegate(UIWidget w1, UIWidget w2) { return w1.depth.CompareTo(w2.depth); });
+			widgets.Sort(UIWidget.CompareFunc);
 
 			int start = 0;
 			int current = widgets[0].depth;
@@ -577,29 +606,42 @@ static public class NGUITools
 #endif
 				}
 			}
-			NGUITools.UpdateWidgetColliderDepth();
 		}
 	}
 
 	/// <summary>
-	/// Adjust the Z of all the colliders in the scene based on the depth of their widgets.
+	/// Normalize the depths of all the panels in the scene, making them start from 0 and remain in order.
 	/// </summary>
 
-	static public void UpdateWidgetColliderDepth ()
+	static public void NormalizePanelDepths ()
 	{
-		for (int i = 0; i < UIRoot.list.Count; ++i)
-			UpdateWidgetColliderDepth(UIRoot.list[i].gameObject);
-	}
+		List<UIPanel> panels = FindAll<UIPanel>();
 
-	/// <summary>
-	/// Adjust the Z of all the colliders under the specified object based on the depth of their widgets.
-	/// </summary>
+		if (panels.Count > 0)
+		{
+			panels.Sort(UIPanel.CompareFunc);
 
-	static public void UpdateWidgetColliderDepth (GameObject go)
-	{
-		BoxCollider[] colliders = go.GetComponentsInChildren<BoxCollider>(true);
-		for (int b = 0; b < colliders.Length; ++b)
-			UpdateWidgetCollider(colliders[b], true, true);
+			int start = 0;
+			int current = panels[0].depth;
+
+			for (int i = 0; i < panels.Count; ++i)
+			{
+				UIPanel p = panels[i];
+
+				if (p.depth == current)
+				{
+					p.depth = start;
+				}
+				else
+				{
+					current = p.depth;
+					p.depth = ++start;
+#if UNITY_EDITOR
+					UnityEditor.EditorUtility.SetDirty(p);
+#endif
+				}
+			}
+		}
 	}
 
 	/// <summary>
