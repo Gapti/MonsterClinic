@@ -12,6 +12,7 @@ public class Maps
 	/// 1 for non-empty cell outside room
 	/// 2 for empty cell inside room
 	/// 3 for non-empty cell inside room
+	/// 4 for empty cell outside room door
 	/// </summary>
 	private static int [,] floorMap = new int[100,100];
 	
@@ -74,6 +75,123 @@ public class Maps
 	{
 		roomMap[x,y] = val;
 	}
+	
+	// Check is block in room map consist of specific value
+	public static bool isRoomMapFill(Vector2 leftBottom, int xD, int yD, int val)
+	{
+		try
+		{
+			for(int i = 0; i<xD; i++)
+			{
+				for(int j = 0; j<yD; j++)
+				{
+					if(roomMap[((int)leftBottom.x)+i, ((int)leftBottom.y)+j] != val)
+					{
+						return false;
+					}
+				}
+			}
+		}
+		catch
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	// Check is block in room map not consist of specific value
+	public static bool isRoomMapNotFill(Vector2 leftBottom, int xD, int yD, int val)
+	{
+		try
+		{
+			for(int i = 0; i<xD; i++)
+			{
+				for(int j = 0; j<yD; j++)
+				{
+					if(roomMap[((int)leftBottom.x)+i, ((int)leftBottom.y)+j] == val)
+					{
+						return false;
+					}
+				}
+			}
+		}
+		catch
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	// Check is block in floor map consist of specific value
+	public static bool isFloorMapFill(Vector2 leftBottom, int xD, int yD, int val)
+	{
+		try
+		{
+			for(int i = 0; i<xD; i++)
+			{
+				for(int j = 0; j<yD; j++)
+				{
+					if(floorMap[((int)leftBottom.x)+i, ((int)leftBottom.y)+j] != val)
+					{
+						return false;
+					}
+				}
+			}
+		}
+		catch
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	// Check is block in floor map not consist of specific value
+	public static bool isFloorMapNotFill(Vector2 leftBottom, int xD, int yD, int val)
+	{
+		try
+		{
+			for(int i = 0; i<xD; i++)
+			{
+				for(int j = 0; j<yD; j++)
+				{
+					if(floorMap[((int)leftBottom.x)+i, ((int)leftBottom.y)+j] == val)
+					{
+						return false;
+					}
+				}
+			}
+		}
+		catch
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	// Set specific value in floor map block
+	public static void setFloorMapBlock(Vector2 leftBottom, int xD, int yD, int val)
+	{
+		for(int i = 0; i<xD; i++)
+		{
+			for(int j = 0; j<yD; j++)
+			{
+				floorMap[((int)leftBottom.x)+i, ((int)leftBottom.y)+j] = val;
+			}
+		}
+	}
+	
+	// Set specific value in room map block
+	public static void setRoomMapBlock(Vector2 leftBottom, int xD, int yD, int val)
+	{
+		for(int i = 0; i<xD; i++)
+		{
+			for(int j = 0; j<yD; j++)
+			{
+				roomMap[((int)leftBottom.x)+i, ((int)leftBottom.y)+j] = val;
+			}
+		}
+	}
+	
 	/*
 	// Get objectsMap value
 	public static GameObject GetObjectsMapValue(Vector2 points)

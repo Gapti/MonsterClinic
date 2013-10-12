@@ -38,11 +38,11 @@ public class IsometricCameraMovement : MonoBehaviour
 		transform.Translate(movementX + movementY, 0, movementY - movementX);
 		
 		// Zoom in camera
-		if(Input.GetKey(KeyCode.E) && IsoCamera.camera.orthographicSize > 5)
+		if(Input.GetKey(KeyCode.E) && IsoCamera.camera.orthographicSize > 3)
         {
         	IsoCamera.camera.orthographicSize = IsoCamera.camera.orthographicSize - 1;
         }
-		if(Input.GetAxis("Mouse ScrollWheel") > 0 && IsoCamera.camera.orthographicSize > 5)
+		if(Input.GetAxis("Mouse ScrollWheel") > 0 && IsoCamera.camera.orthographicSize > 3)
         {
         	IsoCamera.camera.orthographicSize = IsoCamera.camera.orthographicSize - 1;
         }

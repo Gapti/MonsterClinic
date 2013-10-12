@@ -1,5 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/NGUI/Scripts/Interaction/UIButtonScale.cs">
     <Files>
       <File FileName="../../Desktop/Dropbox/monsterclinic (source)/Chan/Resource Management/BaseValue.cs" Line="1" Column="1" />
@@ -22,6 +23,21 @@
       <File FileName="Assets/NGUI/Scripts/Interaction/UIButtonScale.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
+=======
+<<<<<<< HEAD
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\AGUI.cs">
+    <Files>
+      <File FileName="Assets\Scripts\AGUI.cs" Line="4" Column="14" />
+      <File FileName="Assets\Scripts\Item.cs" Line="137" Column="26" />
+      <File FileName="Assets\Scripts\LevelManager.cs" Line="133" Column="4" />
+      <File FileName="Assets\Scripts\Room.cs" Line="311" Column="15" />
+      <File FileName="Assets\Scripts\Maps.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+=======
+  <MonoDevelop.Ide.Workbench />
+>>>>>>> 9e68ebfa010c15be85e0adb8535b8e05badb2d74
+>>>>>>> 8cfa72fd96c6973a3cb2544bbeb73e700da987d6
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
