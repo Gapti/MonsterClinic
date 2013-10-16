@@ -11,13 +11,17 @@ public class PanelManager : MonoBehaviour {
 //	public GameObject panel_Destroy;
 	public GameObject panel_Build;
 	
+	public void ExitBuildRoom()
+	{
+		LevelManager.gameMode = Mode.None;
+		LevelManager.gameState = State.None;
+		LevelManager.selectedRoomType = RoomType.None;	
+	}
+	
 	public void BringInBuildPanel()
 	{
 		panel_Build.SetActive(true);
 		CloseStaffPanel();
-		
-		LevelManager.gameMode = Mode.RoomCreation;
-		LevelManager.gameState = State.Purchase;
 	}
 	
 	public void CloseBuildPanel()
@@ -59,7 +63,78 @@ public class PanelManager : MonoBehaviour {
 	public void DeleteRoom()
 	{
 		LevelManager.gameMode = Mode.RoomDeletion;
-		LevelManager.gameState = State.Choose;	
+		LevelManager.gameState = State.Choose;
+		
+		CloseStaffPanel();
+		CloseResourcesPanel();
+		CloseBuildPanel();
+	}
+	
+	
+	public void StartBuilding()
+	{
+		LevelManager.gameMode = Mode.RoomCreation;
+		LevelManager.gameState = State.Purchase;		
+	}
+	
+	public void BuildReception()
+	{
+		LevelManager.selectedRoomType = RoomType.Reception;
+		LevelManager.gameState = State.Placement;	
+	}
+	
+	public void BuildStaffBreak()
+	{
+		LevelManager.selectedRoomType = RoomType.StaffBreak;
+		LevelManager.gameState = State.Placement;
+	}
+	
+	public void BuildPatientWard()
+	{
+		LevelManager.selectedRoomType = RoomType.PatientWard;
+		LevelManager.gameState = State.Placement;
+	}
+	
+	public void BuildDiagnostics()
+	{
+		LevelManager.selectedRoomType = RoomType.Diagnostics;
+		LevelManager.gameState = State.Placement;
+	}
+	
+	public void BuildMagicPotion()
+	{
+		LevelManager.selectedRoomType = RoomType.MagicPotion;
+		LevelManager.gameState = State.Placement;
+	}
+	
+	public void BuildPhysicalActivity()
+	{
+		LevelManager.selectedRoomType = RoomType.PhysicalActivity;
+		LevelManager.gameState = State.Placement;
+	}
+	
+	public void BuildShockTreatment()
+	{
+		LevelManager.selectedRoomType = RoomType.ShockTreatment;
+		LevelManager.gameState = State.Placement;
+	}
+	
+	public void BuildSlimeTreatment()
+	{
+		LevelManager.selectedRoomType = RoomType.SlimeTreatment;
+		LevelManager.gameState = State.Placement;
+	}
+	
+	void Update()
+	{
+		if(LevelManager.gameMode == Mode.RoomCreation && LevelManager.gameState == State.Purchase)
+		{
+			BringInBuildPanel();	
+		}
+		else
+		{
+			CloseBuildPanel();	
+		}
 	}
 	
 }
