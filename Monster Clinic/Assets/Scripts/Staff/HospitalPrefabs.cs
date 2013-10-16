@@ -7,4 +7,11 @@ public class HospitalPrefabs : MonoBehaviour {
 	public static GameObject Octodoctor;
 	public static GameObject Cthuluburse;
 	public static GameObject Yetitor;
+	
+	public static GameObject ScriptsObject;
+	
+	void Awake()
+	{
+		ScriptsObject = this.gameObject;	
+	}
 }

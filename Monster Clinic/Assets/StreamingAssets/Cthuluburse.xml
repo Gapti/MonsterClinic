@@ -9,7 +9,7 @@
     <name>Nakesha Arnone</name>
     <cost>5</cost>
     <sexType>F</sexType>
-    <level>one</level>
+    <level>Nurse</level>
   </Cthuluburse>
   <Cthuluburse>
     <staffType>Cthuluburse</staffType>
@@ -20,7 +20,7 @@
     <name>Mark Pollard</name>
     <cost>10</cost>
     <sexType>M</sexType>
-    <level>one</level>
+    <level>Nurse</level>
   </Cthuluburse>
   <Cthuluburse>
     <staffType>Cthuluburse</staffType>
@@ -31,7 +31,7 @@
     <name>Dacia Ronning</name>
     <cost>3</cost>
     <sexType>F</sexType>
-    <level>one</level>
+    <level>Nurse</level>
   </Cthuluburse>
   <Cthuluburse>
     <staffType>Cthuluburse</staffType>
@@ -42,7 +42,7 @@
     <name>Lakeesha Lass</name>
     <cost>5</cost>
     <sexType>F</sexType>
-    <level>one</level>
+    <level>Nurse</level>
   </Cthuluburse>
   <Cthuluburse>
     <staffType>Cthuluburse</staffType>
@@ -53,7 +53,7 @@
     <name>Keshia Bolster</name>
     <cost>9</cost>
     <sexType>F</sexType>
-    <level>one</level>
+    <level>Nurse</level>
   </Cthuluburse>
   <Cthuluburse>
     <staffType>Cthuluburse</staffType>
@@ -64,7 +64,7 @@
     <name>Denver Courville</name>
     <cost>9</cost>
     <sexType>M</sexType>
-    <level>one</level>
+    <level>Nurse</level>
   </Cthuluburse>
   <Cthuluburse>
     <staffType>Cthuluburse</staffType>
@@ -75,7 +75,7 @@
     <name>Jarvis Portis</name>
     <cost>1</cost>
     <sexType>M</sexType>
-    <level>one</level>
+    <level>Nurse</level>
   </Cthuluburse>
   <Cthuluburse>
     <staffType>Cthuluburse</staffType>
@@ -86,7 +86,7 @@
     <name>Pattie Nez</name>
     <cost>7</cost>
     <sexType>F</sexType>
-    <level>one</level>
+    <level>Nurse</level>
   </Cthuluburse>
   <Cthuluburse>
     <staffType>Cthuluburse</staffType>
@@ -97,7 +97,7 @@
     <name>Karine Mantyla</name>
     <cost>10</cost>
     <sexType>F</sexType>
-    <level>one</level>
+    <level>Nurse</level>
   </Cthuluburse>
   <Cthuluburse>
     <staffType>Cthuluburse</staffType>
@@ -108,6 +108,6 @@
     <name>Deandre Schubert</name>
     <cost>11</cost>
     <sexType>M</sexType>
-    <level>one</level>
+    <level>Nurse</level>
   </Cthuluburse>
 </ArrayOfCthuluburse>

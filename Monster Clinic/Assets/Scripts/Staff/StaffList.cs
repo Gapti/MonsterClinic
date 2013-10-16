@@ -32,8 +32,6 @@ public class StaffList : MonoBehaviour{
 	public GameObject cthuluburse;
 	public GameObject yetitor;
 	
-	public WWW file;
-	
 	void Awake()
 	{
 		//start making the lists
@@ -166,7 +164,7 @@ public class StaffList : MonoBehaviour{
 				description = splitLine[2],
 				photoName = splitLine[3],
 				cost = int.Parse(splitLine[4]),
-				level = CthulLevel.one,
+				level = CthulLevel.Nurse,
            };
 
           _ctuluburseList.Add(cthuluburse);

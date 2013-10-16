@@ -18,7 +18,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_WEBPLAYER;WEBPLUG;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_2_1;UNITY_4_2;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_2_1;UNITY_4_2;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -44,6 +44,13 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\EG - Align Editor\Plugins\AlignManager.cs" />
+     <Compile Include="Assets\EG - Align Editor\Plugins\BasicExtents.cs" />
+     <Compile Include="Assets\EG - Align Editor\Plugins\CameraManager.cs" />
+     <Compile Include="Assets\EG - Align Editor\Plugins\ColliderExtents.cs" />
+     <Compile Include="Assets\EG - Align Editor\Plugins\DistributionManager.cs" />
+     <Compile Include="Assets\EG - Align Editor\Plugins\ExtentsGetter.cs" />
+     <Compile Include="Assets\EG - Align Editor\Plugins\RendererExtents.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipRandomItem.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\UICursor.cs" />
@@ -173,6 +180,10 @@
      <Compile Include="Assets\Scripts\Patient\Patient.cs" />
      <Compile Include="Assets\Scripts\Patient\PatientManager.cs" />
      <Compile Include="Assets\Scripts\Room.cs" />
+     <Compile Include="Assets\Scripts\RoomType\RoomInfo.cs" />
+     <Compile Include="Assets\Scripts\RoomType\RoomInfoGUI.cs" />
+     <Compile Include="Assets\Scripts\RoomType\RoomListGUI.cs" />
+     <Compile Include="Assets\Scripts\RoomType\RoomTypePanelToggle.cs" />
      <Compile Include="Assets\Scripts\Staff\ChooseStaffType.cs" />
      <Compile Include="Assets\Scripts\Staff\CloseHire.cs" />
      <Compile Include="Assets\Scripts\Staff\Cthuluburse.cs" />
@@ -190,7 +201,6 @@
      <Compile Include="Assets\Scripts\TestBox.cs" />
      <Compile Include="Assets\UI\ButtonBehaviour.cs" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Depth Cutout.shader" />
-     <None Include="Assets\UI\Textures\UI\ToonyUI\RoomBuild\UI_roomsBackup\FastGUIData.xml" />
      <None Include="Assets\StreamingAssets\Octodoctor.xml" />
      <None Include="Assets\NGUI\Examples\Models\Orc\Orc Skin.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo20.txt" />
@@ -205,6 +215,7 @@
      <None Include="Assets\StreamingAssets\Cthuluburse.xml" />
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Header.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored (AlphaClip).shader" />
+     <None Include="Assets\EG - Align Editor\readme.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (AlphaClip).shader" />
      <None Include="Assets\GUI Elements Pack\Sprites\Fonts\comic_sans_32.txt" />
      <None Include="Assets\Scripts\Staff\Yetitor.txt" />
@@ -213,6 +224,7 @@
      <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
      <None Include="Assets\UI\Fonts\ArialBold.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Dynamic Font (SoftClip).shader" />
+     <None Include="Assets\StreamingAssets\RoomType.xml" />
      <None Include="Assets\GUI Elements Pack\Sprites\Fonts\times_new_roman_32.txt" />
      <None Include="Assets\Scripts\Staff\Octodoctor.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed) (SoftClip).shader" />

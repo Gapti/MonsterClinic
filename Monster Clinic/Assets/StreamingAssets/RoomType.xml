@@ -1,113 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfYetitor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Yetitor>
-    <staffType>Yetitor</staffType>
-    <description>yet This man reminds you of a sensitive artist. He has almond-shaped eyes the color of dark chocolate.</description>
-    <monthWage>0</monthWage>
-    <experience>0</experience>
-    <photoName>11</photoName>
-    <name>Nakesha Arnone</name>
-    <cost>45</cost>
-    <sexType>F</sexType>
-    <level>Brown</level>
-  </Yetitor>
-  <Yetitor>
-    <staffType>Yetitor</staffType>
-    <description>This boorish gentleman has large purple eyes that are like two windows on the evening sky.</description>
-    <monthWage>0</monthWage>
-    <experience>0</experience>
-    <photoName>1</photoName>
-    <name>Lavon Jovel</name>
-    <cost>45</cost>
-    <sexType>M</sexType>
-    <level>Brown</level>
-  </Yetitor>
-  <Yetitor>
-    <staffType>Yetitor</staffType>
-    <description>This guy puts you in mind of an unstoppable hunting dog.</description>
-    <monthWage>0</monthWage>
-    <experience>0</experience>
-    <photoName>12</photoName>
-    <name>Dacia Ronning</name>
-    <cost>13</cost>
-    <sexType>F</sexType>
-    <level>Brown</level>
-  </Yetitor>
-  <Yetitor>
-    <staffType>Yetitor</staffType>
-    <description>This man reminds you of a noble eagle. He has wide blue eyes.</description>
-    <monthWage>0</monthWage>
-    <experience>0</experience>
-    <photoName>14</photoName>
-    <name>Lakeesha Lass</name>
-    <cost>67</cost>
-    <sexType>F</sexType>
-    <level>Brown</level>
-  </Yetitor>
-  <Yetitor>
-    <staffType>Yetitor</staffType>
-    <description>This mistrustful girl has slanted magenta eyes.</description>
-    <monthWage>0</monthWage>
-    <experience>0</experience>
-    <photoName>15</photoName>
-    <name>Keshia Bolster</name>
-    <cost>43</cost>
-    <sexType>F</sexType>
-    <level>Brown</level>
-  </Yetitor>
-  <Yetitor>
-    <staffType>Yetitor</staffType>
-    <description>This soulful guy has deep-set gray eyes that are like two pools of mercury.</description>
-    <monthWage>0</monthWage>
-    <experience>0</experience>
-    <photoName>10</photoName>
-    <name>Denver Courville</name>
-    <cost>32</cost>
-    <sexType>M</sexType>
-    <level>Brown</level>
-  </Yetitor>
-  <Yetitor>
-    <staffType>Yetitor</staffType>
-    <description>This calm man has wide eyes the color of fine silver.</description>
-    <monthWage>0</monthWage>
-    <experience>0</experience>
-    <photoName>13</photoName>
-    <name>Jarvis Portis</name>
-    <cost>67</cost>
-    <sexType>M</sexType>
-    <level>Brown</level>
-  </Yetitor>
-  <Yetitor>
-    <staffType>Yetitor</staffType>
-    <description>This gentle girl has hooded brown eyes.</description>
-    <monthWage>0</monthWage>
-    <experience>0</experience>
-    <photoName>16</photoName>
-    <name>Pattie Nez</name>
-    <cost>1</cost>
-    <sexType>F</sexType>
-    <level>Brown</level>
-  </Yetitor>
-  <Yetitor>
-    <staffType>Yetitor</staffType>
-    <description>This lady reminds you of a playful dolphin.</description>
-    <monthWage>0</monthWage>
-    <experience>0</experience>
-    <photoName>18</photoName>
-    <name>Karine Mantyla</name>
-    <cost>8</cost>
-    <sexType>F</sexType>
-    <level>Brown</level>
-  </Yetitor>
-  <Yetitor>
-    <staffType>Yetitor</staffType>
-    <description>This studious guy has hooded brown eyes that are like two patches of dried blood</description>
-    <monthWage>0</monthWage>
-    <experience>0</experience>
-    <photoName>2</photoName>
-    <name>Deandre Schubert</name>
-    <cost>90</cost>
-    <sexType>M</sexType>
-    <level>Brown</level>
-  </Yetitor>
-</ArrayOfYetitor>
+<ArrayOfRoomInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <RoomInfo>
+    <ID>0</ID>
+    <title>Patient Ward</title>
+    <desc>The Patient Ward.</desc>
+    <cost>10</cost>
+  </RoomInfo>
+  <RoomInfo>
+   <ID>1</ID>
+    <title>Reception</title>
+    <desc>The Reception.</desc>
+    <cost>10</cost>
+  </RoomInfo>
+  <RoomInfo>
+  	<ID>2</ID>
+    <title>Staff Break</title>
+    <desc>The staff room.</desc>
+    <cost>10</cost>
+  </RoomInfo>
+  <RoomInfo>
+    <ID>3</ID>
+    <title>Diagnostics</title>
+    <desc>The diagnostics room.</desc>
+    <cost>20</cost>
+  </RoomInfo>
+  <RoomInfo>
+    <ID>4</ID>
+    <title>Magic Potion</title>
+    <desc>The Magic Potion room.</desc>
+    <cost>20</cost>
+  </RoomInfo>
+  <RoomInfo>
+    <ID>5</ID>
+    <title>Physical Activity</title>
+    <desc>The Physical activity room.</desc>
+    <cost>20</cost>
+  </RoomInfo>
+  <RoomInfo>
+    <ID>6</ID>
+    <title>Shock Treatment</title>
+    <desc>The Shock Treatment room.</desc>
+    <cost>20</cost>
+  </RoomInfo>
+  <RoomInfo>
+    <ID>7</ID>
+    <title>Slime Treatment</title>
+    <desc>The Slime Treament room.</desc>
+    <cost>20</cost>
+  </RoomInfo>
+</ArrayOfRoomInfo>

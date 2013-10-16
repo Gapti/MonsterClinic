@@ -5,9 +5,9 @@ using System;
 
 public enum CthulLevel
 {
-	one = 1,
-	two = 2,
-	three = 3
+	Nurse = 1,
+	Matron = 2,
+	Head_Matron = 3
 }
 
 [Serializable]

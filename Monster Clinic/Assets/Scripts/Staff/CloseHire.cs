@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class CloseHire : MonoBehaviour {
@@ -8,6 +8,6 @@ public class CloseHire : MonoBehaviour {
 	void OnClick()
 	{
 		LevelManager.gameMode = Mode.None;
-		panelManager.CloseStaffScreen();	
+		panelManager.CloseStaffPanel();	
 	}
 }
