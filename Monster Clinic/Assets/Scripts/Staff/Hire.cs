@@ -52,4 +52,13 @@ public class Hire : MonoBehaviour {
 		if(refreshStaffButtons != null)
 			refreshStaffButtons(hireStaffMember.staffType);
 	}
+	
+	void OnTooltip(bool show)
+	{
+		
+		if(show)
+			UITooltip.ShowText("Hire this person" );	
+		else
+			UITooltip.ShowText(null);	
+	}
 }

@@ -15,7 +15,7 @@ public class ChooseStaffType : MonoBehaviour {
 			showStaffType(staffType);
 		
 		UISprite thisSprite = transform.GetComponentInChildren<UISprite>();
-		thisSprite.depth = 1;
+		thisSprite.depth = 3;
 		
 		otherButtons[0].depth = -1;
 		otherButtons[1].depth = -1;
