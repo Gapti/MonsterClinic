@@ -7,7 +7,7 @@ public class PanelManager : MonoBehaviour {
 	public GameObject panel_Buttons;
 	public GameObject Panel_Resources;
 	public GameObject panel_StaffScreen;
-//	public GameObject panel_Furnish;
+	public GameObject panel_Furnish;
 //	public GameObject panel_Destroy;
 	public GameObject panel_Build;
 	
@@ -22,11 +22,24 @@ public class PanelManager : MonoBehaviour {
 	{
 		panel_Build.SetActive(true);
 		CloseStaffPanel();
+		CloseFurnishPanel();
 	}
 	
 	public void CloseBuildPanel()
 	{
 		panel_Build.SetActive(false);
+	}
+	
+	public void BringInFurnishPanel()
+	{
+		panel_Furnish.SetActive(true);
+		CloseStaffPanel();
+		CloseBuildPanel();
+	}
+	
+	public void CloseFurnishPanel()
+	{
+		panel_Furnish.SetActive(false);	
 	}
 	
 	public void BringInResourcesPanel()
@@ -52,11 +65,13 @@ public class PanelManager : MonoBehaviour {
 	public void BringInStaffPanel()
 	{
 		panel_StaffScreen.SetActive(true);
-		panel_Build.SetActive(false);
+		CloseBuildPanel();
+		CloseFurnishPanel();
 	}
 	
 	public void CloseStaffPanel()
 	{
+		
 		panel_StaffScreen.SetActive(false);	
 	}
 	
@@ -125,6 +140,31 @@ public class PanelManager : MonoBehaviour {
 		LevelManager.gameState = State.Placement;
 	}
 	
+	public void FurnishMode()
+	{
+		LevelManager.gameMode = Mode.RoomFurnishing;
+		LevelManager.gameState = State.None;		
+	}
+	
+	public void ExitFurnishMode()
+	{
+		LevelManager.gameMode = Mode.None;
+		LevelManager.gameState = State.None;
+	}
+	
+	public void PlaceBench()
+	{
+		LevelManager.selectedItemNo = 2;////we need this to be the same as ID in furnishInfo
+	}
+	
+	public void PlaceDoor()
+	{
+		LevelManager.selectedItemNo = 1;
+	}
+	
+	
+		
+	
 	void Update()
 	{
 		if(LevelManager.gameMode == Mode.RoomCreation && LevelManager.gameState == State.Purchase)
@@ -134,6 +174,15 @@ public class PanelManager : MonoBehaviour {
 		else
 		{
 			CloseBuildPanel();	
+		}
+		
+		if(LevelManager.gameMode == Mode.RoomFurnishing && LevelManager.gameState == State.Purchase)
+		{
+			BringInFurnishPanel();
+		}
+		else
+		{
+			CloseFurnishPanel();
 		}
 	}
 	
