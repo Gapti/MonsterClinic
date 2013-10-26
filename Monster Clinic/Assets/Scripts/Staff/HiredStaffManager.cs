@@ -4,13 +4,10 @@ using System.Collections.Generic;
 
 public class HiredStaffManager : MonoBehaviour {
 	
-	public List<GameObject> hiredStatffList = new List<GameObject>();
+	public List<GameObject> hiredStaffList = new List<GameObject>();
 	
 	public void AddStaff(GameObject staffObject)
 	{
-		hiredStatffList.Add (staffObject);
-		
-		///just for a test
-		//print (hiredStatffList[0].GetComponent<StaffPersistantData>().staffData.name);
+		hiredStaffList.Add (staffObject);
 	}
 }

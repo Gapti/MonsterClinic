@@ -10,6 +10,7 @@ using System.Collections.Generic;
 /// Popup list can be used to display pop-up menus and drop-down lists.
 /// </summary>
 
+[ExecuteInEditMode]
 [AddComponentMenu("NGUI/Interaction/Popup List")]
 public class UIPopupList : UIWidgetContainer
 {
@@ -39,6 +40,24 @@ public class UIPopupList : UIWidgetContainer
 	/// </summary>
 
 	public UIFont font;
+
+	/// <summary>
+	/// True type font used by the labels. Alternative to specifying a bitmap font ('font').
+	/// </summary>
+
+	public Font trueTypeFont;
+
+	/// <summary>
+	/// Size of the font to use for the popup list's labels.
+	/// </summary>
+
+	public int fontSize = 16;
+
+	/// <summary>
+	/// Font style used by the dynamic font.
+	/// </summary>
+
+	public FontStyle fontStyle = FontStyle.Normal;
 
 	/// <summary>
 	/// Label with text to auto-update, if any.
@@ -77,12 +96,6 @@ public class UIPopupList : UIWidgetContainer
 	public Vector2 padding = new Vector3(4f, 4f);
 
 	/// <summary>
-	/// Scaling factor applied to labels within the drop-down menu.
-	/// </summary>
-
-	public float textScale = 1f;
-
-	/// <summary>
 	/// Color tint applied to labels inside the list.
 	/// </summary>
 
@@ -118,6 +131,7 @@ public class UIPopupList : UIWidgetContainer
 
 	public List<EventDelegate> onChange = new List<EventDelegate>();
 
+	// Currently selected item
 	[HideInInspector][SerializeField] string mSelectedItem;
 
 	UIPanel mPanel;
@@ -131,6 +145,7 @@ public class UIPopupList : UIWidgetContainer
 	// Deprecated functionality
 	[HideInInspector][SerializeField] GameObject eventReceiver;
 	[HideInInspector][SerializeField] string functionName = "OnSelectionChange";
+	[HideInInspector][SerializeField] float textScale = 0f;
 
 	public delegate void LegacyEvent (string val);
 	LegacyEvent mLegacyEvent;
@@ -173,26 +188,30 @@ public class UIPopupList : UIWidgetContainer
 			}
 
 #if UNITY_EDITOR
-			if (!Application.isPlaying) return;
+			if (Application.isPlaying)
 #endif
-			if (mSelectedItem != null && (trigger || textLabel == null))
 			{
-				current = this;
-
-				// Legacy functionality
-				if (mLegacyEvent != null) mLegacyEvent(mSelectedItem);
-
-				if (EventDelegate.IsValid(onChange))
+				if (mSelectedItem != null && (trigger || textLabel == null))
 				{
-					EventDelegate.Execute(onChange);
+					current = this;
+
+					// Legacy functionality
+					if (mLegacyEvent != null) mLegacyEvent(mSelectedItem);
+
+					if (EventDelegate.IsValid(onChange))
+					{
+						EventDelegate.Execute(onChange);
+					}
+					else if (eventReceiver != null && !string.IsNullOrEmpty(functionName))
+					{
+						// Legacy functionality support (for backwards compatibility)
+						eventReceiver.SendMessage(functionName, mSelectedItem, SendMessageOptions.DontRequireReceiver);
+					}
+					current = null;
 				}
-				else if (eventReceiver != null && !string.IsNullOrEmpty(functionName))
-				{
-					// Legacy functionality support (for backwards compatibility)
-					eventReceiver.SendMessage(functionName, mSelectedItem, SendMessageOptions.DontRequireReceiver);
-				}
-				current = null;
 			}
+			// Clear the selection for menu items
+			if (textLabel == null) mSelectedItem = null;
 		}
 	}
 
@@ -218,6 +237,24 @@ public class UIPopupList : UIWidgetContainer
 	}
 
 	/// <summary>
+	/// Whether the popup list is actually usable.
+	/// </summary>
+
+	bool isValid { get { return font != null || trueTypeFont != null; } }
+
+	/// <summary>
+	/// Active font size.
+	/// </summary>
+
+	int activeFontSize { get { return (trueTypeFont != null || font == null) ? fontSize : font.defaultSize; } }
+
+	/// <summary>
+	/// Font scale applied to the popup list's text.
+	/// </summary>
+
+	float activeFontScale { get { return (trueTypeFont != null || font == null) ? 1f : (float)fontSize / font.defaultSize; } }
+
+	/// <summary>
 	/// Send out the selection message on start.
 	/// </summary>
 
@@ -230,16 +267,36 @@ public class UIPopupList : UIWidgetContainer
 			functionName = null;
 		}
 
-		// Automatically choose the first item
-		if (string.IsNullOrEmpty(mSelectedItem))
+		// textScale is no longer used
+		if (textScale != 0f)
 		{
-			if (items.Count > 0) value = items[0];
+			fontSize = (font != null) ? Mathf.RoundToInt(font.defaultSize * textScale) : 16;
+			textScale = 0f;
 		}
-		else
+
+		if (trueTypeFont == null && font.isDynamic)
 		{
-			string s = mSelectedItem;
-			mSelectedItem = null;
-			value = s;
+			trueTypeFont = font.dynamicFont;
+			font = null;
+		}
+
+		if (Application.isPlaying)
+		{
+			if (textLabel != null)
+			{
+				// Automatically choose the first item
+				if (string.IsNullOrEmpty(mSelectedItem))
+				{
+					if (items.Count > 0) value = items[0];
+				}
+				else
+				{
+					string s = mSelectedItem;
+					mSelectedItem = null;
+					value = s;
+				}
+			}
+			else mSelectedItem = null;
 		}
 	}
 
@@ -249,7 +306,7 @@ public class UIPopupList : UIWidgetContainer
 
 	void OnLocalize (Localization loc)
 	{
-		if (isLocalized && textLabel != null)
+		if (isLocalized && textLabel != null && !string.IsNullOrEmpty(mSelectedItem))
 		{
 			textLabel.text = loc.Get(mSelectedItem);
 		}
@@ -436,7 +493,7 @@ public class UIPopupList : UIWidgetContainer
 		GameObject go = widget.gameObject;
 		Transform t = widget.cachedTransform;
 
-		float minHeight = font.size * textScale + mBgBorder * 2f;
+		float minHeight = activeFontSize * activeFontScale + mBgBorder * 2f;
 		t.localScale = new Vector3(1f, minHeight / widget.height, 1f);
 		TweenScale.Begin(go, animSpeed, Vector3.one).method = UITweener.Method.EaseOut;
 
@@ -464,7 +521,7 @@ public class UIPopupList : UIWidgetContainer
 
 	void OnClick()
 	{
-		if (enabled && NGUITools.GetActive(gameObject) && mChild == null && atlas != null && font != null && items.Count > 0)
+		if (enabled && NGUITools.GetActive(gameObject) && mChild == null && atlas != null && isValid && items.Count > 0)
 		{
 			mLabelList.Clear();
 
@@ -497,7 +554,6 @@ public class UIPopupList : UIWidgetContainer
 			// We need to know the size of the background sprite for padding purposes
 			Vector4 bgPadding = mBackground.border;
 			mBgBorder = bgPadding.y;
-
 			mBackground.cachedTransform.localPosition = new Vector3(0f, bgPadding.y, 0f);
 
 			// Add a sprite used for the selection
@@ -509,7 +565,10 @@ public class UIPopupList : UIWidgetContainer
 			if (hlsp == null) return;
 
 			float hlspHeight = hlsp.borderTop;
-			float labelHeight = font.size * font.pixelSize * textScale;
+			float pixelSize = (font != null) ? font.pixelSize : 1f;
+			float fontHeight = activeFontSize * pixelSize;
+			float dynScale = activeFontScale;
+			float labelHeight = fontHeight * dynScale;
 			float x = 0f, y = -padding.y;
 			List<UILabel> labels = new List<UILabel>();
 
@@ -520,13 +579,16 @@ public class UIPopupList : UIWidgetContainer
 
 				UILabel lbl = NGUITools.AddWidget<UILabel>(mChild);
 				lbl.pivot = UIWidget.Pivot.TopLeft;
-				lbl.font = font;
+				lbl.bitmapFont = font;
+				lbl.trueTypeFont = trueTypeFont;
+				lbl.fontSize = fontSize;
+				lbl.fontStyle = fontStyle;
 				lbl.text = (isLocalized && Localization.instance != null) ? Localization.instance.Get(s) : s;
 				lbl.color = textColor;
 				lbl.cachedTransform.localPosition = new Vector3(bgPadding.x + padding.x, y, -1f);
 				lbl.overflowMethod = UILabel.Overflow.ResizeFreely;
 				lbl.MakePixelPerfect();
-				if (textScale != 1f) lbl.cachedTransform.localScale = Vector3.one * textScale;
+				if (dynScale != 1f) lbl.cachedTransform.localScale = Vector3.one * dynScale;
 				labels.Add(lbl);
 
 				y -= labelHeight;
@@ -547,10 +609,11 @@ public class UIPopupList : UIWidgetContainer
 			}
 
 			// The triggering widget's width should be the minimum allowed width
-			x = Mathf.Max(x, bounds.size.x - (bgPadding.x + padding.x) * 2f);
+			x = Mathf.Max(x, bounds.size.x * dynScale - (bgPadding.x + padding.x) * 2f);
 
-			Vector3 bcCenter = new Vector3(x * 0.5f, -labelHeight * 0.5f, 0f);
-			Vector3 bcSize = new Vector3(x, (labelHeight + padding.y), 1f);
+			float cx = x / dynScale;
+			Vector3 bcCenter = new Vector3(cx * 0.5f, -fontHeight * 0.5f, 0f);
+			Vector3 bcSize = new Vector3(cx, (labelHeight + padding.y) / dynScale, 1f);
 
 			// Run through all labels and add colliders
 			for (int i = 0, imax = labels.Count; i < imax; ++i)

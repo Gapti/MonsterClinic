@@ -31,7 +31,13 @@ public class StaffLabel : MonoBehaviour {
 		Hire.refreshStaffButtons += HandleChooseStaffTypeshowStaffType;
 	}
 	
-	// handler for staff type delegate
+	void OnDisable()
+	{
+		ChooseStaffType.showStaffType -= HandleChooseStaffTypeshowStaffType;
+		Hire.refreshStaffButtons -= HandleChooseStaffTypeshowStaffType;
+	}
+	
+	// andler for staff type delegate
 	void HandleChooseStaffTypeshowStaffType (StaffType st)
 	{
 		switch(st)
@@ -81,11 +87,7 @@ public class StaffLabel : MonoBehaviour {
 		}
 	}
 	
-	void OnDisable()
-	{
-		ChooseStaffType.showStaffType -= HandleChooseStaffTypeshowStaffType;
-		Hire.refreshStaffButtons -= HandleChooseStaffTypeshowStaffType;
-	}
+
 	
 	//show the ocotodoctors name in the button
 	public void ShowOctoDoctorName()
@@ -144,15 +146,13 @@ public class StaffLabel : MonoBehaviour {
 	public UISprite face;
 	public UILabel level;
 	
+	/// ref to the hire button
+	public UIImageButton hireButton;
+	
 	//show the ocotodoctor more info when you click his name
 	public void ShowOctoDoctorDetails()
 	{
-		var myStaff = staff.GrabOctodoctor(index);
-		description.text = myStaff.description;
-		wage.text = myStaff.monthWage.ToString();
-		cost.text = myStaff.cost.ToString();
-		face.spriteName = myStaff.photoName;
-		level.text = (((Octodoctor)myStaff).level).ToString();
+		UpdateLabels(staff.GrabOctodoctor(index));
 		
 		//make a ref of staff picked
 		pick.staffListPosition = index;
@@ -162,12 +162,7 @@ public class StaffLabel : MonoBehaviour {
 	// show the cthulburse more info when you click his name
 	public void ShowCthulburseDetails()
 	{
-		var myStaff = staff.GrabCtuluburse(index);
-		description.text = myStaff.description;
-		wage.text = myStaff.monthWage.ToString();
-		cost.text = myStaff.cost.ToString();
-		face.spriteName = myStaff.photoName;
-		level.text = (((Cthuluburse)myStaff).level).ToString();
+		UpdateLabels(staff.GrabCtuluburse(index));
 		
 		//make a ref of staff picked
 		pick.staffListPosition = index;
@@ -177,15 +172,37 @@ public class StaffLabel : MonoBehaviour {
 	//show the yetitor more into when you click his name
 	public void ShowYetitorDetails()
 	{
-		var myStaff = staff.GrabYetitor(index);
-		description.text = myStaff.description;
-		wage.text = myStaff.monthWage.ToString();
-		cost.text = myStaff.cost.ToString();
-		face.spriteName = myStaff.photoName;
-		level.text = (((Yetitor)myStaff).level).ToString();
+		UpdateLabels(staff.GrabYetitor(index));
 		
 		//make a ref of staff picked
 		pick.staffListPosition = index;
+	}
+	
+	void UpdateLabels(Staff m)
+	{
+		if(m == null)
+			return;
+		
+		if(m.staffType == StaffType.Octodoctor)
+			level.text = (((Octodoctor)m).level).ToString();
+		
+		if(m.staffType == StaffType.Cthuluburse)
+			level.text = (((Cthuluburse)m).level).ToString();
+			
+		if(m.staffType == StaffType.Yetitor)
+			level.text = (((Yetitor)m).level).ToString();	
+				
+		description.text = m.description;
+		wage.text = m.monthWage.ToString();
+		cost.text = m.cost.ToString();
+		face.spriteName = m.photoName;
+		
+		///check can we offord this, if not disable the button
+		GameResources gr = HospitalPrefabs.ScriptsObject.GetComponent<GameResources>();
+		if(gr.OffordItemCheck(m.cost) < 0 )
+			hireButton.isEnabled = false;
+		else
+			hireButton.isEnabled = true;
 	}
 		
 	/// <summary>

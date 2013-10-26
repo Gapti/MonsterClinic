@@ -16,7 +16,7 @@ public class UIAtlas : MonoBehaviour
 {
 	// Legacy functionality, removed in 3.0. Do not use.
 	[System.Serializable]
-	public class Sprite
+	class Sprite
 	{
 		public string name = "Unity Bug";
 		public Rect outer = new Rect(0f, 0f, 1f, 1f);
@@ -379,11 +379,11 @@ public class UIAtlas : MonoBehaviour
 		{
 			UILabel lbl = labels[i];
 
-			if (lbl.font != null && CheckIfRelated(this, lbl.font.atlas))
+			if (lbl.bitmapFont != null && CheckIfRelated(this, lbl.bitmapFont.atlas))
 			{
-				UIFont font = lbl.font;
-				lbl.font = null;
-				lbl.font = font;
+				UIFont font = lbl.bitmapFont;
+				lbl.bitmapFont = null;
+				lbl.bitmapFont = font;
 #if UNITY_EDITOR
 				UnityEditor.EditorUtility.SetDirty(lbl);
 #endif

@@ -8,7 +8,6 @@ public class PanelManager : MonoBehaviour {
 	public GameObject Panel_Resources;
 	public GameObject panel_StaffScreen;
 	public GameObject panel_Furnish;
-//	public GameObject panel_Destroy;
 	public GameObject panel_Build;
 	
 	public void ExitBuildRoom()
@@ -81,7 +80,6 @@ public class PanelManager : MonoBehaviour {
 		LevelManager.gameState = State.Choose;
 		
 		CloseStaffPanel();
-		CloseResourcesPanel();
 		CloseBuildPanel();
 	}
 	

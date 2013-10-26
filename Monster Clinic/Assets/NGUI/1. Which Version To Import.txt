@@ -16,13 +16,13 @@ two steps of the upgrade process:
 WHICH VERSION OF THE PACKAGE SHOULD YOU IMPORT?
 -----------------------------------------------
 
-1. If you are starting a new project, import the "NGUI v.3.0.2" unity package.
+1. If you are starting a new project, import the "NGUI v.3.0.3" unity package.
    This video should be a good starting point for you:
    http://www.youtube.com/watch?v=OT0hTxjjkY4&list=UUQGZdUwzE8gmvgjomZSNFJg
 
 2. If you are working with an existing project that was using NGUI 2.7.0 or
    earlier, but don't mind spending some time upgrading it to use the latest
-   version's features, import the "NGUI v.3.0.2" unity package as well,
+   version's features, import the "NGUI v.3.0.3" unity package as well,
    but ONLY AFTER BACKING UP YOUR CURRENT PROJECT!! This version will have
    all the latest features and fixes, but it is NOT BACKWARDS COMPATIBLE
    due to the sheer amount of stuff changed/added in NGUI 3.

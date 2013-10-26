@@ -1,17 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/RoomType/RoomInfoGUI.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/NGUI/ReadMe - 3.0.2.txt">
     <Files>
-      <File FileName="Assets/NGUI/Examples/Scripts/InventorySystem/System/InvBaseItem.cs" Line="1" Column="1" />
-      <File FileName="Assets/NGUI/Examples/Scripts/InventorySystem/System/InvGameItem.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/RoomType/RoomInfo.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Furnish/FurnishInfo.cs" Line="7" Column="2" />
-      <File FileName="Assets/Scripts/RoomType/RoomInfoGUI.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/RoomType/RoomListGUI.cs" Line="1" Column="1" />
-      <File FileName="Assets/StreamingAssets/RoomType.xml" Line="1" Column="1" />
-      <File FileName="Assets/StreamingAssets/FurnishType.xml" Line="2" Column="20" />
-      <File FileName="Assets/Scripts/Furnish/FurnishListGUI.cs" Line="28" Column="1" />
-      <File FileName="Assets/Scripts/Staff/HospitalPrefabs.cs" Line="10" Column="2" />
+      <File FileName="Assets/Scripts/BuildOnclick.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameResources/GameResources.cs" Line="36" Column="25" />
+      <File FileName="Assets/Scripts/Staff/HospitalPrefabs.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Staff/Hire.cs" Line="1" Column="1" />
+      <File FileName="Assets/NGUI/Scripts/Interaction/UIInputValidator.cs" Line="1" Column="1" />
+      <File FileName="Assets/NGUI/ReadMe - 3.0.2.txt" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

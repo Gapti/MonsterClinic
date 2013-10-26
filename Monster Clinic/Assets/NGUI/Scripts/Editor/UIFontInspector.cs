@@ -43,7 +43,7 @@ public class UIFontInspector : Editor
 
 	public override bool HasPreviewGUI () { return mView != View.Nothing; }
 
-	void OnSelectFont (MonoBehaviour obj)
+	void OnSelectFont (Object obj)
 	{
 		// Undo doesn't work correctly in this case... so I won't bother.
 		//NGUIEditorTools.RegisterUndo("Font Change");
@@ -55,7 +55,7 @@ public class UIFontInspector : Editor
 		if (mReplacement == null) mType = FontType.Normal;
 	}
 
-	void OnSelectAtlas (MonoBehaviour obj)
+	void OnSelectAtlas (Object obj)
 	{
 		if (mFont != null)
 		{
@@ -71,10 +71,10 @@ public class UIFontInspector : Editor
 
 		foreach (UILabel lbl in labels)
 		{
-			if (UIFont.CheckIfRelated(lbl.font, mFont))
+			if (UIFont.CheckIfRelated(lbl.bitmapFont, mFont))
 			{
-				lbl.font = null;
-				lbl.font = mFont;
+				lbl.bitmapFont = null;
+				lbl.bitmapFont = mFont;
 			}
 		}
 	}
@@ -118,7 +118,7 @@ public class UIFontInspector : Editor
 
 		if (mType == FontType.Reference)
 		{
-			ComponentSelector.Draw<UIFont>(mFont.replacement, OnSelectFont);
+			ComponentSelector.Draw<UIFont>(mFont.replacement, OnSelectFont, true);
 
 			GUILayout.Space(6f);
 			EditorGUILayout.HelpBox("You can have one font simply point to " +
@@ -160,15 +160,15 @@ public class UIFontInspector : Editor
 			}
 
 			GUILayout.BeginHorizontal();
-			int size = EditorGUILayout.IntField("Size", mFont.dynamicFontSize, GUILayout.Width(120f));
+			int size = EditorGUILayout.IntField("Default Size", mFont.defaultSize, GUILayout.Width(120f));
 			FontStyle style = (FontStyle)EditorGUILayout.EnumPopup(mFont.dynamicFontStyle);
 			GUILayout.Space(18f);
 			GUILayout.EndHorizontal();
 
-			if (size != mFont.dynamicFontSize)
+			if (size != mFont.defaultSize)
 			{
 				NGUIEditorTools.RegisterUndo("Font change", mFont);
-				mFont.dynamicFontSize = size;
+				mFont.defaultSize = size;
 			}
 
 			if (style != mFont.dynamicFontStyle)
@@ -182,13 +182,13 @@ public class UIFontInspector : Editor
 		{
 			NGUIEditorTools.DrawSeparator();
 
-			ComponentSelector.Draw<UIAtlas>(mFont.atlas, OnSelectAtlas);
+			ComponentSelector.Draw<UIAtlas>(mFont.atlas, OnSelectAtlas, true);
 
 			if (mFont.atlas != null)
 			{
 				if (mFont.bmFont.isValid)
 				{
-					NGUIEditorTools.AdvancedSpriteField(mFont.atlas, mFont.spriteName, SelectSprite, false);
+					NGUIEditorTools.DrawAdvancedSpriteField(mFont.atlas, mFont.spriteName, SelectSprite, false);
 				}
 				EditorGUILayout.Space();
 			}
@@ -348,7 +348,7 @@ public class UIFontInspector : Editor
 
 						GUILayout.BeginHorizontal();
 						GUILayout.Label(sym.sequence, GUILayout.Width(40f));
-						if (NGUIEditorTools.SimpleSpriteField(mFont.atlas, sym.spriteName, ChangeSymbolSprite))
+						if (NGUIEditorTools.DrawSpriteField(mFont.atlas, sym.spriteName, ChangeSymbolSprite))
 							mSelectedSymbol = sym;
 
 						if (GUILayout.Button("Edit", GUILayout.Width(40f)))
@@ -383,7 +383,7 @@ public class UIFontInspector : Editor
 
 					GUILayout.BeginHorizontal();
 					mSymbolSequence = EditorGUILayout.TextField(mSymbolSequence, GUILayout.Width(40f));
-					NGUIEditorTools.SimpleSpriteField(mFont.atlas, mSymbolSprite, SelectSymbolSprite);
+					NGUIEditorTools.DrawSpriteField(mFont.atlas, mSymbolSprite, SelectSymbolSprite);
 
 					bool isValid = !string.IsNullOrEmpty(mSymbolSequence) && !string.IsNullOrEmpty(mSymbolSprite);
 					GUI.backgroundColor = isValid ? Color.green : Color.grey;
