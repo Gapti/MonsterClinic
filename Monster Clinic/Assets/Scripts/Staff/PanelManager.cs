@@ -182,6 +182,13 @@ public class PanelManager : MonoBehaviour {
 		{
 			CloseFurnishPanel();
 		}
+		
+		
+		///enableds disables on gamestate and gameMode the gui buttons
+		if(LevelManager.gameState == State.Placement || LevelManager.gameState == State.Deletion || LevelManager.gameState == State.Move || LevelManager.gameState == State.Choose || LevelManager.gameMode == Mode.RoomFurnishing)
+			panel_Buttons.SetActive(false);
+		else
+			panel_Buttons.SetActive(true);
 	}
 	
 }
