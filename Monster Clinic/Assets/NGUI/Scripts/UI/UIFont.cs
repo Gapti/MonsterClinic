@@ -370,6 +370,13 @@ public class UIFont : MonoBehaviour
 	public bool isValid { get { return mFont.isValid; } }
 #endif
 
+	[System.Obsolete("Use UIFont.defaultSize instead")]
+	public int size
+	{
+		get { return defaultSize; }
+		set { defaultSize = value; }
+	}
+
 	/// <summary>
 	/// Pixel-perfect size of this font.
 	/// </summary>
@@ -820,25 +827,7 @@ public class UIFont : MonoBehaviour
 			}
 
 			// When encoded symbols such as [RrGgBb] or [-] are encountered, skip past them
-			if (encoding && ch == '[')
-			{
-				if (offset + 2 < textLength)
-				{
-					if (text[offset + 1] == '-' && text[offset + 2] == ']')
-					{
-						offset += 2;
-						continue;
-					}
-					else if (offset + 7 < textLength && text[offset + 7] == ']')
-					{
-						if (NGUIText.EncodeColor(NGUIText.ParseColor(text, offset + 1)) == text.Substring(offset + 1, 6).ToUpper())
-						{
-							offset += 7;
-							continue;
-						}
-					}
-				}
-			}
+			if (NGUIText.ParseSymbol(text, ref offset)) { --offset; continue; }
 
 			// See if there is a symbol matching this text
 			BMSymbol symbol = useSymbols ? MatchSymbol(text, offset, textLength) : null;

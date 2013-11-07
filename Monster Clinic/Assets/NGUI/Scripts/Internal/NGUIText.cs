@@ -63,7 +63,11 @@ static public class NGUIText
 			else if (index + 7 < length)
 			{
 				if (text[index + 7] == ']')
-					return 8;
+				{
+					Color c = ParseColor(text, index + 1);
+					if (EncodeColor(c) == text.Substring(index + 1, 6).ToUpper())
+						return 8;
+				}
 			}
 		}
 		return 0;
@@ -351,7 +355,7 @@ static public class NGUIText
 			}
 
 			// When encoded symbols such as [RrGgBb] or [-] are encountered, skip past them
-			if (ParseSymbol(text, ref offset)) continue;
+			if (ParseSymbol(text, ref offset)) { --offset; continue; }
 
 			int glyphWidth = 0;
 			if (font.GetCharacterInfo(ch, out mTempChar, size, style))

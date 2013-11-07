@@ -99,7 +99,7 @@ public class ColliderExtents : BasicExtents {
 	}
 
 	/// <summary>
-	/// Gets the right collider bounds : if it's a capsule collider, the unity.bounds will only return a bounding box of the capsule radius, not the height
+	/// Gets the right collider bounds : if it's a capsule collider, the unity.bounds returns a bounding box of the capsule radius, not using the height, so it's wrong and it must be otherwise
 	/// </summary>
 	/// <returns>
 	/// The collider bounds, or new bounds taking into account the height of a capsule collider
@@ -109,17 +109,20 @@ public class ColliderExtents : BasicExtents {
 	/// </param>
 	static Bounds GetColliderBounds(Collider myCollider) {
 		Bounds bounds;
+		/*
+		 // The Capsule Collider bug has been solved in Unity 3.5.x
 		if (myCollider.GetType().Equals(typeof(CapsuleCollider))) { 
 			CapsuleCollider myCapsule = (myCollider as CapsuleCollider);
-			bounds = new Bounds(myCollider.bounds.center, new Vector3(myCapsule.radius, myCapsule.height, myCapsule.radius));
+			bounds = new Bounds(myCollider.bounds.center, Vector3.Scale(myCollider.transform.localScale, new Vector3(myCapsule.radius, myCapsule.height, myCapsule.radius)));
 		}
 		else if (myCollider.GetType().Equals(typeof(CharacterController))) { 
 			CharacterController myCapsule = (myCollider as CharacterController);
-			bounds = new Bounds(myCollider.bounds.center, new Vector3(myCapsule.radius, myCapsule.height, myCapsule.radius));
+			bounds = new Bounds(myCollider.bounds.center, Vector3.Scale(myCollider.transform.localScale, new Vector3(myCapsule.radius, myCapsule.height, myCapsule.radius)));
 		} 
 		else {
+		// */
 			bounds = myCollider.bounds;
-		}
+		//}
 		return bounds;
 	}
 }

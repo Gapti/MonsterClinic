@@ -191,9 +191,10 @@ public class AlignManager {
 	public static void FallOnTerrain(Transform fallingTransform) {
 		FallOnTerrain(fallingTransform, false, ExtentsGetter.BoundType.Renderer);
 	}
-
+	
 	// <summary>
 	/// Raycast down from the object bounds so it appears to have fallen on the colliders below (from the down to the top)
+	/// Beware : due to approximation in Transform values, it's not 100% accurate
 	/// </summary>
 	/// <param name="fallingTransform">
 	/// The <see cref="Transform"/> of the object to be aligned
@@ -203,16 +204,16 @@ public class AlignManager {
 	/// </param>
 	public static void FallOnTerrain(Transform fallingTransform, bool rotateToTerrainAngle, ExtentsGetter.BoundType boundType) {
 		Bounds activeObjectBounds = ExtentsGetter.GetHierarchyBounds(fallingTransform.gameObject, boundType);
-
+		// TODO : rewrite so it use a bounding box to get objects inside and then the upper one, then use Collider.ClosestPointOnBounds to get the closest hit point
+		
 		// If we apply a rotation to the object when falling, make it fall as if it was upside
 		Quaternion wasRotation = fallingTransform.rotation;
 		if (rotateToTerrainAngle) {
 			fallingTransform.rotation = Quaternion.identity;
 		}
 
-		float distance = 1000;
-		// New from 2.1 : the Raycast has been replaced by a SphereCastAll method so every single object in the sphere sweep returns a hit  
-		RaycastHit[] hits;
+		float distance = System.Single.PositiveInfinity;
+		bool hitSomething = false;
 		// The radius is calculated from the bound size, taking the greatest value of width and depth
 		float sphereRadius = Mathf.Max(activeObjectBounds.extents.x, activeObjectBounds.extents.z);
 		
@@ -220,30 +221,39 @@ public class AlignManager {
 		Vector3 newPosition = fallingTransform.position;
 		Vector3 normal = fallingTransform.up;
 
+		// New from 2.1 : the Raycast has been replaced by a SphereCastAll method so every single object in the sphere sweep returns a hit
 		// SphereCast down to check all hits
-		// TIPS: sometimes the cast returns the current Transform (even from the lowest Bounds position) so we must ensure to not take it into account
-		hits = Physics.SphereCastAll(activeObjectBounds.center, sphereRadius, Vector3.down, distance);
+		RaycastHit[] hits;
+		// TIPS  : the cast can return the current Transform so we must ensure to not take it into account
+		hits = Physics.SphereCastAll(activeObjectBounds.center + Vector3.up * sphereRadius, sphereRadius, Vector3.down);
 		if (hits.Length > 0) {
 			for (int i=0;i<hits.Length;i++) {
-				if (!hits[i].collider.transform.Equals(fallingTransform) && hits[i].distance < distance) {
-					distance = hits[i].distance;
-					newPosition.y = activeObjectBounds.center.y - hits[i].distance;
+				// Somehow, the hits[i].distance is not equal to (raycast.origin - hits[i].point) ?
+				float hitDistance = activeObjectBounds.center.y - hits[i].point.y;
+				// v2.2 Fix : do not take into account any hit from inside the boundaries (use the y extents)
+				if (!hits[i].collider.transform.Equals(fallingTransform) && hitDistance < distance && hitDistance > activeObjectBounds.extents.y) {
+					hitSomething = true;
+					distance = hitDistance;
 					normal = hits[i].normal;
 				}
 			}
 		}
 
-		if (distance > 0) {
-			// Do not move the object if the distance is 0 or below
-			if (rotateToTerrainAngle) {
-				// Assume a well oriented mesh (Vector3.up means the up side of the mesh
-				Quaternion rotation = Quaternion.FromToRotation(Vector3.up, normal);
-				wasRotation = rotation;
+		if (hitSomething) {
+			if (distance > 0) {
+				// Do not move the object if the distance is 0 or below
+				if (rotateToTerrainAngle) {
+					// Assume a well oriented mesh (Vector3.up means the up side of the mesh
+					Quaternion rotation = Quaternion.FromToRotation(Vector3.up, normal);
+					wasRotation = rotation;
+				}
+				
+				// Move to new position : nearest hit distance - half size of the falling object
+				newPosition.y = newPosition.y - distance + activeObjectBounds.extents.y;
+				fallingTransform.position = newPosition;
 			}
-			
-			fallingTransform.position = newPosition;	
+			fallingTransform.rotation = wasRotation;
 		}
-		fallingTransform.rotation = wasRotation;
 	}
 	
 	/// <summary>

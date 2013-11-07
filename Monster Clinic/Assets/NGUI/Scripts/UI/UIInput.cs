@@ -148,6 +148,9 @@ public class UIInput : MonoBehaviour
 
 	public string defaultText { get { return mDefaultText; } set { mDefaultText = value; } }
 
+	[System.Obsolete("Use UIInput.value instead")]
+	public string text { get { return this.value; } set { this.value = value; } }
+
 	/// <summary>
 	/// Input field's current text value.
 	/// </summary>
@@ -318,7 +321,7 @@ public class UIInput : MonoBehaviour
 
 		if (mDoInit) Init();
 
-		if (label != null && label.bitmapFont != null && NGUITools.IsActive(this))
+		if (label != null && NGUITools.IsActive(this))
 		{
 			label.color = activeTextColor;
 #if MOBILE
@@ -388,6 +391,7 @@ public class UIInput : MonoBehaviour
 		}
 		
 		selection = null;
+		UpdateLabel();
 	}
 
 	/// <summary>
@@ -397,7 +401,7 @@ public class UIInput : MonoBehaviour
 #if MOBILE
 	void Update()
 	{
-		if (mKeyboard != null)
+		if (mKeyboard != null && isSelected && NGUITools.IsActive(this))
 		{
 			string val = mKeyboard.text;
 
@@ -420,7 +424,10 @@ public class UIInput : MonoBehaviour
 
 			if (mKeyboard.done)
 			{
-				if (!mKeyboard.wasCanceled) Submit();
+#if !UNITY_3_5
+				if (!mKeyboard.wasCanceled)
+#endif
+					Submit();
 				mKeyboard = null;
 				isSelected = false;
 			}
@@ -601,9 +608,11 @@ public class UIInput : MonoBehaviour
 	{
 		if (NGUITools.IsActive(this))
 		{
+			current = this;
 			mValue = value;
 			EventDelegate.Execute(onSubmit);
 			SaveToPlayerPrefs(mValue);
+			current = null;
 		}
 	}
 
@@ -644,7 +653,7 @@ public class UIInput : MonoBehaviour
 
 	protected void UpdateLabel ()
 	{
-		if (label != null && label.bitmapFont != null)
+		if (label != null)
 		{
 			if (mDoInit) Init();
 			bool selected = isSelected;
@@ -689,13 +698,12 @@ public class UIInput : MonoBehaviour
 
 						// Offset required in order to print the part leading up to the cursor
 						string visible = processed.Substring(0, Mathf.Min(mDrawEnd, processed.Length));
-						int leftMargin = label.bitmapFont.CalculateOffsetToFit(visible, label.fontSize, label.width, false, UIFont.SymbolStyle.None);
+						int leftMargin = label.CalculateOffsetToFit(visible);
 
 						// The cursor is no longer within bounds
 						if (selPos < leftMargin || selPos >= mDrawEnd)
 						{
-							leftMargin = label.bitmapFont.CalculateOffsetToFit(left, label.fontSize, label.width, false, UIFont.SymbolStyle.None);
-
+							leftMargin = label.CalculateOffsetToFit(left);
 							mDrawStart = leftMargin;
 							mDrawEnd = left.Length;
 						}

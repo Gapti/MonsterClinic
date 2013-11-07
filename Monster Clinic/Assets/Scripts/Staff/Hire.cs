@@ -31,7 +31,7 @@ public class Hire : MonoBehaviour {
 		switch (hireStaffMember.staffType)
 		{
 		case StaffType.Cthuluburse:
-			GameObject newStaff1 = (GameObject)Instantiate(HospitalPrefabs.Cthuluburse, new Vector3(0,0,0), Quaternion.identity);///spawns the gameobject
+			GameObject newStaff1 = (GameObject)Instantiate(HospitalPrefabs.Cthuluburse, new Vector3(20,0.1f,20), Quaternion.identity);///spawns the gameobject
 			newStaff1.GetComponent<StaffPersistantData>().staffData = _staffList.GrabCtuluburse (hireStaffMember.staffListPosition);///copy data from the StaffList
 			
 			///minus the cost
@@ -45,7 +45,7 @@ public class Hire : MonoBehaviour {
 			
 			break;
 		case StaffType.Octodoctor:
-				GameObject newStaff2 = (GameObject)Instantiate(HospitalPrefabs.Octodoctor, new Vector3(0,0,0), Quaternion.identity);
+				GameObject newStaff2 = (GameObject)Instantiate(HospitalPrefabs.Octodoctor, new Vector3(20,0.1f,20), Quaternion.identity);
 				newStaff2.GetComponent<StaffPersistantData>().staffData = _staffList.GrabOctodoctor(hireStaffMember.staffListPosition);
 			
 				///minus the cost

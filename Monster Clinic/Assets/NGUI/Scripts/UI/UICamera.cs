@@ -561,8 +561,12 @@ public class UICamera : MonoBehaviour
 					{
 						GameObject go = hits[b].collider.gameObject;
 						mHit.depth = NGUITools.CalculateRaycastDepth(go);
-						mHit.hit = hits[b];
-						mHits.Add(mHit);
+
+						if (mHit.depth != int.MaxValue)
+						{
+							mHit.hit = hits[b];
+							mHits.Add(mHit);
+						}
 					}
 
 					mHits.Sort(delegate(DepthEntry r1, DepthEntry r2) { return r2.depth.CompareTo(r1.depth); });
@@ -1178,7 +1182,7 @@ public class UICamera : MonoBehaviour
 			Notify(currentTouch.pressed, "OnPress", false);
 			currentTouch.pressed = currentTouch.current;
 			currentTouch.dragged = currentTouch.current;
-			currentTouch.clickNotification = isMouse ? ClickNotification.BasedOnDelta : ClickNotification.Always;
+			currentTouch.clickNotification = ClickNotification.BasedOnDelta;
 			currentTouch.totalDelta = Vector2.zero;
 			currentTouch.dragStarted = false;
 			Notify(currentTouch.pressed, "OnPress", true);

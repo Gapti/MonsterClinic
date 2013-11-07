@@ -40,7 +40,7 @@ public class GridWindow : EditorWindow {
 		EditorGUILayout.BeginHorizontal();
 		EditorGUILayout.PrefixLabel("Grid Size");
 		Vector3 gridSize = AlignEditor.gridSize;
-		bool wantedAutoSize = GUILayout.Toggle(AlignEditor.autoSize, "auto");
+		bool wantedAutoSize = GUILayout.Toggle(AlignEditor.autoSize, "auto", "MiniButton", GUILayout.Width(70));
 		if (wantedAutoSize != AlignEditor.autoSize) {
 			Undo.RegisterUndo(this, "change auto grid size");
 			AlignEditor.autoSize = wantedAutoSize;

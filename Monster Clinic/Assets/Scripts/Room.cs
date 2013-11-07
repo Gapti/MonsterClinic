@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Pathfinding;
+using System;
 
 // Room class
 public class Room 
@@ -69,10 +71,13 @@ public class Room
 			wall = (GameObject) GameObject.Instantiate(verticalWall, new Vector3(leftBottom.x,0F,leftBottom.y+i), t.rotation);
 			leftWall.Add(wall);
 			
-			// adjust NAV grid gragh bounds // edited by Chan
-			//Bounds b = wall.collider.bounds;
-			//GraphUpdateObject guo = new GraphUpdateObject(b);
-			//AstarPath.active.UpdateGraphs (guo);
+			// adjust NAV grid gragh bounds // edited by Mark
+			Transform wallChild = wall.transform.GetChild(0);
+			
+			if(wallChild.name == "Wall")
+				PathFinderUpdate.AddBounds(wallChild);
+			else
+				Debug.LogError("No wall child object");
 		}
 		// Build right wall
 		for(int i = 0; i<yD; i++)
@@ -80,10 +85,14 @@ public class Room
 			wall = (GameObject) GameObject.Instantiate(verticalWall, new Vector3(rightBottom.x,0F,rightBottom.y+i), t.rotation);
 			rightWall.Add(wall);
 			
-			// adjust NAV grid gragh bounds // edited by Chan
-			//Bounds b = wall.collider.bounds;
-			//GraphUpdateObject guo = new GraphUpdateObject(b);
-			//AstarPath.active.UpdateGraphs (guo);
+			// adjust NAV grid gragh bounds // edited by Mark
+			Transform wallChild = wall.transform.GetChild(0);
+			
+			if(wallChild.name == "Wall")
+				PathFinderUpdate.AddBounds(wallChild);
+			else
+				Debug.LogError("No wall child object");
+			
 		}
 		// Build bottom wall
 		for(int i = 0; i<xD; i++)
@@ -91,10 +100,14 @@ public class Room
 			wall = (GameObject) GameObject.Instantiate(horizontalWall, new Vector3(leftBottom.x+i,0F,leftBottom.y), t.rotation);
 			bottomWall.Add(wall);
 			
-			// adjust NAV grid gragh bounds // edited by Chan
-			//Bounds b = wall.collider.bounds;
-			//GraphUpdateObject guo = new GraphUpdateObject(b);
-			//AstarPath.active.UpdateGraphs (guo);
+		// adjust NAV grid gragh bounds // edited by Mark
+			Transform wallChild = wall.transform.GetChild(0);
+			
+			if(wallChild.name == "Wall")
+				PathFinderUpdate.AddBounds(wallChild);
+			else
+				Debug.LogError("No wall child object");
+			
 		}
 		// Build top wall
 		for(int i = 0; i<xD; i++)
@@ -102,77 +115,68 @@ public class Room
 			wall = (GameObject) GameObject.Instantiate(horizontalWall, new Vector3(leftTop.x+i,0F,leftTop.y), t.rotation);
 			topWall.Add(wall);
 			
-			// adjust NAV grid gragh bounds // edited by Chan
-			//Bounds b = wall.collider.bounds;
-			//GraphUpdateObject guo = new GraphUpdateObject(b);
-			//AstarPath.active.UpdateGraphs (guo);
+			// adjust NAV grid gragh bounds // edited by Mark
+			Transform wallChild = wall.transform.GetChild(0);
+			
+			if(wallChild.name == "Wall")
+				PathFinderUpdate.AddBounds(wallChild);
+			else
+				Debug.LogError("No wall child object");
+			
 		}
 		
-		// flush NAV grid graph update. // edited by Chan
+		// flush NAV grid graph update. // edited by Mark
 		//AstarPath.active.FlushGraphUpdates();
+		
 	}
 	
 	// Build a door
 	public void buildDoor(GameObject door, Way way, Vector2 LBP, int xD, int yD)
 	{
 		doors.Add(door);
+		
+		//pass the child wall with the collider to the pathfinderUpdate
+		foreach(Transform child in door.transform)
+		{
+			if(child.name == "Door 1")
+			{
+				PathFinderUpdate.AddBounds(child);	
+			}
+			
+			if(child.name == "Door 2")
+			{
+				PathFinderUpdate.AddBounds(child);
+			}
+		}
+		///end door graph code
+		
 		// If way is north
 		if(way == Way.North)
 		{
 			bottomWall[(int)LBP.x-(int)leftBottom.x].SetActive(false);
 			bottomWall[((int)LBP.x-(int)leftBottom.x)+1].SetActive(false);
 			
-			// remove NAV grid graph bounds // edited by Chan
-			//Bounds b = bottomWall[(int)LBP.x-(int)leftBottom.x].collider.bounds;
-			//GraphUpdateObject guo = new GraphUpdateObject(b);
-			//AstarPath.active.UpdateGraphs (guo,0.0f);
-			//Bounds b2 = bottomWall[((int)LBP.x-(int)leftBottom.x)+1].collider.bounds;
-			//GraphUpdateObject guo2 = new GraphUpdateObject(b2);
-			//AstarPath.active.UpdateGraphs (guo2,0.0f);
 		}
 		// If way is east
 		else if(way == Way.East)
 		{
 			leftWall[(int)LBP.y-(int)leftBottom.y].SetActive(false);
 			leftWall[((int)LBP.y-(int)leftBottom.y)+1].SetActive(false);
-			
-			// remove NAV grid graph bounds // edited by Chan
-			//Bounds b = leftWall[(int)LBP.y-(int)leftBottom.y].collider.bounds;
-			//GraphUpdateObject guo = new GraphUpdateObject(b);
-			//AstarPath.active.UpdateGraphs (guo,0.0f);
-			//Bounds b2 = leftWall[((int)LBP.y-(int)leftBottom.y)+1].collider.bounds;
-			//GraphUpdateObject guo2 = new GraphUpdateObject(b2);
-			//AstarPath.active.UpdateGraphs (guo2,0.0f);
 		}
 		// If way is south
 		else if(way == Way.South)
 		{
 			topWall[(int)LBP.x-(int)leftBottom.x].SetActive(false);
 			topWall[((int)LBP.x-(int)leftBottom.x)+1].SetActive(false);
-			
-			// remove NAV grid graph bounds // edited by Chan
-			//Bounds b = topWall[(int)LBP.x-(int)leftBottom.x].collider.bounds;
-			//GraphUpdateObject guo = new GraphUpdateObject(b);
-			//AstarPath.active.UpdateGraphs (guo,0.0f);
-			//Bounds b2 = topWall[((int)LBP.x-(int)leftBottom.x)+1].collider.bounds;
-			//GraphUpdateObject guo2 = new GraphUpdateObject(b2);
-			//AstarPath.active.UpdateGraphs (guo2,0.0f);
 		}
 		// If way is west
 		else if(way == Way.West)
 		{
 			rightWall[(int)LBP.y-(int)leftBottom.y].SetActive(false);
 			rightWall[((int)LBP.y-(int)leftBottom.y)+1].SetActive(false);
-			
-			// remove NAV grid graph bounds // edited by Chan
-			//Bounds b = rightWall[(int)LBP.y-(int)leftBottom.y].collider.bounds;
-			//GraphUpdateObject guo = new GraphUpdateObject(b);
-			//AstarPath.active.UpdateGraphs (guo,0.0f);
-			//Bounds b2 = rightWall[((int)LBP.y-(int)leftBottom.y)+1].collider.bounds;
-			//GraphUpdateObject guo2 = new GraphUpdateObject(b2);
-			//AstarPath.active.UpdateGraphs (guo2,0.0f);
 		}
-		// flush NAV grid graph update. // edited by Chan
+		
+		// flush NAV grid graph update. // edited by mark
 		//AstarPath.active.FlushGraphUpdates();
 	}
 	
@@ -185,59 +189,26 @@ public class Room
 		{
 			bottomWall[(int)LBP.x-(int)leftBottom.x].SetActive(true);
 			bottomWall[((int)LBP.x-(int)leftBottom.x)+1].SetActive(true);
-			
-			// adjust NAV grid gragh bounds // edited by Chan
-			//Bounds b = bottomWall[(int)LBP.x-(int)leftBottom.x].collider.bounds;
-			//GraphUpdateObject guo = new GraphUpdateObject(b);
-			//AstarPath.active.UpdateGraphs (guo);
-			//Bounds b2 = bottomWall[((int)LBP.x-(int)leftBottom.x)+1].collider.bounds;
-			//GraphUpdateObject guo2 = new GraphUpdateObject(b2);
-			//AstarPath.active.UpdateGraphs (guo2);
 		}
 		// If way is east
 		else if(way == Way.East)
 		{
 			leftWall[(int)LBP.y-(int)leftBottom.y].SetActive(true);
 			leftWall[((int)LBP.y-(int)leftBottom.y)+1].SetActive(true);
-			
-			// adjust NAV grid gragh bounds // edited by Chan
-			//Bounds b = leftWall[(int)LBP.y-(int)leftBottom.y].collider.bounds;
-			//GraphUpdateObject guo = new GraphUpdateObject(b);
-			//AstarPath.active.UpdateGraphs (guo);
-			//Bounds b2 = leftWall[((int)LBP.y-(int)leftBottom.y)+1].collider.bounds;
-			//GraphUpdateObject guo2 = new GraphUpdateObject(b2);
-			//AstarPath.active.UpdateGraphs (guo2);
 		}
 		// If way is south
 		else if(way == Way.South)
 		{
 			topWall[(int)LBP.x-(int)leftBottom.x].SetActive(true);
 			topWall[((int)LBP.x-(int)leftBottom.x)+1].SetActive(true);
-			
-			// adjust NAV grid gragh bounds // edited by Chan
-			//Bounds b = topWall[(int)LBP.x-(int)leftBottom.x].collider.bounds;
-			//GraphUpdateObject guo = new GraphUpdateObject(b);
-			//AstarPath.active.UpdateGraphs (guo);
-			//Bounds b2 = topWall[((int)LBP.x-(int)leftBottom.x)+1].collider.bounds;
-			//GraphUpdateObject guo2 = new GraphUpdateObject(b2);
-			//AstarPath.active.UpdateGraphs (guo2);
 		}
 		// If way is west
 		else if(way == Way.West)
 		{
 			rightWall[(int)LBP.y-(int)leftBottom.y].SetActive(true);
 			rightWall[((int)LBP.y-(int)leftBottom.y)+1].SetActive(true);
-			
-			// adjust NAV grid gragh bounds // edited by Chan
-			//Bounds b = rightWall[(int)LBP.y-(int)leftBottom.y].collider.bounds;
-			//GraphUpdateObject guo = new GraphUpdateObject(b);
-			//AstarPath.active.UpdateGraphs (guo);
-			//Bounds b2 = rightWall[((int)LBP.y-(int)leftBottom.y)+1].collider.bounds;
-			//GraphUpdateObject guo2 = new GraphUpdateObject(b2);
-			//AstarPath.active.UpdateGraphs (guo2);
+	
 		}
-		// flush NAV grid graph update. // edited by Chan
-		//AstarPath.active.FlushGraphUpdates();
 	}
 	
 	// Delete all the items
@@ -255,10 +226,27 @@ public class Room
 	// Delete the walls and doors of room
 	public void deleteWallsDoors()
 	{
+		
 		// Delete the doors
 		for(int i = doors.Count-1; i >= 0; i--) 
 		{
 		    GameObject go = doors[i];
+			
+			//pass the child door with the collider to the pathfinderUpdate
+			foreach(Transform child in go.transform)
+			{
+				if(child.name == "Door 1")
+				{
+					PathFinderUpdate.AddBounds(child);	
+				}
+				
+				if(child.name == "Door 2")
+				{
+					PathFinderUpdate.AddBounds(child);
+				}
+			}
+		///end door graph code
+			
 			Item itemPro = go.GetComponent<Item>();
 			itemPro.removeItem(go);
 		}
@@ -266,40 +254,52 @@ public class Room
 		// Delete left wall
 		foreach(GameObject go in leftWall)
 		{
-			// remove NAV grid graph bounds // edited by Chan
-			//Bounds b = go.collider.bounds;
-			//GraphUpdateObject guo = new GraphUpdateObject(b);
-			//AstarPath.active.UpdateGraphs (guo,0.0f);
+			// adjust NAV grid gragh bounds // edited by Mark
+			Transform wallChild = go.transform.GetChild(0);
+			
+			if(wallChild.name == "Wall")
+				PathFinderUpdate.AddBounds(wallChild);
+			else
+				Debug.LogError("No wall child object");
 			
 			GameObject.Destroy(go);
 		}
 		// Delete right wall
 		foreach(GameObject go in rightWall)
 		{ 
-			// remove NAV grid graph bounds // edited by Chan
-			//Bounds b = go.collider.bounds;
-			//GraphUpdateObject guo = new GraphUpdateObject(b);
-			//AstarPath.active.UpdateGraphs (guo,0.0f);
+			// adjust NAV grid gragh bounds // edited by Mark
+			Transform wallChild = go.transform.GetChild(0);
+			
+			if(wallChild.name == "Wall")
+				PathFinderUpdate.AddBounds(wallChild);
+			else
+				Debug.LogError("No wall child object");
 			
 			GameObject.Destroy(go);
 		}
 		// Delete bottom wall
 		foreach(GameObject go in bottomWall)
 		{
-			// remove NAV grid graph bounds // edited by Chan
-			//Bounds b = go.collider.bounds;
-			//GraphUpdateObject guo = new GraphUpdateObject(b);
-			//AstarPath.active.UpdateGraphs (guo,0.0f);
+			// adjust NAV grid gragh bounds // edited by Mark
+			Transform wallChild = go.transform.GetChild(0);
+			
+			if(wallChild.name == "Wall")
+				PathFinderUpdate.AddBounds(wallChild);
+			else
+				Debug.LogError("No wall child object");
 			
 			GameObject.Destroy(go);
 		}
 		// Delete top wall
 		foreach(GameObject go in topWall)
 		{
-			// remove NAV grid graph bounds // edited by Chan
-			//Bounds b = go.collider.bounds;
-			//GraphUpdateObject guo = new GraphUpdateObject(b);
-			//AstarPath.active.UpdateGraphs (guo,0.0f);
+			// adjust NAV grid gragh bounds // edited by Mark
+			Transform wallChild = go.transform.GetChild(0);
+			
+			if(wallChild.name == "Wall")
+				PathFinderUpdate.AddBounds(wallChild);
+			else
+				Debug.LogError("No wall child object");
 			
 			GameObject.Destroy(go);
 		}

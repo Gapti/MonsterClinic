@@ -4,8 +4,6 @@
 //
 // Post your feature request on Unity3D forum / Assets and Asset Store / Align Editor !
 //
-// Current release : 2.1
-//
 // Versions History : see readme.txt
 //
 using UnityEngine;
@@ -22,15 +20,17 @@ public class AlignEditor
 {
 
 	// Current version is :
-	public static string VERSION = "2.1";
+	public static string VERSION = "2.2";
 
 #region enumerations
 	// All Axis that can be chosen in the editor : All, X, Y, Z
 	public static Vector3[] Axis = new Vector3[] { Vector3.one, Vector3.right, Vector3.up, Vector3.forward };
-	// Align Axis declaration
-	public static string[] AlignAxisLabels = new string[] { "All", "X", "Y", "Z" };
-	// Internal index used within Sort functions
-	public static int[] AlignAxisIndex = new int[] { 0, 1, 2, 3 };
+	// Align Axis declaration (used as index for above Vector3 list)
+	public enum AlignAxis { 
+		X   = 0,
+		Y   = 1,
+		Z   = 2,
+	    All = 3}
 	// Grid axis declaration
 	public enum GridAxis
 	{
@@ -108,12 +108,12 @@ public class AlignEditor
 
 	}
 	// Axis
-	public static int axis {
+	public static AlignAxis axis {
 		get {
-			return EditorPrefs.GetInt ("AlignEditor.Axis", 0);
+			return (AlignAxis)EditorPrefs.GetInt ("AlignEditor.Axis", 0);
 		}
 		set {
-			EditorPrefs.SetInt ("AlignEditor.Axis", value);
+			EditorPrefs.SetInt ("AlignEditor.Axis", (int)value);
 		}
 
 	}

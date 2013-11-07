@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Pathfinding;
 
 // Item Class
 public class Item : MonoBehaviour 
@@ -89,10 +90,26 @@ public class Item : MonoBehaviour
 			Maps.setFloorMapBlock(newLeftBottom, hDistance, vDistance, 4);
 		}
 		// If it is not a door, its item
+		
+		///bench added by mark
+		else if(no ==2 )
+		{
+			assignedRoom.roomItems.Add(buildItem);
+			
+			Transform seat = buildItem.transform.GetChild(1);
+				
+			if(seat.name == "Seat")
+				PathFinderUpdate.AddBounds(seat);
+			else
+				Debug.LogError("it must be the seat with the collider");
+		}
 		else
 		{
 			assignedRoom.roomItems.Add(buildItem);
+			Debug.Log (buildItem.name);
 		}
+		
+		//AstarPath.active.FlushGraphUpdates();
 	}
 	
 	// Remove the item
@@ -128,6 +145,18 @@ public class Item : MonoBehaviour
 			Maps.setFloorMapBlock(newLeftBottom, hDistance, vDistance, 0);
 		}
 		// If it is not a door, its item
+		///its a bench edited by mark
+		else if(no == 2)
+		{
+			Transform seat = buildItem.transform.GetChild(1);
+				
+			if(seat.name == "Seat")
+				PathFinderUpdate.AddBounds(seat);
+			else
+				Debug.LogError("it must be the seat with the collider");
+			
+			assignedRoom.roomItems.Remove(buildItem);	
+		}
 		else
 		{
 			assignedRoom.roomItems.Remove(buildItem);
@@ -135,6 +164,8 @@ public class Item : MonoBehaviour
 		
 		// Delete the game object
 		assignedRoom.deleteItem(buildItem);
+		
+		//AstarPath.active.FlushGraphUpdates();
 	}
 	
 	public Vector2 getLeftBottomPosition()

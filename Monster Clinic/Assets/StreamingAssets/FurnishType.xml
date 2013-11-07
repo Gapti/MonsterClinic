@@ -2,14 +2,20 @@
 <ArrayOfFurnishInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <FurnishInfo>
     <ID>0</ID>
-    <title>Bench</title>
-    <desc>Seating for patients.</desc>
-    <cost>5</cost>
+    <title>Dummy</title>
+    <desc>dummy data</desc>
+    <cost>0</cost>
   </FurnishInfo>
   <FurnishInfo>
    <ID>1</ID>
     <title>Door</title>
     <desc>Rooms need doors!.</desc>
     <cost>1</cost>
+  </FurnishInfo>
+	<FurnishInfo>
+    <ID>2</ID>
+    <title>Bench</title>
+    <desc>Seating for patients.</desc>
+    <cost>5</cost>
   </FurnishInfo>
 </ArrayOfFurnishInfo>

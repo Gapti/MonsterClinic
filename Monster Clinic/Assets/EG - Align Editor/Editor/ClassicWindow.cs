@@ -26,6 +26,24 @@ public class ClassicWindow : EditorWindow {
 	void OnInspectorUpdate() {
 		Repaint();
 	}
+
+	public static void DetectAlignAxis ()
+	{
+		if (AlignEditor.autoAxis && SceneView.lastActiveSceneView != null && SceneView.lastActiveSceneView.camera != null) {
+			Camera myCam = SceneView.lastActiveSceneView.camera;
+			if (myCam != null && myCam.transform != null) {
+				if (myCam.transform.right == Vector3.up || myCam.transform.right == -Vector3.up || myCam.transform.right == -Vector3.forward || myCam.transform.right == -Vector3.right) {
+					AlignEditor.axis = AlignEditor.AlignAxis.Y;
+				}
+				else if (myCam.transform.right == Vector3.forward) {
+					AlignEditor.axis = AlignEditor.AlignAxis.Z;
+				}
+				else if (myCam.transform.right == Vector3.right) {
+					AlignEditor.axis = AlignEditor.AlignAxis.X;
+				}
+			}
+		}
+	}
 	
 	/// <summary>
 	/// GUI definition for Classic Tab
@@ -43,31 +61,17 @@ public class ClassicWindow : EditorWindow {
 		EditorGUILayout.BeginHorizontal();
 		
 		EditorGUILayout.PrefixLabel("Axis");
-		bool wantedAutoAxis = GUILayout.Toggle(AlignEditor.autoAxis, "auto");
+		bool wantedAutoAxis = GUILayout.Toggle(AlignEditor.autoAxis, "auto", "MiniButton", GUILayout.Width(70));
 		if (wantedAutoAxis != AlignEditor.autoAxis) {
 			Undo.RegisterUndo(this, "change auto axis");
 			AlignEditor.autoAxis = wantedAutoAxis;
 		}
 		// Auto set the axis from the last active view camera
-		if (AlignEditor.autoAxis && SceneView.lastActiveSceneView != null && SceneView.lastActiveSceneView.camera != null) {
-			Camera myCam = SceneView.lastActiveSceneView.camera;
-			if (myCam != null && myCam.transform != null) {
-				if (myCam.transform.right == Vector3.up || myCam.transform.right == -Vector3.up || myCam.transform.right == -Vector3.forward || myCam.transform.right == -Vector3.right) {
-					AlignEditor.axis = 2;
-					// Y
-				} else if (myCam.transform.right == Vector3.forward) {
-					AlignEditor.axis = 3;
-					// Z
-				} else if (myCam.transform.right == Vector3.right) {
-					AlignEditor.axis = 1;
-					// X
-				}
-			}
-		}
+		DetectAlignAxis ();
 		if (AlignEditor.autoAxis)
-			GUILayout.Label("Detected: " + AlignEditor.AlignAxisLabels [AlignEditor.axis]);
+			GUILayout.Label("Detected: " + AlignEditor.axis);
 		else {
-			int wantedAxis = EditorGUILayout.IntPopup(AlignEditor.axis, AlignEditor.AlignAxisLabels, AlignEditor.AlignAxisIndex);
+			AlignEditor.AlignAxis wantedAxis = (AlignEditor.AlignAxis)EditorGUILayout.EnumPopup(AlignEditor.axis);
 			if (wantedAxis != AlignEditor.axis) {
 				Undo.RegisterUndo(this, "change axis");
 				AlignEditor.axis = wantedAxis;
@@ -77,7 +81,7 @@ public class ClassicWindow : EditorWindow {
 		// Sort by axis selection
 		EditorGUILayout.BeginHorizontal();
 		EditorGUILayout.PrefixLabel("Sort by");
-		bool wantedUseAxis = GUILayout.Toggle(AlignEditor.useAlignAxis, "same axis");
+		bool wantedUseAxis = GUILayout.Toggle(AlignEditor.useAlignAxis, "identical", "MiniButton", GUILayout.Width(70));
 		if (wantedUseAxis != AlignEditor.useAlignAxis) {
 			Undo.RegisterUndo(this, "change use align axis");
 			AlignEditor.useAlignAxis = wantedUseAxis;
@@ -85,10 +89,10 @@ public class ClassicWindow : EditorWindow {
 		if (AlignEditor.useAlignAxis) {
 			// Can not sort by "all" axis, indicates that to the user (X is the default)
 			switch (AlignEditor.axis) {
-			case 3:
+			case AlignEditor.AlignAxis.Z:
 				AlignEditor.sortBy = DistributionManager.SortAxis.Z;
 				break;
-			case 2:
+			case AlignEditor.AlignAxis.Y:
 				AlignEditor.sortBy = DistributionManager.SortAxis.Y;
 				break;
 			default:
@@ -131,25 +135,25 @@ public class ClassicWindow : EditorWindow {
 		ImagePosition wasPosition = GUI.skin.button.imagePosition;
 		GUI.skin.button.imagePosition = AlignEditor.ButtonStyle;
 
-		GUIContent minValueGuiContent = new GUIContent ("Min", AssetDatabase.LoadAssetAtPath (AlignEditor.editorPath + "/Icons/" + AlignEditor.Skin + "/alignMin.png", typeof(Texture)) as Texture, "Align on minimum " + AlignEditor.AlignAxisLabels [AlignEditor.axis] + " value");
+		GUIContent minValueGuiContent = new GUIContent ("Min", AssetDatabase.LoadAssetAtPath (AlignEditor.editorPath + "/Icons/" + AlignEditor.Skin + "/alignMin.png", typeof(Texture)) as Texture, "Align on minimum " + AlignEditor.axis + " value");
 		if (GUILayout.Button(minValueGuiContent)) {
 			// Align to the min value
 			AlignEditor.landmark = AlignManager.Landmark.minimum;
 			Align();
 		}
-		GUIContent meanValueGuiContent = new GUIContent ("Medium", AssetDatabase.LoadAssetAtPath (AlignEditor.editorPath + "/Icons/" + AlignEditor.Skin + "/alignMean.png", typeof(Texture)) as Texture, "Align on medium " + AlignEditor.AlignAxisLabels [AlignEditor.axis] + " value");
+		GUIContent meanValueGuiContent = new GUIContent ("Medium", AssetDatabase.LoadAssetAtPath (AlignEditor.editorPath + "/Icons/" + AlignEditor.Skin + "/alignMean.png", typeof(Texture)) as Texture, "Align on medium " + AlignEditor.axis + " value");
 		if (GUILayout.Button(meanValueGuiContent)) {
 			// Align to the center
 			AlignEditor.landmark = AlignManager.Landmark.mean;
 			Align();
 		}
-		GUIContent maxValueGuiContent = new GUIContent ("Max", AssetDatabase.LoadAssetAtPath (AlignEditor.editorPath + "/Icons/" + AlignEditor.Skin + "/alignMax.png", typeof(Texture)) as Texture, "Align on maximum " + AlignEditor.AlignAxisLabels [AlignEditor.axis] + " value");
+		GUIContent maxValueGuiContent = new GUIContent ("Max", AssetDatabase.LoadAssetAtPath (AlignEditor.editorPath + "/Icons/" + AlignEditor.Skin + "/alignMax.png", typeof(Texture)) as Texture, "Align on maximum " + AlignEditor.axis + " value");
 		if (GUILayout.Button(maxValueGuiContent)) {
 			// Align to the max value
 			AlignEditor.landmark = AlignManager.Landmark.maximum;
 			Align();
 		}
-		GUIContent lineDistributionGuiContent = new GUIContent ("Distribute", AssetDatabase.LoadAssetAtPath (AlignEditor.editorPath + "/Icons/" + AlignEditor.Skin + "/lineDistribution.png", typeof(Texture)) as Texture, "Make a linear distribution on " + AlignEditor.AlignAxisLabels [AlignEditor.axis] + " axis");
+		GUIContent lineDistributionGuiContent = new GUIContent ("Distribute", AssetDatabase.LoadAssetAtPath (AlignEditor.editorPath + "/Icons/" + AlignEditor.Skin + "/lineDistribution.png", typeof(Texture)) as Texture, "Make a linear distribution on " + AlignEditor.axis + " axis");
 		if (GUILayout.Button(lineDistributionGuiContent)) {
 			// Distribute objects
 			AlignEditor.landmark = AlignManager.Landmark.distributed;
@@ -179,13 +183,13 @@ public class ClassicWindow : EditorWindow {
 		
 		if (AlignEditor.ScaleTool) {
 			Undo.RegisterUndo(Selection.transforms, "Align Scale");
-			AlignManager.AlignScale(Selection.activeTransform, Selection.transforms, AlignEditor.Axis [AlignEditor.axis], AlignEditor.landmark);
+			AlignManager.AlignScale(Selection.activeTransform, Selection.transforms, AlignEditor.Axis [(int)AlignEditor.axis], AlignEditor.landmark);
 		} else if (AlignEditor.RotationTool) {
 			Undo.RegisterUndo(Selection.transforms, "Align Rotation");
-			AlignManager.AlignRotation(Selection.activeTransform, Selection.transforms, AlignEditor.Axis [AlignEditor.axis], AlignEditor.landmark);
+			AlignManager.AlignRotation(Selection.activeTransform, Selection.transforms, AlignEditor.Axis [(int)AlignEditor.axis], AlignEditor.landmark);
 		} else {
 			Undo.RegisterUndo(Selection.transforms, "Align Position");
-			AlignManager.AlignPosition(Selection.activeTransform, Selection.transforms, AlignEditor.Axis [AlignEditor.axis], AlignEditor.landmark, AlignEditor.PreferredBounds);
+			AlignManager.AlignPosition(Selection.activeTransform, Selection.transforms, AlignEditor.Axis [(int)AlignEditor.axis], AlignEditor.landmark, AlignEditor.PreferredBounds);
 		}
 	}
 
@@ -193,13 +197,13 @@ public class ClassicWindow : EditorWindow {
 	static void Distribute() {
 		if (AlignEditor.ScaleTool) {
 			Undo.RegisterUndo(Selection.transforms, "Distribute Scale");
-			DistributionManager.DistributeScale(Selection.activeTransform, Selection.transforms, AlignEditor.sortBy, AlignEditor.Axis [AlignEditor.axis]);
+			DistributionManager.DistributeScale(Selection.activeTransform, Selection.transforms, AlignEditor.sortBy, AlignEditor.Axis [(int)AlignEditor.axis]);
 		} else if (AlignEditor.RotationTool) {
 			Undo.RegisterUndo(Selection.transforms, "Distribute Rotation");
-			DistributionManager.DistributeRotation(Selection.activeTransform, Selection.transforms, AlignEditor.sortBy, AlignEditor.Axis [AlignEditor.axis]);
+			DistributionManager.DistributeRotation(Selection.activeTransform, Selection.transforms, AlignEditor.sortBy, AlignEditor.Axis [(int)AlignEditor.axis]);
 		} else {
 			Undo.RegisterUndo(Selection.transforms, "Distribute Position");
-			DistributionManager.DistributePosition(Selection.activeTransform, Selection.transforms, AlignEditor.sortBy, AlignEditor.Axis [AlignEditor.axis]);
+			DistributionManager.DistributePosition(Selection.activeTransform, Selection.transforms, AlignEditor.sortBy, AlignEditor.Axis [(int)AlignEditor.axis]);
 		}
 	}
 	

@@ -3,7 +3,9 @@ using System.Collections;
 
 public class FurnishInfoGUI : MonoBehaviour {
 	
-	public int ID;
+	public int ID;/// <summary>
+	/// this needs updating to the ammar code
+	/// </summary> thi
 	
 	private FurnishInfo furnishInfo;
 	private UILabel cost, title;
@@ -28,5 +30,10 @@ public class FurnishInfoGUI : MonoBehaviour {
 		}
 		else
 			UITooltip.ShowText(null);
+	}
+	
+	void OnClick()
+	{
+		LevelManager.selectedItemNo = ID;	
 	}
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using Pathfinding;
 
 public class PanelManager : MonoBehaviour {
 
@@ -9,6 +9,7 @@ public class PanelManager : MonoBehaviour {
 	public GameObject panel_StaffScreen;
 	public GameObject panel_Furnish;
 	public GameObject panel_Build;
+	public GameObject panel_itemButtons;
 	
 	public void ExitBuildRoom()
 	{
@@ -106,6 +107,7 @@ public class PanelManager : MonoBehaviour {
 	{
 		LevelManager.selectedRoomType = RoomType.PatientWard;
 		LevelManager.gameState = State.Placement;
+		
 	}
 	
 	public void BuildDiagnostics()
@@ -149,18 +151,6 @@ public class PanelManager : MonoBehaviour {
 		LevelManager.gameMode = Mode.None;
 		LevelManager.gameState = State.None;
 	}
-	
-	public void PlaceBench()
-	{
-		LevelManager.selectedItemNo = 2;////we need this to be the same as ID in furnishInfo
-	}
-	
-	public void PlaceDoor()
-	{
-		LevelManager.selectedItemNo = 1;
-	}
-	
-	
 		
 	
 	void Update()

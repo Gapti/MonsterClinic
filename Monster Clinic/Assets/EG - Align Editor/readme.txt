@@ -1,9 +1,9 @@
 Align Editor by Equilibre Games
 http://www.equilibregames.com
 
-Lead: Frederic Rolland-Porche
+Twitter: @equilibreGames
 
-Current version is v2.1 - 2012-09-12
+Current version is v2.2 - 2013-11-04
 
 _________
 What does it do ?
@@ -20,6 +20,8 @@ This editor window allows you to easily align game objects on your scene :
 - make objects face the camera (last used camera on the scene)
 - switch values for every transform in the selection with the next one
 
+Everything can be made from the editor windows and at runtime through scripts. See Example scenes.
+
 _________
 Installation
 
@@ -27,7 +29,7 @@ Installation
 2. Open the windows from the "Window/Equilibre/Align Editor" menu : Classic (alignment tools), Grid (grid distribution and duplication), Buttons only, Camera/Screen and settings popup
 
 _________
-Update
+Update instructions
 
 IMPORTANT : please remove the previous "EG - Align Editor" folder when updating as there's some files that has been moved
 
@@ -62,6 +64,13 @@ Settings :
 
 _________
 Versions History
+
+v2.2 - 2013-11-04
+- Fix : FallOnTerrain API was broken for scale different than (1,1,1)
+- Fix : auto align axis is not correct when only the "only buttons" window is displayed
+- New : sample scene included : Example 1 - Fall On Terrain (more will come)
+- Change : removed the workaround for CapsuleCollider Bounds that has been solved in unity
+- Change : toggles are now mini buttons in classic and grid windows
 
 v2.1 - 2012-09-18
 - Fix : wrong label for max and medium buttons

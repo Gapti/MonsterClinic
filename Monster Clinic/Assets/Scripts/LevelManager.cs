@@ -80,6 +80,7 @@ public class LevelManager : MonoBehaviour
 				else
 				{
 					roomPlaced = getRoomPlacement();
+					
 				}
 		   }
 		   // If escape key is pressed, exit room creation mode
@@ -149,6 +150,7 @@ public class LevelManager : MonoBehaviour
 				// Reset the mode and state
 				gameMode = Mode.None;
 				gameState = State.None;
+				
 			}
 		}
 		
@@ -197,6 +199,7 @@ public class LevelManager : MonoBehaviour
 					hoverTileRenderer.enabled = false;
 					hoverTile.transform.localScale = new Vector3(1F,1F,1F);
 					gameState = State.Move;
+					
 				}
 				
 				// If escape key is pressed
@@ -282,6 +285,8 @@ public class LevelManager : MonoBehaviour
 					selectedItemNo = -1;
 					choosedItemPro = null;
 					gameState = State.Purchase;
+					
+					
 				}
 			}
 			// If item is not on valid position

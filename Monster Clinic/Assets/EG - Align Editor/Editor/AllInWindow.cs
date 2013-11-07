@@ -40,6 +40,7 @@ public class AllInWindow : EditorWindow {
 				AlignEditor.ButtonStyle = ImagePosition.ImageAbove;
 			this.minSize = new Vector2(52, 256);
 		}
+		ClassicWindow.DetectAlignAxis ();
 		ClassicWindow.AlignButtonGUI(Selection.transforms, true);
 		GridWindow.GridButtonGUI(Selection.transforms);
 		CameraWindow.CameraButtonGUI(Selection.transforms);
