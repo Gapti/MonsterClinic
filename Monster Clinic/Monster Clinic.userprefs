@@ -1,20 +1,19 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/EG - Align Editor/readme.txt">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/LevelManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Room.cs" Line="129" Column="5" />
+      <File FileName="Assets/Scripts/Room.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Item.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/TestBox.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/PathFinderUpdate.cs" Line="18" Column="5" />
-      <File FileName="Assets/Scripts/Staff/TempPathfinding/PointList.cs" Line="10" Column="2" />
-      <File FileName="Assets/AstarPathfindingProject/Core/AI/AIPath.cs" Line="153" Column="63" />
+      <File FileName="Assets/Scripts/PathFinderUpdate.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Staff/TempPathfinding/PointList.cs" Line="1" Column="1" />
+      <File FileName="Assets/AstarPathfindingProject/Core/AI/AIPath.cs" Line="1" Column="1" />
       <File FileName="Assets/AstarPathfindingProject/Core/Misc/GraphModifier.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Staff/HospitalPrefabs.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Staff/StaffList.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Staff/HiredStaffManager.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Staff/Hire.cs" Line="1" Column="1" />
-      <File FileName="Assets/AstarPathfindingProject/ExampleScenes/ExampleScripts/MineBotAI.cs" Line="48" Column="5" />
-      <File FileName="Assets/EG - Align Editor/readme.txt" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/LevelManager.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

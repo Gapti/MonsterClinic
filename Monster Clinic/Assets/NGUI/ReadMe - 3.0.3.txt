@@ -1,7 +1,7 @@
 ----------------------------------------------
             NGUI: Next-Gen UI kit
  Copyright © 2011-2013 Tasharen Entertainment
-                Version 3.0.3f
+                Version 3.0.5
     http://www.tasharen.com/?page_id=197
             support@tasharen.com
 ----------------------------------------------
@@ -35,38 +35,44 @@ Using NGUI with JavaScript (UnityScript)? Read this first: http://www.tasharen.c
  Version History
 -----------------
 
-3.0.3g:
+3.0.5
+- NEW: Added a way to set Localization's language using specified name and dictionary combo
+- NEW: Added UIInput.onChange that gets called whenever the input field's text changes for any reason.
+- NEW: Right-clicking in the scene view with a UI element selected now presents the hierarchy list underneath.
+- FIX: Widget selection logic had a bug in it that would select the wrong widget in some cases.
+- FIX: Label "Max Lines" setting now works correctly with the "Shrink Content" overflow setting.
+- FIX: Draggable panel now uses whole numbers, keeping itself pixel-perfect.
+- FIX: UIPlayAnimation will now work fine with multiple OnFinished calls.
+- FIX: Made UITextList work with dynamic font-using labels.
+- FIX: Popup list was not serializing dynamic fonts correctly.
+- FIX: UILabel will no longer use minimum size of zero.
+- FIX: Color symbols were not recognized quite right.
+- FIX: BetterList.Sort now uses Array.Sort.
+- FIX: Removed warnings in Unity 4.5.
+- FIX: Null check on UIInput.Append.
+- FIX: Flash platform compile fixes.
+
+3.0.4 (merged 3.0.3 letter updates)
 - NEW: UIPanel will now show the render queue number used to draw the geometry.
+- NEW: You can now specify a bitmap font in the widget wizard.
+- NEW: Added the ability to auto-resize the widget's box collider.
 - FIX: Draggable panel's scroll bars will now hide correctly when they should be hidden.
 - FIX: Scroll bar will no longer force the sprite to be pixel perfect.
 - FIX: UIInput was not hiding the password characters on deselect.
 - FIX: Additional checks to ensure the UILabel cleans up texture rebuild callbacks.
-- FIX: More WP8 fixes.
-
-3.0.3f:
-- NEW: You can now specify a bitmap font in the widget wizard.
-- FIX: WP8 fixes.
 - FIX: Adjusting the depth of a panel via NGUITools.AdjustDepth will now affect child panels.
 - FIX: UILabel.ProcessAndRequest was not calling ProcessText for labels using bitmap fonts.
 - FIX: Labels with encoded colors will now wrap properly.
 - FIX: It's no longer possible to set the sprite width and height to zero before assigning a sprite.
 - FIX: Raycasts that hit no widgets will now be ignored.
-
-3.0.3e:
 - FIX: Fixed out of bounds exception when labels ended with [-].
 - FIX: UIWidget.ResizeCollider no longer does anything if the widget is disabled.
 - FIX: UIInput will no longer clear the text of multiple labels on mobile platforms.
-
-3.0.3d:
-- FIX: Unity 3.5 fix.
 - FIX: UIInput.Submit() now sets the UIInput.current correctly.
-
-3.0.3c:
-- NEW: Added the ability to auto-resize the widget's box collider.
 - FIX: Backwards compatibility additions.
-
-3.0.3b:
 - FIX: Event delegate setting fix.
+- FIX: Unity 3.5 fixes.
+- FIX: WP8 fixes.
 
 3.0.3:
 - NEW: You no longer need to create UIFonts for dynamic fonts and can now specify font size and style directly on your labels.

@@ -905,6 +905,17 @@ public class UILabel : UIWidget
 				int minX = Mathf.RoundToInt(mCalculatedSize.x * pixelSize);
 				int minY = Mathf.RoundToInt(mCalculatedSize.y * pixelSize);
 
+				if (bitmapFont != null)
+				{
+					minX = Mathf.Max(bitmapFont.defaultSize);
+					minY = Mathf.Max(bitmapFont.defaultSize);
+				}
+				else
+				{
+					minX = Mathf.Max(base.minWidth);
+					minY = Mathf.Max(base.minHeight);
+				}
+
 				if (width < minX) width = minX;
 				if (height < minY) height = minY;
 			}
@@ -999,19 +1010,39 @@ public class UILabel : UIWidget
 
 		if (usePS || scale == 1f)
 		{
+#if UNITY_FLASH
+			for (int i = start; i < verts.size; ++i)
+			{
+				Vector3 buff = verts.buffer[i];
+				buff.x += fx;
+				buff.y += fy;
+				verts.buffer[i] = buff;
+			}
+#else
 			for (int i = start; i < verts.size; ++i)
 			{
 				verts.buffer[i].x += fx;
 				verts.buffer[i].y += fy;
 			}
+#endif
 		}
 		else
 		{
+#if UNITY_FLASH
+			for (int i = start; i < verts.size; ++i)
+			{
+				Vector3 buff = verts.buffer[i];
+				buff.x = fx + verts.buffer[i].x * scale;
+				buff.y = fy + verts.buffer[i].y * scale;
+				verts.buffer[i] = buff;
+			}
+#else
 			for (int i = start; i < verts.size; ++i)
 			{
 				verts.buffer[i].x = fx + verts.buffer[i].x * scale;
 				verts.buffer[i].y = fy + verts.buffer[i].y * scale;
 			}
+#endif
 		}
 
 		// Apply an effect if one was requested

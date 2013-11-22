@@ -769,12 +769,20 @@ public class UICamera : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Get the details of the specified mouse button.
+	/// </summary>
+
+	static public MouseOrTouch GetMouse (int button) { return mMouse[button]; }
+
+	/// <summary>
 	/// Get or create a touch event.
 	/// </summary>
 
 	static public MouseOrTouch GetTouch (int id)
 	{
 		MouseOrTouch touch = null;
+
+		if (id < 0) return GetMouse(-id - 1);
 
 		if (!mTouches.TryGetValue(id, out touch))
 		{
@@ -806,7 +814,11 @@ public class UICamera : MonoBehaviour
 			Application.platform == RuntimePlatform.IPhonePlayer
 #if !UNITY_3_5 && !UNITY_4_0 && !UNITY_4_1
 			|| Application.platform == RuntimePlatform.WP8Player
+#if UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3
 			|| Application.platform == RuntimePlatform.BB10Player
+#else
+			|| Application.platform == RuntimePlatform.BlackBerryPlayer
+#endif
 #endif
 			)
 		{

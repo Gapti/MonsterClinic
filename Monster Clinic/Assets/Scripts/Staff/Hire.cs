@@ -57,7 +57,7 @@ public class Hire : MonoBehaviour {
 			
 			break;
 		case StaffType.Yetitor:
-			GameObject newStaff3 = (GameObject) Instantiate(HospitalPrefabs.Yetitor, new Vector3(0,0,0), Quaternion.identity);
+			GameObject newStaff3 = (GameObject) Instantiate(HospitalPrefabs.Yetitor, new Vector3(10,0.1f,10), Quaternion.identity);
 			newStaff3.GetComponent<StaffPersistantData>().staffData = _staffList.GrabYetitor(hireStaffMember.staffListPosition);
 			
 			//minus the cost
